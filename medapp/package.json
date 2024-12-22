@@ -9,18 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "js": "^0.1.0",
-    "next": "^15.1.2",
-    "punycode": "^2.3.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "next": "14.2.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "postcss": "^8",
+    "@types/node": "^20.6.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "postcss": "^8.4.28",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.2.2"
   }
 }
