@@ -3,9 +3,7 @@
 const Page = () => {
   return (
     <div>
-   <h1>holaaa
-
-   </h1> 
+<h1>holaaa rchardd</h1>
     </div>
   );
 };
