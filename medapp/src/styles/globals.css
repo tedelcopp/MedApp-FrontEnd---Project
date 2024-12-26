@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables de color personalizadas */
+:root {
+  --background-light: #f9f9f9; /* Fondo claro */
+  --background-dark: #121212; /* Fondo oscuro */
+}
+
+.bg-backgroundLight {
+  background-color: var(--background-light);
+}
+
+.bg-backgroundDark {
+  background-color: var(--background-dark);
+}
