@@ -1,5 +1,5 @@
-import Sidebar from "../components/Sidebar";
-import "../../styles/globals.css";
+import Sidebar from "./sidebar/page";
+import "../styles/globals.css";
 
 export const metadata = {
   title: "Medapp ⚕️",

@@ -1,19 +1,16 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { House, User, Calendar, PieChart, ClipboardList, Settings, Sun, Moon } from 'lucide-react';
-import { FaUser, FaWhatsapp } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { House, User, Calendar, PieChart, ClipboardList, Settings, Sun, Moon, ShieldPlus, BotMessageSquare, CircleUserRound, StepForward, StepBack } from 'lucide-react';
 
 const navigation = [
-  { name: 'Inicio', href: '/dashboard', icon: House },
-  { name: 'Pacientes', href: '/dashboard/patients', icon: User },
+  { name: 'Inicio', href: '/', icon: House },
+  { name: 'Pacientes', href: '/patients', icon: User },
   { name: 'Turnos', href: '/dashboard/appointments', icon: Calendar },
   { name: 'Reportes', href: '/dashboard/reports', icon: PieChart },
   { name: 'Historial Clínico', href: '/dashboard/clinical-history', icon: ClipboardList },
   { name: 'Configuración', href: '/dashboard/settings', icon: Settings },
 ];
-
 
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -39,14 +36,10 @@ export default function Sidebar() {
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:w-56 bg-indigo-600 dark:bg-indigo-800 text-gray-100`}
       >
-        <div className="flex items-center justify-between h-16 bg-indigo-700 px-4">
-          <a href="#" className="flex items-center">
-            <img
-              alt="Psychology App Logo"
-              src="https://via.placeholder.com/100"
-              className="h-8 w-auto object-contain"
-            />
-            <span className="ml-2 text-lg font-bold text-white">PsychologyApp</span>
+        <div className="flex items-center justify-center h-16 bg-indigo-700 px-4">
+          <a href="#" className="flex items-center justify-center space-x-2">
+            <ShieldPlus />
+            <span className="text-lg font-bold text-white">MedApp</span>
           </a>
           <button
             type="button"
@@ -54,12 +47,13 @@ export default function Sidebar() {
             className="text-white lg:hidden"
           >
             {sidebarOpen ? (
-              <ChevronLeftIcon className="h-6 w-6" aria-hidden="true" />
+              <StepBack className="h-6 w-6" aria-hidden="true" />
             ) : (
-              <ChevronRightIcon className="h-6 w-6" aria-hidden="true" />
+              <StepForward className="h-6 w-6" aria-hidden="true" />
             )}
           </button>
         </div>
+
         <nav className="mt-4 space-y-2">
           {navigation.map((item) => (
             <Link key={item.name} href={item.href} legacyBehavior>
@@ -72,9 +66,9 @@ export default function Sidebar() {
         </nav>
 
         <div className="mt-auto flex flex-col items-center justify-center h-16 bg-indigo-700">
-          <div className="flex items-center">
-            <FaUser className="text-white mr-2" />
-            <div>
+          <div className="flex items-center justify-center space-x-2">
+            <CircleUserRound className="text-white" />
+            <div className="text-center">
               <p className="text-sm font-medium text-white">Dr. Tomás</p>
               <a
                 href="#profile"
@@ -91,8 +85,8 @@ export default function Sidebar() {
             onClick={() => window.open('https://wa.me/1234567890', '_blank')}
             className="flex items-center justify-center px-4 py-2 bg-green-600 rounded-lg text-white hover:bg-green-500"
           >
-            <FaWhatsapp size={20} className="mr-2" />
-         WhatsApp
+            <BotMessageSquare size={20} className="mr-2" />
+            WhatsApp
           </button>
           <button
             onClick={toggleTheme}
@@ -105,7 +99,6 @@ export default function Sidebar() {
             )}
             Cambiar Tema
           </button>
-
         </div>
       </div>
 

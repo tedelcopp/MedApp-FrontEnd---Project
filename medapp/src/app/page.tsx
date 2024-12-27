@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCalendarAlt, FaDollarSign, FaCloudSun } from "react-icons/fa";
 
-const Dashboard = () => {
+const DashboardContent = () => {
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
 
@@ -72,4 +72,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardContent;
