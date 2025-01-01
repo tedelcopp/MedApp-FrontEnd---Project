@@ -14,9 +14,9 @@ interface Shift {
 
 const Shifts = () => {
   const [shifts, setShifts] = useState<Shift[]>([
-    { id: 1, patient: "María López", date: "2024-12-27", time: "10:30", note: "Revisar estudios", phone: "5491123456789" },
-    { id: 2, patient: "Carlos Gómez", date: "2024-12-27", time: "11:15", note: "", phone: "5491198765432" },
-    { id: 3, patient: "Ana Torres", date: "2024-12-28", time: "14:00", note: "", phone: "" }, // Sin teléfono
+    { id: 1, patient: "María López", date: "31/12/2024", time: "10:30", note: "Revisar estudios", phone: "5491123456789" },
+    { id: 2, patient: "Carlos Gómez", date: "8/10/2024", time: "11:15", note: "", phone: "5491198765432" },
+    { id: 3, patient: "Ana Torres", date: "13/2/2024", time: "14:00", note: "", phone: "" }, // Sin teléfono
   ]);
   const [newShift, setNewShift] = useState<Partial<Shift>>({});
   const [editingShiftId, setEditingShiftId] = useState<number | null>(null);
@@ -51,16 +51,20 @@ const Shifts = () => {
     );
     setNewShift({});
     setEditingShiftId(null);
-    toast.success("Turno actualizado correctamente.");
+    toast('Turno actualizado correctamente.', {
+      icon: '🔄',
+    });
   };
 
   const handleDeleteShift = (id: number) => {
     setShifts(shifts.filter((shift) => shift.id !== id));
-    toast.success("Turno eliminado correctamente.");
+    toast('Turno eliminado correctamente.', {
+      icon: '🗑️',
+    });
   };
 
-  const getWhatsAppLink = (phone: string, name: string) => {
-    const message = `Hola ${name}, quisiera confirmarte tu turno agendado.`;
+  const getWhatsAppLink = (phone: string, name: string, date: string, time: string) => {
+    const message = `Hola ${name}, espero que estés bien. Te recuerdo que tu turno está agendado para el ${date} a las ${time} hs. Nos vemos pronto!`;
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   };
 
@@ -69,7 +73,7 @@ const Shifts = () => {
       <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8">Gestión de Turnos</h1>
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6">
         <h2 className="text-3xl font-semibold mb-4 underline underline-offset-4">
-          {editingShiftId ? "Editar Turno" : "Asignar Nuevo Turno"}
+          {editingShiftId ? "Editar Turno" : ""}
         </h2>
         <div className="space-y-4">
           <input
@@ -106,8 +110,8 @@ const Shifts = () => {
             }
           />
           <textarea
-            placeholder="Nota (opcional)"
-            className="w-full p-2 border rounded text-black placeholder-white dark:text-black dark:placeholder-black focus:outline-none text-center"
+            placeholder="Nota | Opcional "
+            className="w-full p-2 border rounded text-black placeholder-black dark:text-black dark:placeholder-black focus:outline-none text-center"
             value={newShift.note || ""}
             onChange={(e) =>
               setNewShift((prev) => ({ ...prev, note: e.target.value }))
@@ -118,7 +122,7 @@ const Shifts = () => {
               onClick={editingShiftId ? handleUpdateShift : handleAddShift}
               className="bg-indigo-600 text-white px-4 py-2 rounded"
             >
-              {editingShiftId ? "Actualizar Turno" : "Guardar"}
+              {editingShiftId ? "Actualizar Turno" : "Guardar Turno"}
             </button>
           </div>
         </div>
@@ -134,7 +138,7 @@ const Shifts = () => {
                   • <strong>Paciente:</strong> {shift.patient}
                 </p>
                 <p>
-                  • <strong>Fecha:</strong> {shift.date} - <strong>Hora:</strong> {shift.time}
+                  • <strong>Fecha:</strong> {shift.date} - <strong>Horario:</strong> {shift.time}
                 </p>
                 {shift.note && <p>• <strong>Nota:</strong> {shift.note}</p>}
               </div>
@@ -152,22 +156,22 @@ const Shifts = () => {
                   Eliminar
                 </button>
                 {shift.phone ? (
-                  <a
-                    href={getWhatsAppLink(shift.phone, shift.patient)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-green-500 text-white px-3 py-1 rounded flex items-center"
-                  >
-                    WhatsApp
-                  </a>
-                ) : (
-                  <button
-                    disabled
-                    className="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed"
-                  >
-                    WhatsApp
-                  </button>
-                )}
+  <a
+    href={getWhatsAppLink(shift.phone, shift.patient, shift.date, shift.time)}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-green-500 text-white px-3 py-1 rounded flex items-center"
+  >
+    WhatsApp
+  </a>
+) : (
+  <button
+    disabled
+    className="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed"
+  >
+    WhatsApp
+  </button>
+)}
               </div>
             </li>
           ))}
