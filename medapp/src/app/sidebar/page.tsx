@@ -1,15 +1,20 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { House, User, Calendar, PieChart, ClipboardList, Settings, Sun, Moon, ShieldPlus, BotMessageSquare, CircleUserRound, StepForward, StepBack } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { 
+  House, User, Calendar, PieChart, ClipboardList, Settings, 
+  Sun, Moon, ShieldPlus, BotMessageSquare, CircleUserRound, 
+  StepForward, StepBack 
+} from 'lucide-react';
 
 const navigation = [
   { name: 'Inicio', href: '/', icon: House },
   { name: 'Pacientes', href: '/patients', icon: User },
-  { name: 'Turnos', href: '/dashboard/appointments', icon: Calendar },
-  { name: 'Reportes', href: '/dashboard/reports', icon: PieChart },
-  { name: 'Historial Clínico', href: '/dashboard/clinical-history', icon: ClipboardList },
-  { name: 'Configuración', href: '/dashboard/settings', icon: Settings },
+  { name: 'Turnos', href: '/shifts', icon: Calendar },
+  { name: 'Reportes', href: '/reports', icon: PieChart },
+  { name: 'Historial Clínico', href: '/clinicalhistory', icon: ClipboardList },
+  { name: 'Configuración', href: '/settings', icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -27,6 +32,15 @@ export default function Sidebar() {
     setDarkMode(newTheme);
     localStorage.setItem('darkMode', newTheme.toString()); 
     document.documentElement.classList.toggle('dark', newTheme);
+
+    toast(`Tema ${newTheme ? 'Oscuro' : 'Claro'} activado`, {
+      icon: newTheme ? '🌙' : '🌞',  
+      style: {
+        borderRadius: '10px',
+        background: newTheme ? '#333' : '#fff',  
+        color: newTheme ? '#fff' : '#333',  
+      },
+    });
   };
 
   return (
