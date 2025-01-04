@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import toast from "react-hot-toast";
 
 interface Shift {
@@ -23,6 +23,9 @@ const Shifts = () => {
 
   const currentDate = new Date().toISOString().split("T")[0];
 
+  // Referencia para la sección de edición
+  const editSectionRef = useRef<HTMLDivElement>(null);
+
   const handleAddShift = () => {
     if (!newShift.patient || !newShift.date || !newShift.time) {
       toast.error("Por favor, completa todos los campos obligatorios.");
@@ -41,6 +44,11 @@ const Shifts = () => {
     setEditingShiftId(id);
     const shiftToEdit = shifts.find((shift) => shift.id === id);
     if (shiftToEdit) setNewShift(shiftToEdit);
+
+    // Desplazar hacia la sección de edición
+    if (editSectionRef.current) {
+      editSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleUpdateShift = () => {
@@ -51,15 +59,15 @@ const Shifts = () => {
     );
     setNewShift({});
     setEditingShiftId(null);
-    toast('Turno actualizado correctamente.', {
-      icon: '🔄',
+    toast("Turno actualizado correctamente.", {
+      icon: "🔄",
     });
   };
 
   const handleDeleteShift = (id: number) => {
     setShifts(shifts.filter((shift) => shift.id !== id));
-    toast('Turno eliminado correctamente.', {
-      icon: '🗑️',
+    toast("Turno eliminado correctamente.", {
+      icon: "🗑️",
     });
   };
 
@@ -71,7 +79,9 @@ const Shifts = () => {
   return (
     <div className="p-6 bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
       <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8">Gestión de Turnos</h1>
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6">
+      
+      {/* Sección de edición de turno */}
+      <div ref={editSectionRef} className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6">
         <h2 className="text-3xl font-semibold mb-4 underline underline-offset-4">
           {editingShiftId ? "Editar Turno" : ""}
         </h2>
@@ -94,7 +104,7 @@ const Shifts = () => {
           />
           <input
             type="time"
-             className="w-full p-2 border rounded text-black placeholder-black dark:text-black dark:placeholder-black focus:outline-none text-center"
+            className="w-full p-2 border rounded text-black placeholder-black dark:text-black dark:placeholder-black focus:outline-none text-center"
             value={newShift.time || ""}
             onChange={(e) =>
               setNewShift((prev) => ({ ...prev, time: e.target.value }))
@@ -103,7 +113,7 @@ const Shifts = () => {
           <input
             type="text"
             placeholder="Teléfono del Paciente (opcional)"
-           className="w-full p-2 border rounded text-black placeholder-black dark:text-black dark:placeholder-black focus:outline-none text-center"
+            className="w-full p-2 border rounded text-black placeholder-black dark:text-black dark:placeholder-black focus:outline-none text-center"
             value={newShift.phone || ""}
             onChange={(e) =>
               setNewShift((prev) => ({ ...prev, phone: e.target.value }))
@@ -128,6 +138,7 @@ const Shifts = () => {
         </div>
       </div>
 
+      {/* Lista de turnos */}
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
         <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8">Turnos Asignados</h1>
         <ul className="divide-y divide-gray-300 dark:divide-gray-700">
@@ -156,22 +167,22 @@ const Shifts = () => {
                   Eliminar
                 </button>
                 {shift.phone ? (
-  <a
-    href={getWhatsAppLink(shift.phone, shift.patient, shift.date, shift.time)}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="bg-green-500 text-white px-3 py-1 rounded flex items-center"
-  >
-    WhatsApp
-  </a>
-) : (
-  <button
-    disabled
-    className="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed"
-  >
-    WhatsApp
-  </button>
-)}
+                  <a
+                    href={getWhatsAppLink(shift.phone, shift.patient, shift.date, shift.time)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-green-500 text-white px-3 py-1 rounded flex items-center"
+                  >
+                    WhatsApp
+                  </a>
+                ) : (
+                  <button
+                    disabled
+                    className="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed"
+                  >
+                    WhatsApp
+                  </button>
+                )}
               </div>
             </li>
           ))}

@@ -12,8 +12,10 @@ const navigation = [
   { name: 'Inicio', href: '/', icon: House },
   { name: 'Pacientes', href: '/patients', icon: User },
   { name: 'Turnos', href: '/shifts', icon: Calendar },
-  { name: 'Reportes', href: '/reports', icon: PieChart },
-  { name: 'Historial Clínico', href: '/clinicalhistory', icon: ClipboardList },
+  { name: 'Facturación', href: '/facturation', icon: ClipboardList },
+  { name: 'Historial Clínico', href: '/clinical', icon: ClipboardList },
+  { name: 'Recetas y Certificados', href: '/recipes', icon: ClipboardList },
+  { name: 'Estadisticas e Informes', href: '/reports', icon: PieChart },
   { name: 'Configuración', href: '/settings', icon: Settings },
 ];
 
@@ -51,7 +53,7 @@ export default function Sidebar() {
         } transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:w-56 bg-indigo-600 dark:bg-indigo-800 text-gray-100`}
       >
         <div className="flex items-center justify-center h-16 bg-indigo-700 px-4">
-          <a href="#" className="flex items-center justify-center space-x-2">
+          <a href="/" className="flex items-center justify-center space-x-2">
             <ShieldPlus />
             <span className="text-lg font-bold text-white">MedApp</span>
           </a>
