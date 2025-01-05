@@ -1,40 +1,39 @@
 "use client";
 
 import React, { useState } from "react";
+import toast from "react-hot-toast"; 
+import { Edit, Save } from "lucide-react"; 
 
 const Settings = () => {
-  const [name, setName] = useState("Dr. Juan Pérez");
-  const [specialization, setSpecialization] = useState("Especialista en Terapia Cognitiva");
-  const [email, setEmail] = useState("dr.juanperez@example.com");
-  const [password, setPassword] = useState("");
-  const [avatar, setAvatar] = useState<string | ArrayBuffer | null>(null); // Para almacenar la imagen
-  const [editMode, setEditMode] = useState({
-    name: false,
-    specialization: false,
-    email: false,
-    password: false,
-    avatar: false
+  const [nombre, setNombre] = useState("Dr. Juan Pérez");
+  const [especializacion, setEspecializacion] = useState("Especialista en Terapia Cognitiva");
+  const [correo, setCorreo] = useState("dr.juanperez@example.com");
+  const [contraseña, setContraseña] = useState("");
+  const [avatar, setAvatar] = useState<string | ArrayBuffer | null>(null); 
+  const [modoEdicion, setModoEdicion] = useState({
+    nombre: false,
+    especializacion: false,
+    correo: false,
+    contraseña: false,
+    avatar: false,
   });
 
-  // Función para habilitar el modo de edición para un campo
-  const handleEdit = (field: string) => {
-    setEditMode({ ...editMode, [field]: true });
+  const handleEdit = (campo: string) => {
+    setModoEdicion({ ...modoEdicion, [campo]: true });
   };
 
-  // Función para guardar cambios
-  const handleSaveChanges = (field: string) => {
-    console.log(`Cambio en ${field}:`, { name, specialization, email, password });
-    alert(`Cambios en ${field} guardados con éxito.`);
-    setEditMode({ ...editMode, [field]: false });
+  const handleSaveChanges = (campo: string) => {
+    console.log(`Cambio en ${campo}:`, { nombre, especializacion, correo, contraseña });
+    toast.success(`Modificaste tu ${campo} con éxito!`);
+    setModoEdicion({ ...modoEdicion, [campo]: false });
   };
 
-  // Función para manejar la carga de la imagen de perfil
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setAvatar(reader.result); // Almacena la imagen cargada
+        setAvatar(reader.result); 
       };
       reader.readAsDataURL(file);
     }
@@ -42,158 +41,166 @@ const Settings = () => {
 
   return (
     <div className="p-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <h1 className="text-3xl font-bold mb-4 text-center">Configuraciones del Usuario</h1>
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-3xl mx-auto">
-        {/* Foto de Usuario */}
-        <div className="flex flex-col items-center mb-6">
-          <label className="block text-sm font-medium mb-2">Foto de Perfil</label>
+      <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8">Configuración de Usuario</h1>
+      <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8 max-w-3xl mx-auto transition-all duration-300 hover:shadow-2xl">
+        <div className="mb-8">
+
           <div className="flex items-center gap-4">
             {avatar ? (
               <img
                 src={avatar as string}
-                alt="Foto de perfil"
-                className="w-24 h-24 rounded-full border-4 border-indigo-600"
+                alt="Avatar"
+                className="w-28 h-28 rounded-full border-4 border-indigo-600 transform transition-all duration-300 hover:scale-105"
               />
             ) : (
-              <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg">
-                {name.charAt(0)}
+              <div className="w-28 h-28 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg">
+                {nombre.charAt(0)}
               </div>
             )}
             <input
               type="file"
               accept="image/*"
-              className="p-2 border rounded-lg cursor-pointer"
+              className="p-2 border rounded-lg cursor-pointer transition-all duration-200 hover:bg-indigo-100"
               onChange={handleFileChange}
             />
+            <button
+              onClick={() => handleSaveChanges("avatar")}
+              className="text-green-600 hover:underline transition-all duration-200 ml-4"
+              title="Guardar Avatar"
+            >
+              <Save size={20} />
+            </button>
           </div>
         </div>
 
-        {/* Configuración del Perfil */}
-        <div className="space-y-6">
-          {/* Nombre */}
+        <div className="space-y-8">
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="name">Nombre</label>
-            {!editMode.name ? (
+            <label className="block text-sm font-medium mb-2" htmlFor="nombre">Nombre</label>
+            {!modoEdicion.nombre ? (
               <div className="flex justify-between items-center">
-                <span>{name}</span>
+                <span className="text-gray-700">{nombre}</span>
                 <button
-                  onClick={() => handleEdit("name")}
-                  className="text-indigo-600 hover:underline"
+                  onClick={() => handleEdit("nombre")}
+                  className="text-indigo-600 hover:underline transition-all duration-200"
+                  title="Editar Nombre"
                 >
-                  Modificar
+                  <Edit size={20} />
                 </button>
               </div>
             ) : (
               <div className="flex justify-between items-center">
                 <input
                   type="text"
-                  id="name"
-                  className="w-full p-2 border rounded"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  id="nombre"
+                  className="w-full p-3 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
                 />
                 <button
-                  onClick={() => handleSaveChanges("name")}
-                  className="text-green-600 hover:underline"
+                  onClick={() => handleSaveChanges("nombre")}
+                  className="text-green-600 hover:underline transition-all duration-200"
+                  title="Guardar Nombre"
                 >
-                  Guardar
+                  <Save size={20} />
                 </button>
               </div>
             )}
           </div>
 
-          {/* Especialización */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="specialization">Especialización</label>
-            {!editMode.specialization ? (
+            <label className="block text-sm font-medium mb-2" htmlFor="especializacion">Especialización</label>
+            {!modoEdicion.especializacion ? (
               <div className="flex justify-between items-center">
-                <span>{specialization}</span>
+                <span className="text-gray-700">{especializacion}</span>
                 <button
-                  onClick={() => handleEdit("specialization")}
-                  className="text-indigo-600 hover:underline"
+                  onClick={() => handleEdit("especializacion")}
+                  className="text-indigo-600 hover:underline transition-all duration-200"
+                  title="Editar Especialización"
                 >
-                  Modificar
+                  <Edit size={20} />
                 </button>
               </div>
             ) : (
               <div className="flex justify-between items-center">
                 <input
                   type="text"
-                  id="specialization"
-                  className="w-full p-2 border rounded"
-                  value={specialization}
-                  onChange={(e) => setSpecialization(e.target.value)}
+                  id="especializacion"
+                  className="w-full p-3 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  value={especializacion}
+                  onChange={(e) => setEspecializacion(e.target.value)}
                 />
                 <button
-                  onClick={() => handleSaveChanges("specialization")}
-                  className="text-green-600 hover:underline"
+                  onClick={() => handleSaveChanges("especializacion")}
+                  className="text-green-600 hover:underline transition-all duration-200"
+                  title="Guardar Especialización"
                 >
-                  Guardar
+                  <Save size={20} />
                 </button>
               </div>
             )}
           </div>
 
-          {/* Correo Electrónico */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="email">Correo Electrónico</label>
-            {!editMode.email ? (
+            <label className="block text-sm font-medium mb-2" htmlFor="correo">Correo Electrónico</label>
+            {!modoEdicion.correo ? (
               <div className="flex justify-between items-center">
-                <span>{email}</span>
+                <span className="text-gray-700">{correo}</span>
                 <button
-                  onClick={() => handleEdit("email")}
-                  className="text-indigo-600 hover:underline"
+                  onClick={() => handleEdit("correo")}
+                  className="text-indigo-600 hover:underline transition-all duration-200"
+                  title="Editar Correo Electrónico"
                 >
-                  Modificar
+                  <Edit size={20} />
                 </button>
               </div>
             ) : (
               <div className="flex justify-between items-center">
                 <input
                   type="email"
-                  id="email"
-                  className="w-full p-2 border rounded"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="correo"
+                  className="w-full p-3 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  value={correo}
+                  onChange={(e) => setCorreo(e.target.value)}
                 />
                 <button
-                  onClick={() => handleSaveChanges("email")}
-                  className="text-green-600 hover:underline"
+                  onClick={() => handleSaveChanges("correo")}
+                  className="text-green-600 hover:underline transition-all duration-200"
+                  title="Guardar Correo Electrónico"
                 >
-                  Guardar
+                  <Save size={20} />
                 </button>
               </div>
             )}
           </div>
-
-          {/* Contraseña */}
           <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="password">Contraseña</label>
-            {!editMode.password ? (
+            <label className="block text-sm font-medium mb-2" htmlFor="contraseña">Contraseña</label>
+            {!modoEdicion.contraseña ? (
               <div className="flex justify-between items-center">
-                <span>********</span>
+                <span className="text-gray-700">********</span>
                 <button
-                  onClick={() => handleEdit("password")}
-                  className="text-indigo-600 hover:underline"
+                  onClick={() => handleEdit("contraseña")}
+                  className="text-indigo-600 hover:underline transition-all duration-200"
+                  title="Editar Contraseña"
                 >
-                  Modificar
+                  <Edit size={20} />
                 </button>
               </div>
             ) : (
               <div className="flex justify-between items-center">
                 <input
                   type="password"
-                  id="password"
-                  className="w-full p-2 border rounded"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  id="contraseña"
+                  className="w-full p-3 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  value={contraseña}
+                  onChange={(e) => setContraseña(e.target.value)}
                   placeholder="••••••••"
                 />
                 <button
-                  onClick={() => handleSaveChanges("password")}
-                  className="text-green-600 hover:underline"
+                  onClick={() => handleSaveChanges("contraseña")}
+                  className="text-green-600 hover:underline transition-all duration-200"
+                  title="Guardar Contraseña"
                 >
-                  Guardar
+                  <Save size={20} />
                 </button>
               </div>
             )}

@@ -33,19 +33,19 @@ const Facturacion = () => {
     setShowModal(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.target;
-    const paciente = form.paciente.value;
-    const monto = parseFloat(form.monto.value);
-    const estado = form.estado.value; 
-
+    const form = e.target as HTMLFormElement;
+    const paciente = (form.paciente as HTMLInputElement).value;
+    const monto = parseFloat((form.monto as HTMLInputElement).value);
+    const estado = (form.estado as HTMLSelectElement).value;
+  
     const pacienteExistente = facturas.find((f) => f.paciente === paciente);
-
+  
     let newFacturas;
     if (pacienteExistente) {
       newFacturas = facturas.map((factura) => {
-        if (factura.paciente === paciente && estado === "Abonada") {
+        if (factura.paciente === paciente && estado === "Pagado") {
           factura.sesiones += 1;
         }
         return factura;
@@ -56,20 +56,18 @@ const Facturacion = () => {
         {
           id: facturas.length + 1,
           paciente,
-          fecha: new Date().toISOString().split("T")[0], 
+          fecha: new Date().toISOString().split("T")[0],
           monto,
           estado,
-          sesiones: estado === "Abonada" ? 1 : 0, 
+          sesiones: estado === "Pagado" ? 1 : 0,
         },
       ];
     }
-
+  
     setFacturas(newFacturas);
     setShowModal(false);
   };
-
-
-
+  
   return (
     <div className="p-6">
       <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8 text-black dark:text-white">

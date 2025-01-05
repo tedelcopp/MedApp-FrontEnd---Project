@@ -87,7 +87,7 @@ export default function Sidebar() {
             <div className="text-center">
               <p className="text-sm font-medium text-white">Dr. Tomás</p>
               <a
-                href="#profile"
+                href="/settings"
                 className="text-xs font-light text-gray-300 hover:underline"
               >
                 Ver perfil
