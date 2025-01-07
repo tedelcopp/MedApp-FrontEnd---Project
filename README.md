@@ -60,11 +60,7 @@ Brindar una herramienta eficiente, moderna y fácil de usar para profesionales m
 
 ## **Contribuciones**
 
-¡Toda colaboración es bienvenida! Si tienes ideas para mejorar la aplicación, no dudes en:
-
-1. Crear un issue explicando tu propuesta.
-2. Realizar un fork del repositorio.
-3. Enviar un pull request con tus mejoras.
+¡Toda colaboración es bienvenida! Si tienes ideas para mejorar la aplicación, no dudes en escribirme.
 
 ---
 
