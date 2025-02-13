@@ -114,13 +114,14 @@ const Patients = () => {
           <button
             onClick={handleAddPatient}
             className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
-            title={`Registrar nuevo paciente`}
+            title="Registrar paciente"
+            aria-label="Registrar un nuevo paciente"
           >
             Nuevo Paciente
           </button>
           <input
             type="text"
-            placeholder="Buscar paciente"
+            placeholder="Buscar paciente.."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
@@ -153,21 +154,24 @@ const Patients = () => {
                 <button
                   onClick={() => handleView(patient)}
                   className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-500"
-                  title={`Ver ficha de paciente`}
+                  title="Ver info+ de paciente"
+                  aria-label="Ver info+ de paciente"
                >
                   <ClipboardPlus size={18} />
                 </button>
                 <button
                   onClick={() => handleEdit(patient)}
                   className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-500"
-                  title={`Editar ficha de paciente`}
+                  title="Editar info+ de paciente"
+                  aria-label="Editar info+ de paciente"
                 >
                   <FilePenLine size={18} />
                 </button>
                 <button
                   onClick={() => handleDelete(patient.id)}
                   className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-500"
-                  title={`Eliminar ficha de paciente`}
+                  title="Eliminar ficha de paciente"
+                  aria-label="Eliminar ficha de paciente"
                 >
                   <Trash2 size={18} />
                 </button>
