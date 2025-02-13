@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import {
   FaCalendarAlt,
   FaDollarSign,
@@ -91,11 +92,13 @@ const DashboardContent = () => {
     <div className="flex flex-col items-center justify-center p-6 bg-gray-100 dark:bg-gray-900 w-full h-full text-gray-900 dark:text-gray-100">
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-8 w-full max-w-4xl">
         <div className="flex items-center gap-6">
-          <img
-            src="https://via.placeholder.com/150"
-            alt="Foto del Profesional"
-            className="w-24 h-24 rounded-full"
-          />
+        <Image
+  src="/images/profile/med-profile.webp"
+  alt="Foto del Profesional"
+  width={96} 
+  height={96} 
+  className="rounded-full"
+/>
           <div>
             <h2 className="text-2xl font-semibold">Dr. Juan Pérez</h2>
             <p className="text-gray-500 dark:text-gray-400">
@@ -105,7 +108,7 @@ const DashboardContent = () => {
               Fecha: {currentDate}
             </p>
             <p className="text-gray-500 dark:text-gray-400">
-              Hora: {currentTime}
+              Horario: {currentTime}
             </p>
           </div>
         </div>
@@ -167,7 +170,7 @@ const DashboardContent = () => {
               <p className="text-lg">
                 • <span className="font-semibold"><u>Venta:</u></span> ${dollarRates.venta}
               </p>
-              <p className="text-l text-center">
+              <p className="text-l text-center font-semibold">
                 <span><u>Actualización:</u></span>{" "}
                 {new Date(dollarRates.fechaActualizacion).toLocaleString("es-AR", {
                   hour: "2-digit",
