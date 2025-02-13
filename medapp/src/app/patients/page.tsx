@@ -114,7 +114,7 @@ const Patients = () => {
           <button
             onClick={handleAddPatient}
             className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
-            title="Registrar paciente"
+            title="Nuevo paciente"
             aria-label="Registrar un nuevo paciente"
           >
             Nuevo Paciente
