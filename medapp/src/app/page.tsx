@@ -152,24 +152,38 @@ const DashboardContent = () => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex-1">
-          <h3 className="text-2xl font-semibold mb-6 flex items-center justify-center gap-3">
-            <FaDollarSign className="text-green-600 text-2xl" /> Dólar Hoy
-          </h3>
-          {dollarError ? <p className="text-red-500 font-medium">Error: {dollarError}</p> : dollarRates ? (
-            <p className="text-lg">Compra: ${dollarRates.compra} - Venta: ${dollarRates.venta}</p>
-          ) : <p className="text-gray-500 font-medium">Cargando...</p>}
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex-1">
-          <h3 className="text-2xl font-semibold mb-6 flex items-center justify-center gap-3">
-            <FaCloudSun className="text-blue-600 text-2xl" /> Clima
-          </h3>
-          {weatherError ? <p className="text-red-500 font-medium">Error: {weatherError}</p> : weather ? (
-            <p className="text-lg">Ciudad: {weather.location.name} - {weather.current.temp_c}°C</p>
-          ) : <p className="text-gray-500 font-medium">Cargando...</p>}
-        </div>
+  <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex-1 flex flex-col items-center justify-between min-h-[150px] text-center">
+    <h3 className="text-2xl font-semibold flex items-center justify-center">
+      <FaDollarSign className="text-green-600 text-2xl mr-2" /> Dólar Hoy
+    </h3>
+    {dollarError ? (
+      <p className="text-red-500 font-medium">Error: {dollarError}</p>
+    ) : dollarRates ? (
+      <div className="text-lg space-y-2">
+        <p><span className="font-semibold underline">Compra:</span> ${dollarRates.compra}</p>
+        <p><span className="font-semibold underline">Venta:</span> ${dollarRates.venta}</p>
       </div>
+    ) : (
+      <p className="text-gray-500 font-medium">Cargando...</p>
+    )}
+  </div>
+
+  <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex-1 flex flex-col items-center justify-between min-h-[150px] text-center">
+    <h3 className="text-2xl font-semibold flex items-center justify-center">
+      <FaCloudSun className="text-blue-600 text-2xl mr-2" /> Clima
+    </h3>
+    {weatherError ? (
+      <p className="text-red-500 font-medium">Error: {weatherError}</p>
+    ) : weather ? (
+      <div className="text-lg space-y-2">
+        <p><span className="font-semibold underline">Ciudad:</span> {weather.location.name}</p>
+        <p><span className="font-semibold underline">Temperatura:</span> {weather.current.temp_c}°C</p>
+      </div>
+    ) : (
+      <p className="text-gray-500 font-medium">Cargando...</p>
+    )}
+  </div>
+</div>
     </div>
   );
 };
