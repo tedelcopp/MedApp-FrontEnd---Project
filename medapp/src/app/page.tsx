@@ -98,7 +98,6 @@ const DashboardContent = () => {
   return (
     <div className="flex flex-col items-center p-4 md:p-6 bg-gray-100 dark:bg-gray-900 w-full h-full text-gray-900 dark:text-gray-100">
       
-      {/* Tarjeta de Perfil */}
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-3xl text-center md:text-left flex flex-col md:flex-row items-center">
         <Image src="/images/profile/med-profile.webp" alt="Foto del Profesional" width={96} height={96} className="rounded-full mb-4 md:mb-0 md:mr-6" />
         <div>
@@ -109,7 +108,6 @@ const DashboardContent = () => {
         </div>
       </div>
 
-      {/* Lista de Turnos */}
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mt-6 w-full max-w-3xl">
         <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <FaCalendarAlt className="text-indigo-600" /> Próximos Turnos
@@ -117,10 +115,8 @@ const DashboardContent = () => {
         <ul className="space-y-4">{appointmentList}</ul>
       </div>
 
-      {/* Información de Dólar y Clima */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl mt-6">
         
-        {/* Dólar */}
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col items-center justify-center min-h-[150px] text-center">
           <h3 className="text-2xl font-semibold flex items-center justify-center">
             <FaDollarSign className="text-green-600 text-2xl mr-2" /> Dólar Hoy
@@ -137,7 +133,6 @@ const DashboardContent = () => {
           )}
         </div>
 
-        {/* Clima */}
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col items-center justify-center min-h-[150px] text-center">
           <h3 className="text-2xl font-semibold flex items-center justify-center">
             <FaCloudSun className="text-blue-600 text-2xl mr-2" /> Clima
