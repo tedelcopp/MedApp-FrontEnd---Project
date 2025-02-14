@@ -87,6 +87,17 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="flex-1 p-4"></div>
+
+      {!sidebarOpen && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="fixed top-4 left-4 bg-indigo-600 hover:bg-indigo-500 text-white p-3 rounded-full shadow-lg lg:hidden transition-transform duration-300"
+          title="Abrir menú"
+          aria-label="Abrir menú"
+        >
+          <StepForward className="h-6 w-6" />
+        </button>
+      )}
     </div>
   );
 }
