@@ -7,7 +7,7 @@ import { useTheme } from "../../context/theme-context";
 import {
   House, User, Calendar, Settings,
   Sun, Moon, ShieldPlus, BotMessageSquare, CircleUserRound,
-  StepForward, StepBack, Menu
+  StepForward, StepBack
 } from "lucide-react";
 
 const navigation = [
@@ -19,7 +19,7 @@ const navigation = [
 
 export default function Sidebar() {
   const { darkMode, toggleTheme } = useTheme(); 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const navigationLinks = useMemo(
     () =>
@@ -34,18 +34,18 @@ export default function Sidebar() {
   );
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900 relative">
-      <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-        transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:w-56 bg-indigo-600 dark:bg-indigo-800 text-gray-100 z-50`}>
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:w-56 bg-indigo-600 dark:bg-indigo-800 text-gray-100`}>
 
         <div className="flex items-center justify-between h-16 bg-indigo-700 px-4">
           <Link href="/" className="flex items-center space-x-2">
             <ShieldPlus />
             <span className="text-lg font-bold text-white">MedApp</span>
           </Link>
-          <button type="button" onClick={() => setSidebarOpen(false)}
+          <button type="button" onClick={() => setSidebarOpen(!sidebarOpen)}
             className="text-white lg:hidden">
-            <StepBack className="h-6 w-6" aria-hidden="true" />
+            {sidebarOpen ? <StepBack className="h-6 w-6" aria-hidden="true" /> : <StepForward className="h-6 w-6" aria-hidden="true" />}
           </button>
         </div>
 
@@ -86,20 +86,7 @@ export default function Sidebar() {
           </button>
         </div>
       </div>
-
-      <div className="flex-1 p-4 lg:pl-60">
-        {!sidebarOpen && (
-          <button 
-            onClick={() => setSidebarOpen(true)}
-            className="fixed bottom-6 left-6 bg-indigo-600 dark:bg-indigo-800 text-white p-3 rounded-full shadow-lg 
-              hover:bg-indigo-500 dark:hover:bg-indigo-700 transition-all duration-300 lg:hidden"
-            title="Abrir menú"
-            aria-label="Abrir menú lateral"
-          >
-            <Menu size={24} />
-          </button>
-        )}
-      </div>
+      <div className="flex-1 p-4"></div>
     </div>
   );
 }
