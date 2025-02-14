@@ -10,7 +10,6 @@ const Settings = () => {
     especializacion: "Especialista en Terapia Cognitiva",
     correo: "dr.juanperez@example.com",
     contraseña: "",
-    avatar: "",
   });
 
   const [editingField, setEditingField] = useState<string | null>(null);
@@ -29,16 +28,15 @@ const Settings = () => {
   };
 
   const renderEditableField = (label: string, key: keyof typeof userData, type = "text") => (
-    <div>
-      <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-gray-200">{label}</label>
+    <div className="flex flex-col gap-2">
+      <label className="block text-sm font-medium text-gray-900 dark:text-gray-200">{label}</label>
       {editingField === key ? (
-        <div className="flex items-center gap-3">
+        <div className="flex gap-3 w-full">
           <input
             type={type}
             autoFocus
-            className="w-full max-w-[100%] p-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-md 
-              bg-white dark:bg-gray-700 text-gray-900 dark:text-white 
-              placeholder:text-gray-500 dark:placeholder-gray-300 
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 
+              text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300 
               focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
             value={userData[key]}
             onChange={(e) => setUserData({ ...userData, [key]: e.target.value })}
@@ -50,30 +48,32 @@ const Settings = () => {
             title={`Guardar ${label}`}
             aria-label={`Guardar ${label}`}
           >
-            <Save size={20} />
+            <Save size={24} />
           </button>
         </div>
       ) : (
-        <div className="flex justify-between items-center">
-          <span className="text-gray-900 dark:text-gray-300">{key === "contraseña" ? "********" : userData[key]}</span>
+        <div className="flex justify-between items-center w-full">
+          <span className="text-gray-900 dark:text-gray-300 break-words">{key === "contraseña" ? "********" : userData[key]}</span>
           <button
             onClick={() => handleEdit(key)}
             className="text-indigo-600 dark:text-indigo-400 hover:underline transition-all duration-200"
             title={`Editar ${label}`}
             aria-label={`Editar ${label}`}
           >
-            <Edit size={20} />
+            <Edit size={24} />
           </button>
         </div>
       )}
     </div>
   );
-  
+
   return (
-    <div className="p-6 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8">Configuración de Usuario</h1>
-      
-      <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8 max-w-3xl mx-auto transition-all duration-300 hover:shadow-2xl">
+    <div className="p-4 md:p-6 bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center">
+      <h1 className="text-2xl md:text-4xl font-bold mb-6 text-center underline text-gray-900 dark:text-white">
+        Configuración de Usuario
+      </h1>
+
+      <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 md:p-8 max-w-lg md:max-w-2xl w-full mx-auto transition-all duration-300 hover:shadow-2xl">
         <div className="space-y-6">
           {renderEditableField("Nombre", "nombre")}
           {renderEditableField("Especialización", "especializacion")}
