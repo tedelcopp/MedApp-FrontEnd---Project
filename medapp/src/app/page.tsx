@@ -6,9 +6,9 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/api/auth/signin"); 
+    redirect("/signin"); // 🔹 Redirige a la página de login en lugar de usar `/api/auth/signin`
   } else {
-    redirect("/home"); 
+    redirect("/home"); // 🔹 Envía a home si el usuario ya está autenticado
   }
 
   return null; 
