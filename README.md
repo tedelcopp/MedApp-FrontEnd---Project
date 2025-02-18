@@ -8,7 +8,6 @@
 
 - **📋 Gestión de pacientes:** Creación, edición y almacenamiento de historiales médicos.
 - **📅 Organización de citas:** Visualización clara y filtrada de citas programadas.
-- **📝 Generación de recetas digitales:** Personalizadas con nombre, logotipo de la clínica, firma y sello del médico.
 - **🌗 Modo oscuro/claro:** Interfaz adaptable para mejorar la usabilidad en diferentes entornos.
 - **📊 Panel de administración:** Dashboard profesional con estadísticas y secciones clave como Inicio, Pacientes, Citas, Recetas y Configuración.
 
