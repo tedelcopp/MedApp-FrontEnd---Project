@@ -1,4 +1,3 @@
-"use client";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "../context/theme-context"; 
 import Sidebar from "./sidebar/page";
