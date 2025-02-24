@@ -1,5 +1,5 @@
 "use client";
-import { useTheme } from "../../../context/theme-context";
+// import { useTheme } from "../../../context/theme-context";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
@@ -15,7 +15,7 @@ const navigation = [
 ];
 
 export default function Sidebar() {
-  const { darkMode, toggleTheme } = useTheme(); 
+  // const { darkMode, toggleTheme } = useTheme(); 
   const [sidebarOpen, setSidebarOpen] = useState(true); 
 
   const navigationLinks = useMemo(
@@ -63,11 +63,11 @@ export default function Sidebar() {
             WhatsApp
           </button>
           <button
-            onClick={() => toggleTheme()}
+            // onClick={() => toggleTheme()}
             className="px-4 py-2 bg-indigo-600 rounded-lg text-white hover:bg-indigo-500"
             title="Cambiar tema"
           >
-            {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
+            {/* {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} */}
           </button>
           <button
   onClick={() => signOut({ callbackUrl: "/api/auth/signin" })} // 🔹 Redirige explícitamente al login
