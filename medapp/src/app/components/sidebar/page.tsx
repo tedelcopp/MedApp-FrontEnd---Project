@@ -1,6 +1,5 @@
 "use client";
-import { useSession } from "next-auth/react";
-import { useTheme } from "../../context/theme-context";
+import { useTheme } from "../../../context/theme-context";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
@@ -9,14 +8,13 @@ import {
 import { signOut } from "next-auth/react";
 
 const navigation = [
-  { name: "Inicio", href: "/home", icon: House },
+  { name: "Inicio", href: "/", icon: House },
   { name: "Pacientes", href: "/patients", icon: User },
   { name: "Turnos", href: "/shifts", icon: Calendar },
   { name: "Configuración", href: "/settings", icon: Settings },
 ];
 
 export default function Sidebar() {
-  const { data: session } = useSession(); 
   const { darkMode, toggleTheme } = useTheme(); 
   const [sidebarOpen, setSidebarOpen] = useState(true); 
 
@@ -30,8 +28,6 @@ export default function Sidebar() {
     )),
     []
   );
-
-  if (!session) return null;
 
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
