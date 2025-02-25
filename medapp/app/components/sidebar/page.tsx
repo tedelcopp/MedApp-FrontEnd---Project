@@ -11,7 +11,7 @@ const navigation = [
   { name: "Inicio", href: "/", icon: House },
   { name: "Pacientes", href: "/patients", icon: User },
   { name: "Turnos", href: "/shifts", icon: Calendar },
-  { name: "Configuración", href: "/settings", icon: Settings },
+  { name: "Configuración", href: "/settings", icon: Settings  },
 ];
 
 export default function Sidebar() {
@@ -22,7 +22,7 @@ export default function Sidebar() {
     () => navigation.map((item) => (
       <Link key={item.name} href={item.href} onClick={() => setSidebarOpen(false)}
         className="flex items-center px-4 py-2 text-sm font-medium hover:bg-indigo-500 rounded-lg">
-        <item.icon size={20} className="mr-3 text-gray-100" /> {/* 🔹 Cambiado: <item.icon /> ✅ */}
+        <item.icon size={20} className="mr-3 text-gray-100" /> 
         {item.name}
       </Link>
     )),
@@ -67,6 +67,7 @@ export default function Sidebar() {
             onClick={toggleTheme} 
             className="px-4 py-2 bg-indigo-600 rounded-lg text-white hover:bg-indigo-500"
             title="Cambiar tema"
+            aria-label="Cambiar el tema de la App"
           >
             {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} {/* 🔹 Corregido ✅ */}
           </button>

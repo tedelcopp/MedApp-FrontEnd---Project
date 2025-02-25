@@ -69,7 +69,6 @@ const Shifts = () => {
     <div className="p-4 md:p-6 bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen flex flex-col items-center">
       <h1 className="text-2xl md:text-4xl font-bold mb-6 text-center underline">Gestión de Turnos</h1>
 
-      {/* Formulario de Nuevo Turno */}
       <div ref={editSectionRef} className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6 w-full max-w-lg lg:max-w-xl">
         <h2 className="text-lg md:text-2xl font-semibold mb-4">{isEditing ? "Editar Turno" : "Nuevo Turno"}</h2>
         <div className="space-y-4">
@@ -83,8 +82,8 @@ const Shifts = () => {
             ))}
           </select>
 
-          <input type="text" placeholder="Teléfono del Paciente (opcional)" className="w-full p-2 border rounded-lg text-black placeholder-gray-500" value={newShift.phone || ""} onChange={(e) => setNewShift((prev) => ({ ...prev, phone: e.target.value }))} />
-          <textarea placeholder="Nota (Opcional)" className="w-full p-2 border rounded-lg text-black placeholder-gray-500" value={newShift.note || ""} onChange={(e) => setNewShift((prev) => ({ ...prev, note: e.target.value }))} />
+          <input type="text" placeholder="Teléfono del Paciente | Opcional" className="w-full p-2 border rounded-lg text-black placeholder-gray-500" value={newShift.phone || ""} onChange={(e) => setNewShift((prev) => ({ ...prev, phone: e.target.value }))} />
+          <textarea placeholder="Nota | Opcional" className="w-full p-2 border rounded-lg text-black placeholder-gray-500" value={newShift.note || ""} onChange={(e) => setNewShift((prev) => ({ ...prev, note: e.target.value }))} />
           
           <div className="flex justify-center">
             <button onClick={handleAddOrUpdateShift} className={`px-4 py-2 rounded-lg w-full sm:w-auto ${isFormValid ? "bg-indigo-600 text-white" : "bg-gray-400 text-gray-200 cursor-not-allowed"}`} disabled={!isFormValid}>
