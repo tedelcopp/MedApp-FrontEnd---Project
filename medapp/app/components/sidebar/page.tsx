@@ -70,16 +70,14 @@ export default function Sidebar() {
           >
             {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} {/* 🔹 Corregido ✅ */}
           </button>
-
-          <button
+          {/* <button
             onClick={() => signOut({ callbackUrl: "/api/auth/signin" })}
             className="flex items-center justify-center px-4 py-2 bg-red-600 rounded-lg text-white hover:bg-red-500"
             title="Cerrar sesión"
           >
             <LogOut size={20} className="mr-2" />
             Cerrar sesión
-          </button>
-
+          </button> */}
         </div>
       </div>
     </div>
