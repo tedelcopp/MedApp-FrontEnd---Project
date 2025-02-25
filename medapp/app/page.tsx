@@ -137,7 +137,7 @@ const DashboardContent = () => {
           )}
         </div>
 
-        {/* <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col items-center justify-center min-h-[150px] text-center">
+         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col items-center justify-center min-h-[150px] text-center">
           <h3 className="text-2xl font-semibold flex items-center">
             <FaCloudSun className="text-blue-600 mr-2" /> Clima
           </h3>
@@ -148,8 +148,7 @@ const DashboardContent = () => {
           ) : (
             <p className="text-gray-500">Cargando...</p>
           )}
-        </div> */}
-
+        </div> 
       </div>
     </div>
   );

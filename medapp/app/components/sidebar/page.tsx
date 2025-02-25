@@ -1,5 +1,5 @@
 "use client";
-// import { useTheme } from "../../../context/theme-context";
+import { useTheme } from "../../context/theme-context";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
@@ -15,14 +15,14 @@ const navigation = [
 ];
 
 export default function Sidebar() {
-  // const { darkMode, toggleTheme } = useTheme(); 
+  const { darkMode, toggleTheme } = useTheme(); 
   const [sidebarOpen, setSidebarOpen] = useState(true); 
 
   const navigationLinks = useMemo(
     () => navigation.map((item) => (
       <Link key={item.name} href={item.href} onClick={() => setSidebarOpen(false)}
         className="flex items-center px-4 py-2 text-sm font-medium hover:bg-indigo-500 rounded-lg">
-        <item.icon size={20} className="mr-3 text-gray-100" />
+        <item.icon size={20} className="mr-3 text-gray-100" /> 
         {item.name}
       </Link>
     )),
@@ -49,7 +49,7 @@ export default function Sidebar() {
 
         <div className="mt-auto flex flex-col items-center p-4 space-y-4">
 
-        <button
+          <button
             onClick={() => {
               const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
               const whatsappURL = isMobile ? "whatsapp://" : "https://web.whatsapp.com/";
@@ -62,21 +62,24 @@ export default function Sidebar() {
             <BotMessageSquare size={20} className="mr-2" />
             WhatsApp
           </button>
+
           <button
-            // onClick={() => toggleTheme()}
+            onClick={toggleTheme} 
             className="px-4 py-2 bg-indigo-600 rounded-lg text-white hover:bg-indigo-500"
             title="Cambiar tema"
           >
-            {/* {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} */}
+            {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} 
           </button>
+
           <button
-  onClick={() => signOut({ callbackUrl: "/api/auth/signin" })} // 🔹 Redirige explícitamente al login
-  className="flex items-center justify-center px-4 py-2 bg-red-600 rounded-lg text-white hover:bg-red-500"
-  title="Cerrar sesión"
->
-  <LogOut size={20} className="mr-2" />
-  Cerrar sesión
-</button>
+            onClick={() => signOut({ callbackUrl: "/api/auth/signin" })}
+            className="flex items-center justify-center px-4 py-2 bg-red-600 rounded-lg text-white hover:bg-red-500"
+            title="Cerrar sesión"
+          >
+            <LogOut size={20} className="mr-2" />
+            Cerrar sesión
+          </button>
+
         </div>
       </div>
     </div>

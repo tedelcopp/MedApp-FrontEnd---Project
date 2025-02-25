@@ -12,16 +12,16 @@ const config: Config = {
         2: "2px",
       },
       colors: {
-        // Light mode
-        backgroundLight: "#33684D",
+        // Light Mode //
+        backgroundLight: "#D9D9D9",
         textLight: "#E9EAE4",
         cardBgLight: "#D64D0C",
         cardBgLightAlt: "#F28C5A",
         linkLight: "#ECEDFD",
         backgroundLightAlt: "#B5D3B0",
 
-        // Dark mode
-        backgroundDark: "#111827",
+        // Dark Mode //
+        backgroundDark: "#D9D9D9",
         textDark: "#e5e7eb",
         cardBgDark: "#1f2937",
         linkDark: "#3b82f6",
