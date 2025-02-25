@@ -65,7 +65,7 @@ export default function Sidebar() {
 
           <button
             onClick={toggleTheme} 
-            className="px-4 py-2 bg-indigo-600 rounded-lg text-white hover:bg-indigo-500"
+            className="px-4 py-2 bg-indigo-500 rounded-lg text-white hover:bg-indigo-400"
             title="Cambiar tema"
             aria-label="Cambiar el tema de la App"
           >
