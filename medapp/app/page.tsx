@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation"; 
 import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo } from "react-icons/fa";
+import { redirect } from "next/navigation";
 
 type Weather = {
   location: { name: string };
@@ -99,6 +100,7 @@ const DashboardContent = () => {
   );
 
   return (
+    
     <div className="flex flex-col items-center p-6 bg-gray-100 dark:bg-gray-900 w-full h-full text-gray-900 dark:text-gray-100">
       
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-3xl text-center md:text-left flex flex-col md:flex-row items-center">

@@ -22,7 +22,7 @@ export default function Sidebar() {
     () => navigation.map((item) => (
       <Link key={item.name} href={item.href} onClick={() => setSidebarOpen(false)}
         className="flex items-center px-4 py-2 text-sm font-medium hover:bg-indigo-500 rounded-lg">
-        <item.icon size={20} className="mr-3 text-gray-100" /> 
+        <item.icon size={20} className="mr-3 text-gray-100" /> {/* 🔹 Cambiado: <item.icon /> ✅ */}
         {item.name}
       </Link>
     )),
@@ -68,7 +68,7 @@ export default function Sidebar() {
             className="px-4 py-2 bg-indigo-600 rounded-lg text-white hover:bg-indigo-500"
             title="Cambiar tema"
           >
-            {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} 
+            {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} {/* 🔹 Corregido ✅ */}
           </button>
 
           <button
