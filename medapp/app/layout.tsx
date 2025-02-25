@@ -1,6 +1,7 @@
 import Sidebar from "./components/sidebar/page";
 import { Toaster } from "react-hot-toast";
-import "../app/globals.css"
+import "./globals.css"
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
