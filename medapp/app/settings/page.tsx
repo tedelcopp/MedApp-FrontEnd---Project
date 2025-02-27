@@ -1,23 +1,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { Edit, Save } from "lucide-react";
 
 const Settings = () => {
+  const { data: session } = useSession();
+
   const [userData, setUserData] = useState({
-    nombre: "Dr. Juan Pérez",
+    nombre: session?.user?.name || "Nombre no disponible",
     especializacion: "Especialista en Terapia Cognitiva",
-    correo: "dr.juanperez@example.com",
+    correo: session?.user?.email || "Correo no disponible",
     contraseña: "",
+    imagen: session?.user?.image || "",
   });
-
+  
   const [editingField, setEditingField] = useState<string | null>(null);
-
-  useEffect(() => {
-    const savedData = localStorage.getItem("userData");
-    if (savedData) setUserData(JSON.parse(savedData));
-  }, []);
 
   const handleEdit = (campo: string) => setEditingField(campo);
 
@@ -29,9 +28,11 @@ const Settings = () => {
 
   const renderEditableField = (label: string, key: keyof typeof userData, type = "text") => (
     <div className="flex flex-col gap-2">
+      
       <label className="block text-sm font-medium text-gray-900 dark:text-gray-200">{label}</label>
       {editingField === key ? (
         <div className="flex gap-3 w-full">
+          
           <input
             type={type}
             autoFocus
@@ -52,6 +53,7 @@ const Settings = () => {
           </button>
         </div>
       ) : (
+        
         <div className="flex justify-between items-center w-full">
           <span className="text-gray-900 dark:text-gray-300 break-words">{key === "contraseña" ? "********" : userData[key]}</span>
           <button

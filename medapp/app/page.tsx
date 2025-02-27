@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation"; 
 import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo } from "react-icons/fa";
-import { useSession } from "next-auth/react"; // Importamos useSession()
+import { useSession } from "next-auth/react";
 
 type Weather = {
   location: { name: string };
