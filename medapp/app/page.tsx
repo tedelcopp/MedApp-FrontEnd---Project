@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation"; 
 import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo } from "react-icons/fa";
-import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react"; // Importamos useSession()
 
 type Weather = {
   location: { name: string };
@@ -16,6 +16,8 @@ type DollarRate = {
 
 const DashboardContent = () => {
   const router = useRouter(); 
+  const { data:session } = useSession();
+  const userName = session?.user?.name || "◉ ◉ ◉ ◉ ◉  "; 
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [weather, setWeather] = useState<Weather | null>(null);
@@ -98,22 +100,31 @@ const DashboardContent = () => {
       )),
     []
   );
-
-  return (
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+        <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">Verificando sesión...</p>
+      </div>
+    );
+  }
+  if (status !== "authenticated") { return (
     
     <div className="flex flex-col items-center p-6 bg-gray-100 dark:bg-gray-900 w-full h-full text-gray-900 dark:text-gray-100">
-      
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-3xl text-center md:text-left flex flex-col md:flex-row items-center">
-        <div className="w-24 h-24 bg-blue-600 flex items-center justify-center rounded-full shadow-md">
-        </div>
-        <div className="ml-6">
-          <h2 className="text-2xl font-semibold">"Dr. Juan Pérez"</h2>
-          <p className="text-gray-500 dark:text-gray-400">Especialista en Terapia Cognitiva</p>
-          <p className="text-gray-500 dark:text-gray-400">Fecha: {currentDate}</p>
-          <p className="text-gray-500 dark:text-gray-400">Horario: {currentTime}</p>
-        </div>
-      </div>
-
+<div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-3xl text-center md:text-left flex flex-col md:flex-row items-center">
+  <div className="w-24 h-24 rounded-full shadow-md overflow-hidden bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
+    {session?.user?.image ? (
+      <img src={session.user.image} alt="Foto de perfil" className="w-full h-full object-cover" />
+    ) : (
+      <span className="text-xl font-semibold text-gray-500 dark:text-gray-400">◉</span>
+    )}
+  </div>
+  <div className="ml-6">
+    <h2 className="text-2xl font-semibold">Especialista {userName}</h2>
+    <p className="text-gray-500 dark:text-gray-400">Especialista en Terapia Cognitiva</p>
+    <p className="text-gray-500 dark:text-gray-400">Fecha: {currentDate}</p>
+    <p className="text-gray-500 dark:text-gray-400">Horario: {currentTime}</p>
+  </div>
+</div>
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mt-6 w-full max-w-3xl">
         <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <FaCalendarAlt className="text-indigo-600" /> Próximos Turnos
@@ -154,6 +165,7 @@ const DashboardContent = () => {
       </div>
     </div>
   );
+};
 };
 
 export default DashboardContent;

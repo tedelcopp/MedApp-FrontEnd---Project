@@ -1,11 +1,11 @@
+"use client";
+import { SessionProvider } from "next-auth/react";
 import Sidebar from "./components/sidebar/page";
 import { ThemeProvider } from "../app/context/theme-context";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
       <head>
@@ -14,13 +14,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className="bg-backgroundLight dark:bg-backgroundDark transition-all duration-300">
-        <ThemeProvider>
-          <Toaster position="top-right" />
-          <section className="flex">
-            <Sidebar />
-            <main className="flex-1 p-6">{children}</main>
-          </section>
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider>
+            <Toaster position="top-right" />
+            <section className="flex">
+              <Sidebar />
+              <main className="flex-1 p-6">{children}</main>
+            </section>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

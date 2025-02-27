@@ -5,7 +5,8 @@ import { useMemo, useState } from "react";
 import {
   House, User, Calendar, Settings, ShieldPlus, BotMessageSquare, StepForward, StepBack, LogOut,
 } from "lucide-react";
-import { signOut } from "next-auth/react";
+import UserButton from "../UserButton";
+// import { signOut } from "next-auth/react";
 
 const navigation = [
   { name: "Inicio", href: "/", icon: House },
@@ -35,10 +36,10 @@ export default function Sidebar() {
         transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:w-56 bg-indigo-600 dark:bg-indigo-800 text-gray-100`}>
 
         <div className="flex items-center justify-between h-16 bg-indigo-700 px-4">
-          <Link href="/" className="flex items-center space-x-2">
-            <ShieldPlus />
-            <span className="text-lg font-bold text-white">MedApp</span>
-          </Link>
+        <Link href="/" className="flex items-center justify-center text-center w-full">
+  <ShieldPlus size={36} className="mr-3" /> 
+  <span className="text-2xl font-bold text-white">MedApp</span> 
+</Link>
           <button type="button" onClick={() => setSidebarOpen(!sidebarOpen)}
             className="text-white lg:hidden">
             {sidebarOpen ? <StepBack className="h-6 w-6" /> : <StepForward className="h-6 w-6" />}
@@ -69,16 +70,11 @@ export default function Sidebar() {
             title="Cambiar tema"
             aria-label="Cambiar el tema de la App"
           >
-            {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} {/* 🔹 Corregido ✅ */}
+            {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} 
           </button>
-          {/* <button
-            onClick={() => signOut({ callbackUrl: "/api/auth/signin" })}
-            className="flex items-center justify-center px-4 py-2 bg-red-600 rounded-lg text-white hover:bg-red-500"
-            title="Cerrar sesión"
-          >
-            <LogOut size={20} className="mr-2" />
-            Cerrar sesión
-          </button> */}
+          <div className="mt-auto flex flex-col items-center p-4 space-y-4">
+          <UserButton /> 
+        </div>
         </div>
       </div>
     </div>
