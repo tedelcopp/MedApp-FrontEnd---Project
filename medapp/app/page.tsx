@@ -16,6 +16,7 @@ export default function HomePage() {
       </div>
     );
   }
+
   return (
     <div className="flex h-screen w-screen">
       <div className="w-1/2 h-full flex flex-col justify-center items-center bg-white">
@@ -23,23 +24,21 @@ export default function HomePage() {
         <p className="text-gray-600 mb-6 text-center max-w-md">
           La plataforma más confiable para gestionar pacientes y turnos de manera rápida y segura.
         </p>
-
-        {/* ✅ Botón de inicio de sesión */}
         <UserButton />
-
         <p className="text-sm text-gray-600 mt-4">
           ¿No tienes una cuenta? <a href="#" className="text-blue-500 hover:underline">Regístrate</a>
         </p>
       </div>
 
-      {/* 📌 Sección de la imagen - 50% de la pantalla */}
       <div className="w-1/2 h-full relative">
         <Image
-          src="/images/imagen1.jpg"
+          src="/images/imagen1.webp"
           alt="Imagen de bienvenida"
           layout="fill"
           objectFit="cover"
-          priority
+          priority={true} 
+          placeholder="blur" 
+          blurDataURL="data:image/webp;base64,UklGRhYAAABXRUJQVlA4WAoAAAABAAAA..."
         />
       </div>
     </div>

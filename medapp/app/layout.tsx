@@ -28,7 +28,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 
-// 🔐 Protección de rutas y redirección tras iniciar sesión
 function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
   const router = useRouter();
