@@ -68,7 +68,3 @@ Brindar una herramienta eficiente, moderna y fácil de usar para profesionales m
 Si tienes preguntas o deseas más información sobre el proyecto, puedes contactarme a través de mi [LinkedIn](https://www.linkedin.com/in/edelcopp/).
 
 ---
-
-## **Licencia**
-
-Este proyecto se encuentra bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
