@@ -1,8 +1,11 @@
 "use client";
-import { SessionProvider } from "next-auth/react";
+
+import { SessionProvider, useSession } from "next-auth/react";
 import Sidebar from "./components/sidebar/page";
 import { ThemeProvider } from "../app/context/theme-context";
 import { Toaster } from "react-hot-toast";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import "./globals.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,13 +20,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SessionProvider>
           <ThemeProvider>
             <Toaster position="top-right" />
-            <section className="flex">
-              <Sidebar />
-              <main className="flex-1 p-6">{children}</main>
-            </section>
+            <ProtectedLayout>{children}</ProtectedLayout>
           </ThemeProvider>
         </SessionProvider>
       </body>
     </html>
+  );
+}
+
+// 🔐 Protección de rutas y redirección tras iniciar sesión
+function ProtectedLayout({ children }: { children: React.ReactNode }) {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    console.log("Estado de la sesión:", status);
+    console.log("Ruta actual:", pathname);
+  
+    if (status === "unauthenticated" && pathname !== "/") {
+      router.push("/");
+    } else if (session && pathname === "/") {
+      console.log("Redirigiendo a /dashboard");
+      router.push("/dashboard");
+    }
+  }, [status, pathname, session, router]);
+
+  return (
+    <section className="flex">
+      {session && <Sidebar />}
+      <main className="flex-1 p-6">{children || <p className="text-gray-500">No hay contenido disponible</p>}</main>
+    </section>
   );
 }

@@ -68,7 +68,7 @@ const Settings = () => {
       )}
     </div>
   );
-
+  console.log("Sesión del usuario:", session);
   return (
     <div className="p-4 md:p-6 bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center">
       <h1 className="text-2xl md:text-4xl font-bold mb-6 text-center underline text-gray-900 dark:text-white">

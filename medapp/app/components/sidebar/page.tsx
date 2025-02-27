@@ -6,10 +6,9 @@ import {
   House, User, Calendar, Settings, ShieldPlus, BotMessageSquare, StepForward, StepBack, LogOut,
 } from "lucide-react";
 import UserButton from "../UserButton";
-// import { signOut } from "next-auth/react";
 
 const navigation = [
-  { name: "Inicio", href: "/", icon: House },
+  { name: "Inicio", href: "/dashboard", icon: House },
   { name: "Pacientes", href: "/patients", icon: User },
   { name: "Turnos", href: "/shifts", icon: Calendar },
   { name: "Configuración", href: "/settings", icon: Settings  },
