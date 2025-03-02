@@ -15,17 +15,17 @@
 
 ## **Tecnologías utilizadas**
 
-- **Frontend:** Next.js, TypeScript, Tailwind CSS.
-- **Estilo global:** Diseño responsivo con configuraciones avanzadas en `globals.css`.
-- **Notificaciones:** `react-hot-toast` para una experiencia de usuario fluida.
+- **Frontend** | Next.js, TypeScript, Tailwind CSS.
+- **Estilo global** | Diseño responsivo con configuraciones avanzadas en `globals.css`.
+- **Notificaciones** | `react-hot-toast` para una experiencia de usuario fluida.
 - **PDF Generation** | Integración con herramientas para generar documentos de alta calidad.
 
 ---
 
 ## **Estructura del proyecto**
 
-- **Carpetas organizadas:** Basadas en `src` para un desarrollo más limpio y escalable.
-- **Configuración personalizada:** Implementación de temas y estilos globales para una experiencia uniforme.
+- **Carpetas organizadas** | Basadas en `src` para un desarrollo más limpio y escalable.
+- **Configuración personalizada** | Implementación de temas y estilos globales para una experiencia uniforme.
 
 ---
 
