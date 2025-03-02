@@ -53,7 +53,7 @@ Brindar una herramienta eficiente, moderna y fácil de usar para profesionales m
    ```bash
    npm run dev
    ```
-Abre [MedApp](https://themedapp.vercel.app/) en tu navegador para ver la aplicación.
+Abre [MedApp](https://themedapp.vercel.app/) en tu navegador y empieza a disfrutarla ahora.
 
 ---
 
