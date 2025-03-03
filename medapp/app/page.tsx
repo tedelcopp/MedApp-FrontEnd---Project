@@ -19,7 +19,7 @@ export default function HomePage() {
           </p>
           <ul className="text-gray-700 text-left mb-6 text-base">
             <li className="flex items-center gap-2 text-lg"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Seguridad garantizada</span> en cada consulta.</li>
-            <li className="flex items-center gap-2 text-lg"><ShieldCheck className="text-violet-600" /> <span className="font-semibold">Protección de datos</span> de pacientes.</li>
+            <li className="flex items-center gap-2 text-lg"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Protección de datos</span> de pacientes.</li>
             <li className="flex items-center gap-2 text-lg"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Facilidad y rapidez</span> en la gestión de turnos.</li>
           </ul>
           <UserButton />
