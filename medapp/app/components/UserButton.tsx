@@ -1,30 +1,29 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { LogOut, LogIn } from "lucide-react";
+import { LogOut, Power } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 
 export default function UserButton() {
   const { data: session } = useSession(); 
 
-  return (
+  return session ? (
     <button
-      onClick={() => (session ? signOut({ callbackUrl: "/logout" }) : signIn("google", { callbackUrl: "/" }))}
-      className={`flex items-center justify-center px-4 py-2 rounded-lg text-white ${
-        session ? "bg-red-600 hover:bg-red-500" : "bg-blue-600 hover:bg-blue-500"
-      }`}
-      title={session ? "Cerrar sesión en MedApp" : "Iniciar sesión en MedApp"}
+      onClick={() => signOut({ callbackUrl: "/logout" })}
+      className="flex items-center gap-2 px-6 py-3 rounded-full font-medium text-white bg-red-600 hover:bg-red-500 transition-all duration-200 ease-in-out"
+      title="Cerrar sesión en MedApp"
     >
-      {session ? (
-        <>
-          <LogOut size={20} className="mr-2" />
-          Cerrar sesión
-        </>
-      ) : (
-        <>
-          <LogIn size={20} className="mr-2" />
-          Iniciar sesión
-        </>
-      )}
+      <Power size={24} />
+      Cerrar sesión
+    </button>
+  ) : (
+    <button
+      onClick={() => signIn("google", { callbackUrl: "/" })}
+      className="flex items-center gap-3 px-7 py-3 text-lg rounded-lg font-medium text-white bg-violet-600 hover:bg-violet-500 transition-all duration-200 ease-in-out"
+      title="Acceder con Google en MedApp"
+    >
+      <FcGoogle size={28} />
+      Acceder con Google
     </button>
   );
 }

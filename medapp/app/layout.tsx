@@ -38,7 +38,7 @@ function ProtectedLayout({ children }: { children: React.ReactNode }) {
     console.log("Ruta actual:", pathname);
   
     if (status === "unauthenticated" && pathname !== "/") {
-      router.push("/");
+      router.push("/logout");
     } else if (session && pathname === "/") {
       console.log("Redirigiendo a /dashboard");
       router.push("/dashboard");
