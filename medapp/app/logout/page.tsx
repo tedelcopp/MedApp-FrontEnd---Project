@@ -11,7 +11,7 @@ export default function LogOut() {
       <div className="p-12 md:p-16 rounded-2xl shadow-2xl w-full max-w-4xl text-center bg-white text-gray-800">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-indigo-600 flex flex-col items-center">
           <span className="block">¡Gracias por visitar</span>
-          <span className="block flex items-center gap-2">MedApp! <ShieldPlus size={50} className="text-indigo-500 hover:text-indigo-700 transition-colors duration-300" /></span>
+          <span className="block flex items-center gap-2">MedApp! <ShieldPlus size={50}/></span>
         </h1>
         <p className="text-lg md:text-2xl leading-relaxed">
           Nos alegra que hayas utilizado nuestra plataforma. En <span className="font-semibold">Medapp</span>, nos enfocamos en
