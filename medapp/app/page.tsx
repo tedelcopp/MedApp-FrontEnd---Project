@@ -25,9 +25,9 @@ export default function HomePage() {
     });
   
     if (res?.error) {
-      toast.error("Credenciales incorrectas.");
+      toast.error("Credencial incorrecta.");
     } else {
-      toast.success("Inicio de sesión exitoso.");
+      toast.success("Credencial correcta.");
       window.location.href = "/dashboard"; 
     }
   };
@@ -54,20 +54,20 @@ export default function HomePage() {
           <UserButton />
           {isLoginVisible ? (
             <div className="w-full mt-4 transition-all duration-300">
-              <input 
-                type="text" 
-                placeholder="Usuario" 
-                className="w-full p-2 mb-2 border rounded" 
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <input 
-                type="password" 
-                placeholder="Contraseña" 
-                className="w-full p-2 mb-4 border rounded" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)}
-              />
+<input 
+  type="text" 
+  placeholder="Usuario" 
+  className="w-full p-3 mb-3 border border-violet-500 rounded-lg bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-500 transition"
+  value={username} 
+  onChange={(e) => setUsername(e.target.value)}
+/>
+<input 
+  type="password" 
+  placeholder="Contraseña" 
+  className="w-full p-3 mb-4 border border-violet-500 rounded-lg bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-500 transition"
+  value={password} 
+  onChange={(e) => setPassword(e.target.value)}
+/>
               <button 
                 onClick={handleLogin} 
                 className="w-full px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition">
