@@ -4,19 +4,34 @@ import UserButton from "../app/components/UserButton";
 import { ShieldPlus, CheckCircle, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 export default function HomePage() {
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+
+  const handleLogin = async () => {
     if (!username || !password) {
       toast.error("Complete todos los campos para ingresar.");
       return;
     }
+  
+    const res = await signIn("credentials", {
+      email: username, 
+      password: password,
+      redirect: false, 
+    });
+  
+    if (res?.error) {
+      toast.error("Credenciales incorrectas.");
+    } else {
+      toast.success("Inicio de sesión exitoso.");
+      window.location.href = "/dashboard"; 
+    }
   };
-
+  
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-gray-200 overflow-hidden fixed top-0 left-0">
       <div className="flex max-w-5xl w-full h-full bg-white shadow-lg rounded-lg overflow-hidden">

@@ -18,7 +18,20 @@ const handler = NextAuth({
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
-        return { id: "1", name: "Usuario de Prueba", email: credentials.email };
+
+        const MASTER_USER = process.env.MASTER_USER || "medapp@gmail.com";
+        const MASTER_PASS = process.env.MASTER_PASS || "admin1234";
+
+        if (credentials.email === MASTER_USER && credentials.password === MASTER_PASS) {
+          return {
+            id: "admin",
+            name: "Usuario Maestro",
+            email: MASTER_USER,
+            role: "admin",
+          };
+        }
+
+        return null; 
       },
     }),
   ],
@@ -26,14 +39,16 @@ const handler = NextAuth({
     async session({ session, token }) {
       if (session.user) {
         (session.user as any).id = token.sub || "";
-        (session.user as any).image = token.picture ?? null;
+        (session.user as any).image = token.picture || session.user.image || null; 
+        (session.user as any).role = token.role || "user"; 
       }
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
-        token.picture = user.image ?? null;
+        token.picture = user.image || user.picture || null; 
+        token.role = (user as any).role || "user"; 
       }
       return token;
     },
