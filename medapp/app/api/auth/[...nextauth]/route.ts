@@ -47,7 +47,7 @@ const handler = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
-        token.picture = user.image || user.picture || null; 
+        token.picture = (user as any).image || (user as any).picture || null;
         token.role = (user as any).role || "user"; 
       }
       return token;
