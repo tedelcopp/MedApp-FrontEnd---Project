@@ -4,6 +4,7 @@ import { SessionProvider, useSession } from "next-auth/react";
 import Sidebar from "./components/sidebar/page";
 import { ThemeProvider } from "../app/context/theme-context";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react"
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import "./globals.css";
