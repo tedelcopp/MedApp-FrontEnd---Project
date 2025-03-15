@@ -24,7 +24,7 @@
 
 ## **Estructura del proyecto**
 
-- **Carpetas organizadas** | Basadas en `src` para un desarrollo más limpio y escalable.
+- **Carpetas organizadas** | Basadas en `app` para un desarrollo más limpio y escalable.
 - **Configuración personalizada** | Implementación de temas y estilos globales para una experiencia uniforme.
 
 ---
