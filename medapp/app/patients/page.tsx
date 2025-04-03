@@ -8,8 +8,10 @@ import { ClipboardPlus, Trash2, FilePenLine } from "lucide-react";
 
 interface Patient {
   id: number;
-  name: string;
+  firstName: string;
   lastName: string;
+  email: string;
+  dni: number;
   age: number;
   phone: string;
   comments?: string;
@@ -25,14 +27,14 @@ const Patients = () => {
 
   // 🔹 Cargar pacientes desde el backend
   useEffect(() => {
-    fetch("http://localhost:3001/patients")
+    fetch("http://localhost:3003/api/patients")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          setPatients(data);  // ✅ Guarda los datos si son un array
+          setPatients(data); 
         } else {
           console.error("❌ La API no devolvió un array:", data);
-          setPatients([]);  // Evita errores
+          setPatients([]);  
         }
       })
       .catch((error) => console.error("Error fetching patients:", error));
@@ -56,7 +58,7 @@ const Patients = () => {
   // 🔹 Eliminar paciente
   const handleDelete = async (id: number) => {
     try {
-      await fetch(`http://localhost:3001/patients/${id}`, { method: "DELETE" });
+      await fetch(`http://localhost:3003/api/patients/${id}`, { method: "DELETE" });
       setPatients((prev) => prev.filter((patient) => patient.id !== id));
       toast("Paciente eliminado", { icon: "🗑️" });
     } catch (error) {
@@ -68,8 +70,8 @@ const Patients = () => {
   const handleSave = async () => {
     if (selectedPatient && selectedPatient.age >= 5) {
       try {
-        const response = await fetch(`http://localhost:3001/patients/${selectedPatient.id}`, {
-          method: "POST",
+        const response = await fetch(`http://localhost:3003/api/patients${selectedPatient.id}`, {
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(selectedPatient),
         });
@@ -91,51 +93,56 @@ const Patients = () => {
     }
   };
 
-  // 🔹 Agregar nuevo paciente
   const handleAddPatient = () => {
     setModalOpen(true);
     setNewPatient(true);
     setIsViewing(false);
     setSelectedPatient({
-      id: 0,
-      name: "",
+      id: 0,  
+      firstName: "",
       lastName: "",
-      age: 5,
+      email: "",
+      dni: 0, 
+      age: 0,  
       phone: "",
       comments: "",
     });
   };
+  
+// 🔹 Guardar nuevo paciente en la base de datos
+const handleSaveNewPatient = async () => {
+  if (
+    selectedPatient &&
+    selectedPatient.firstName.trim() !== "" &&
+    selectedPatient.lastName.trim() !== "" &&
+    selectedPatient.dni > 0 &&  
+    selectedPatient.phone.trim() !== ""
+  ) {
+    try {
+      const response = await fetch("http://localhost:3003/api/patients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(selectedPatient),
+      });
 
-  // 🔹 Guardar nuevo paciente en la base de datos
-  const handleSaveNewPatient = async () => {
-    if (
-      selectedPatient &&
-      selectedPatient.age >= 5 &&
-      selectedPatient.name.trim() !== "" &&
-      selectedPatient.lastName.trim() !== "" &&
-      selectedPatient.phone.trim() !== ""
-    ) {
-      try {
-        const response = await fetch("http://localhost:3001/patients", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(selectedPatient),
-        });
-  
-        if (!response.ok) throw new Error("Error al agregar paciente");
-  
-        const newPatient = await response.json();
-        setPatients((prev) => [...prev, newPatient]); // ⬅️ Agrega el nuevo paciente a la lista
-        toast.success("Paciente agregado con éxito");
-        closeModal();
-      } catch (error) {
-        console.error("Error al agregar paciente:", error);
-        toast.error("Error al agregar paciente");
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(`Error al agregar paciente: ${errorMessage}`);
       }
-    } else {
-      toast.error("Todos los campos son obligatorios.");
+
+      const newPatient = await response.json();
+      setPatients((prev) => [...prev, newPatient]); 
+      toast.success("Paciente agregado con éxito");
+      closeModal();
+    } catch (error) {
+      console.error("Error al agregar paciente:", error);
+      toast.error("Error al agregar paciente");
     }
-  };
+  } else {
+    toast.error("Todos los campos son obligatorios.");
+  }
+};
+
 
   // 🔹 Cerrar modal
   const closeModal = () => {
@@ -147,9 +154,9 @@ const Patients = () => {
 
   // 🔹 Filtrar pacientes por nombre
   const filteredPatients = patients.filter((patient) =>
-    `${patient.name} ${patient.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+    `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  
   return (
     <div className="p-6 bg-gray-100 dark:bg-gray-800 min-h-screen">
       <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8 text-black dark:text-white">
@@ -190,7 +197,7 @@ const Patients = () => {
         <tbody>
           {filteredPatients.map((patient) => (
             <tr key={patient.id} className="border-b">
-              <td className="py-2 px-4 text-center">{patient.name}</td>
+              <td className="py-2 px-4 text-center">{patient.firstName}</td>
               <td className="py-2 px-4 text-center">{patient.lastName}</td>
               <td className="py-2 px-4 text-center">{patient.age}</td>
               <td className="py-2 px-4 text-center">{patient.phone}</td>
@@ -242,11 +249,11 @@ const Patients = () => {
               <label className="block mb-2">Nombre</label>
               <input
                 type="text"
-                value={selectedPatient.name}
+                value={selectedPatient.firstName}
                 onChange={(e) =>
                   !isViewing &&
                   setSelectedPatient((prev) =>
-                    prev ? { ...prev, name: e.target.value } : null
+                    prev ? { ...prev, firstName: e.target.value } : null
                   )
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
@@ -288,33 +295,33 @@ const Patients = () => {
   <PhoneInput
   country={"ar"}
   value={selectedPatient?.phone || ""}
-  onChange={(phone) =>
-    !isViewing &&
-    setSelectedPatient((prev) =>
-      prev ? { ...prev, phone } : null
-    )
-  }
+  onChange={(phone) => {
+    if (!isViewing) {
+      setSelectedPatient((prev) => prev ? { ...prev, phone } : null);
+    }
+  }}
   inputStyle={{
     width: "100%",
-    padding: "10px 10px 10px 50px", 
+    padding: "10px 10px 10px 50px",
     backgroundColor: "var(--tw-bg-opacity)",
     border: "1px solid #ccc",
     borderRadius: "4px",
   }}
   buttonStyle={{
     position: "absolute",
-    left: "10px", 
+    left: "10px",
     top: "50%",
     transform: "translateY(-50%)",
     border: "none",
     backgroundColor: "transparent",
   }}
   containerStyle={{
-    position: "relative", 
+    position: "relative",
     width: "100%",
   }}
   disabled={isViewing}
 />
+
 </div>
 
             <div className="mb-4">
@@ -332,20 +339,23 @@ const Patients = () => {
               />
             </div>
             <div className="flex justify-end space-x-4">
+              {/* Cancel Button */}
               <button
                 onClick={closeModal}
-                className="bg-gray-400 text-white py-2 px-4 rounded-md hover:bg-gray-500"
+                className="bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400"
+                title="Cancelar"
               >
-                Cerrar
+                Cancelar
               </button>
-              {!isViewing && (
-                <button
-                  onClick={newPatient ? handleSaveNewPatient : handleSave}
-                  className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
-                >
-                  {newPatient ? "Guardar" : "Actualizar"}
-                </button>
-              )}
+
+              {/* Save Button */}
+              <button
+                onClick={newPatient ? handleSaveNewPatient : handleSave}
+                className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+                title={newPatient ? "Guardar nuevo paciente" : "Guardar cambios"}
+              >
+                {newPatient ? "Guardar" : "Guardar cambios"}
+              </button>
             </div>
           </div>
         </div>
@@ -353,5 +363,7 @@ const Patients = () => {
     </div>
   );
 };
+
+
 
 export default Patients;
