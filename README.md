@@ -24,7 +24,7 @@
 
 ## **Estructura del proyecto**
 
-- **Carpetas organizadas** | Basadas en `src` para un desarrollo más limpio y escalable.
+- **Carpetas organizadas** | Basadas en `app` para un desarrollo más limpio y escalable.
 - **Configuración personalizada** | Implementación de temas y estilos globales para una experiencia uniforme.
 
 ---
@@ -56,7 +56,7 @@ Brindar una herramienta eficiente, moderna y fácil de usar para profesionales m
 ---
    ## **Accede**
    
-⚡| Abre [MedApp](https://themedapp.vercel.app/) en tu navegador y empieza a disfrutarla ahora.
+⚡| Abre [MedApp](https://themedapp.vercel.app/) en tu navegador y descubre todo lo que puede ofrecerte.
 
 ---
 
