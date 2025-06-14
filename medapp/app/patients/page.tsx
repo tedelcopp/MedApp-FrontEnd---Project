@@ -25,7 +25,6 @@ const Patients = () => {
   const [isViewing, setIsViewing] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 🔹 Cargar pacientes desde el backend
   useEffect(() => {
     fetch("http://localhost:3003/api/patients")
       .then((res) => res.json())
@@ -40,8 +39,6 @@ const Patients = () => {
       .catch((error) => console.error("Error fetching patients:", error));
   }, []);
   
-
-  // 🔹 Ver información del paciente
   const handleView = (patient: Patient) => {
     setSelectedPatient(patient);
     setIsViewing(true);
@@ -66,7 +63,6 @@ const Patients = () => {
     }
   };
 
-  // 🔹 Guardar cambios en un paciente existente
   const handleSave = async () => {
     if (selectedPatient && selectedPatient.age >= 5) {
       try {
@@ -109,7 +105,6 @@ const Patients = () => {
     });
   };
   
-// 🔹 Guardar nuevo paciente en la base de datos
 const handleSaveNewPatient = async () => {
   if (
     selectedPatient &&
@@ -143,8 +138,6 @@ const handleSaveNewPatient = async () => {
   }
 };
 
-
-  // 🔹 Cerrar modal
   const closeModal = () => {
     setModalOpen(false);
     setSelectedPatient(null);
@@ -152,7 +145,6 @@ const handleSaveNewPatient = async () => {
     setIsViewing(false);
   };
 
-  // 🔹 Filtrar pacientes por nombre
   const filteredPatients = patients.filter((patient) =>
     `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -348,7 +340,6 @@ const handleSaveNewPatient = async () => {
                 Cancelar
               </button>
 
-              {/* Save Button */}
               <button
                 onClick={newPatient ? handleSaveNewPatient : handleSave}
                 className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
