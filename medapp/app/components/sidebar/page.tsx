@@ -71,9 +71,7 @@ export default function Sidebar() {
           >
             {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} 
           </button>
-          <div className="mt-auto flex flex-col items-center p-4 space-y-4">
-          <UserButton /> 
-        </div>
+          <UserButton />
         </div>
       </div>
     </div>
