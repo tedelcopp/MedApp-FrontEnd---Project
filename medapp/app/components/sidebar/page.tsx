@@ -3,7 +3,14 @@ import { useTheme } from "../../context/theme-context";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
-  House, User, Calendar, Settings, ShieldPlus, BotMessageSquare, StepForward, StepBack, LogOut,
+  House,
+  User,
+  Calendar,
+  Settings,
+  ShieldPlus,
+  BotMessageSquare,
+  StepForward,
+  StepBack,
 } from "lucide-react";
 import UserButton from "../UserButton";
 
@@ -71,9 +78,7 @@ export default function Sidebar() {
           >
             {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} 
           </button>
-          <div className="mt-auto flex flex-col items-center p-4 space-y-4">
-          <UserButton /> 
-        </div>
+          <UserButton />
         </div>
       </div>
     </div>

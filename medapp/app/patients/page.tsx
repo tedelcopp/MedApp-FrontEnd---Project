@@ -66,7 +66,7 @@ const Patients = () => {
   const handleSave = async () => {
     if (selectedPatient && selectedPatient.age >= 5) {
       try {
-        const response = await fetch(`http://localhost:3003/api/patients${selectedPatient.id}`, {
+        const response = await fetch(`http://localhost:3003/api/patients/${selectedPatient.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(selectedPatient),
@@ -295,7 +295,7 @@ const handleSaveNewPatient = async () => {
   inputStyle={{
     width: "100%",
     padding: "10px 10px 10px 50px",
-    backgroundColor: "var(--tw-bg-opacity)",
+    backgroundColor: "#fff",
     border: "1px solid #ccc",
     borderRadius: "4px",
   }}

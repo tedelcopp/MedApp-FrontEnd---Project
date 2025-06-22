@@ -1,6 +1,6 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { LogOut, Power } from "lucide-react";
+import { Power } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 
 export default function UserButton() {

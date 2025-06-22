@@ -35,13 +35,9 @@ function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    console.log("Estado de la sesión:", status);
-    console.log("Ruta actual:", pathname);
-  
     if (status === "unauthenticated" && pathname !== "/") {
       router.push("/logout");
     } else if (session && pathname === "/") {
-      console.log("Redirigiendo a /dashboard");
       router.push("/dashboard");
     }
   }, [status, pathname, session, router]);
