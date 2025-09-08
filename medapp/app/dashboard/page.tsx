@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 
+// Tipos de datos para el clima, el dólar y los turnos
 type Weather = {
   location: { name: string };
   current: { temp_c: number };
@@ -14,16 +15,29 @@ type DollarRate = {
   venta: number;
 };
 
+type Appointment = {
+  id: number;
+  name: string;
+  time: string;
+  phone: string;
+  date: string;
+};
+
 const DashboardContent = () => {
   const router = useRouter(); 
   const { data: session, status } = useSession();
   const userName = session?.user?.name ?? "Usuario Desconocido"; 
+
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [weather, setWeather] = useState<Weather | null>(null);
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [dollarRates, setDollarRates] = useState<DollarRate | null>(null);
   const [dollarError, setDollarError] = useState<string | null>(null);
+  
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loadingAppointments, setLoadingAppointments] = useState(true);
+  const [appointmentsError, setAppointmentsError] = useState<string | null>(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -45,7 +59,8 @@ const DashboardContent = () => {
         const data = await res.json();
         setWeather(data);
         setWeatherError(null);
-      } catch {
+      } catch (err) {
+        console.error("Error clima:", err);
         setWeatherError("No se pudo cargar el clima");
       }
     };
@@ -57,34 +72,60 @@ const DashboardContent = () => {
         const data = await res.json();
         setDollarRates(data);
         setDollarError(null);
-      } catch {
+      } catch (err) {
+        console.error("Error dólar:", err);
         setDollarError("No se pudo cargar la cotización del dólar");
+      }
+    };
+
+    const fetchAppointments = async () => {
+      try {
+        const res = await fetch("/api/shifts");
+        if (!res.ok) {
+          throw new Error("Error al obtener los turnos.");
+        }
+        const data: Appointment[] = await res.json();
+        setAppointments(data);
+        setAppointmentsError(null);
+      } catch (err) {
+        console.error("Error al obtener turnos:", err);
+        setAppointmentsError("No se pudieron cargar los turnos.");
+      } finally {
+        setLoadingAppointments(false);
       }
     };
 
     fetchWeather();
     fetchDollarRates();
+    fetchAppointments();
 
     const interval = setInterval(() => {
       fetchWeather();
       fetchDollarRates();
+      fetchAppointments();
     }, 60000);
     return () => clearInterval(interval);
   }, []);
 
-  const appointments = [
-    { name: "María López", time: "10:30 AM", phone: "123456789" },
-    { name: "Carlos Gómez", time: "11:15 AM", phone: "987654321" },
-    { name: "Ana Torres", time: "2:00 PM", phone: "1122334455" },
-  ];
-
   const appointmentList = useMemo(
-    () =>
-      appointments.map((appointment, index) => (
-        <li key={index} className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-md">
+    () => {
+      if (loadingAppointments) {
+        return <p className="text-center text-gray-500">Cargando turnos...</p>;
+      }
+      if (appointmentsError) {
+        return <p className="text-center text-red-500">{appointmentsError}</p>;
+      }
+      if (appointments.length === 0) {
+        return <p className="text-center text-gray-500">No hay turnos próximos.</p>;
+      }
+
+      return appointments.map((appointment) => (
+        <li key={appointment.id} className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-md">
           <div>
             <span className="block font-medium">{appointment.name}</span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">{appointment.time}</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              {new Date(appointment.date).toLocaleDateString("es-AR")} - {appointment.time}
+            </span>
           </div>
           <div className="flex gap-3">
             <a href={`https://wa.me/${appointment.phone}`} target="_blank" rel="noopener noreferrer"
@@ -97,14 +138,14 @@ const DashboardContent = () => {
             </a>
           </div>
         </li>
-      )),
-    []
+      ));
+    }, [appointments, loadingAppointments, appointmentsError]
   );
 
   if (status === "loading") {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-        <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">Verificando sesión...</p>
+        <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">Validando credenciales...</p>
       </div>
     );
   }
@@ -112,7 +153,7 @@ const DashboardContent = () => {
   if (status !== "authenticated") {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-        <p className="text-gray-600 text-lg font-semibold">Acceso denegado. Inicia sesión para ver el contenido.</p>
+        <p className="text-gray-600 text-lg font-semibold">Acceso denegado. Por favor, inicia sesión para ver el contenido.</p>
       </div>
     );
   }
@@ -160,7 +201,7 @@ const DashboardContent = () => {
             <FaCloudSun className="text-blue-600 mr-2" /> Clima
           </h3>
           {weatherError ? <p className="text-red-500 font-medium">Error: {weatherError}</p> : weather ? (
-            <p className="text-lg"><span className="font-semibold">Temp:</span> {weather.current.temp_c}°C</p>
+            <p className="text-lg"><span className="font-semibold">Temperatura:</span> {weather.current.temp_c}°C</p>
           ) : <p className="text-gray-500">Cargando...</p>}
         </div> 
       </div>

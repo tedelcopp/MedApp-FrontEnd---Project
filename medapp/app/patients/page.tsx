@@ -25,7 +25,6 @@ const Patients = () => {
   const [isViewing, setIsViewing] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 🔹 Cargar pacientes desde el backend
   useEffect(() => {
     fetch("http://localhost:3003/api/patients")
       .then((res) => res.json())
@@ -39,23 +38,19 @@ const Patients = () => {
       })
       .catch((error) => console.error("Error fetching patients:", error));
   }, []);
-  
 
-  // 🔹 Ver información del paciente
   const handleView = (patient: Patient) => {
     setSelectedPatient(patient);
     setIsViewing(true);
     setModalOpen(true);
   };
 
-  // 🔹 Editar paciente
   const handleEdit = (patient: Patient) => {
     setSelectedPatient(patient);
     setIsViewing(false);
     setModalOpen(true);
   };
 
-  // 🔹 Eliminar paciente
   const handleDelete = async (id: number) => {
     try {
       await fetch(`http://localhost:3003/api/patients/${id}`, { method: "DELETE" });
@@ -66,7 +61,6 @@ const Patients = () => {
     }
   };
 
-  // 🔹 Guardar cambios en un paciente existente
   const handleSave = async () => {
     if (selectedPatient && selectedPatient.age >= 5) {
       try {
@@ -109,7 +103,6 @@ const Patients = () => {
     });
   };
   
-// 🔹 Guardar nuevo paciente en la base de datos
 const handleSaveNewPatient = async () => {
   if (
     selectedPatient &&
@@ -143,8 +136,6 @@ const handleSaveNewPatient = async () => {
   }
 };
 
-
-  // 🔹 Cerrar modal
   const closeModal = () => {
     setModalOpen(false);
     setSelectedPatient(null);
@@ -152,7 +143,6 @@ const handleSaveNewPatient = async () => {
     setIsViewing(false);
   };
 
-  // 🔹 Filtrar pacientes por nombre
   const filteredPatients = patients.filter((patient) =>
     `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   );

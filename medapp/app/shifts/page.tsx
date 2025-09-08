@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useMemo, useCallback } from "react";
+import React, { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 
 interface Shift {
@@ -20,6 +20,13 @@ const Shifts = () => {
 
   const isEditing = editingShiftId !== null;
   const isFormValid = newShift.patient && newShift.date && newShift.time;
+
+useEffect(() => {
+  fetch("http://localhost:3003/api/shifts")
+    .then((res) => res.json())
+    .then((data) => setShifts(data))
+    .catch(() => toast.error("Error al cargar los turnos"));
+}, []);
 
   const handleAddOrUpdateShift = useCallback(() => {
     if (!isFormValid) {
@@ -93,7 +100,6 @@ const Shifts = () => {
         </div>
       </div>
 
-      {/* Lista de Turnos */}
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-4xl">
         <h2 className="text-xl md:text-3xl font-semibold mb-4 text-center underline">Turnos Asignados</h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">{appointmentList}</ul>
