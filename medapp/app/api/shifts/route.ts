@@ -1,4 +1,3 @@
-// app/api/shifts/route.ts
 import { NextResponse } from 'next/server';
 import createConnection from '../../lib/mysql';
 import { RowDataPacket } from 'mysql2/promise';

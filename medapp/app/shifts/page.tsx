@@ -55,7 +55,7 @@ useEffect(() => {
 
   const handleDeleteShift = useCallback((id: number) => {
     setShifts(shifts.filter((shift) => shift.id !== id));
-    toast.success("Turno eliminado correctamente.");
+      toast("Turno eliminado correctamente.", { icon: "🗑️" });
   }, [shifts]);
 
   const appointmentList = useMemo(() => shifts.map((shift) => (
