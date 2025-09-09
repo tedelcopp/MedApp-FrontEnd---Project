@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 
@@ -24,9 +24,9 @@ type Appointment = {
 };
 
 const DashboardContent = () => {
-  const router = useRouter(); 
+  const router = useRouter();
   const { data: session, status } = useSession();
-  const userName = session?.user?.name ?? "Usuario Desconocido"; 
+  const userName = session?.user?.name ?? "Usuario Desconocido";
 
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
@@ -34,7 +34,7 @@ const DashboardContent = () => {
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [dollarRates, setDollarRates] = useState<DollarRate | null>(null);
   const [dollarError, setDollarError] = useState<string | null>(null);
-  
+
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loadingAppointments, setLoadingAppointments] = useState(true);
   const [appointmentsError, setAppointmentsError] = useState<string | null>(null);
@@ -107,20 +107,35 @@ const DashboardContent = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const appointmentList = useMemo(
-    () => {
-      if (loadingAppointments) {
-        return <p className="text-center text-gray-500">Cargando turnos...</p>;
-      }
-      if (appointmentsError) {
-        return <p className="text-center text-red-500">{appointmentsError}</p>;
-      }
-      if (appointments.length === 0) {
-        return <p className="text-center text-gray-500">No hay turnos próximos.</p>;
-      }
+  const appointmentList = useMemo(() => {
+    if (loadingAppointments) {
+      return <p className="text-center text-gray-500">Cargando turnos...</p>;
+    }
+    if (appointmentsError) {
+      return <p className="text-center text-red-500">{appointmentsError}</p>;
+    }
+    if (appointments.length === 0) {
+      return <p className="text-center text-gray-500">No hay turnos registrados.</p>;
+    }
 
-      return appointments.map((appointment) => (
-        <li key={appointment.id} className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-md">
+    const now = new Date();
+
+    const pastAppointments = appointments.filter((appointment) => {
+      const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
+      return appointmentDate < now;
+    });
+
+    const futureAppointments = appointments.filter((appointment) => {
+      const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
+      return appointmentDate >= now;
+    });
+
+    const renderAppointments = (list: Appointment[]) =>
+      list.map((appointment) => (
+        <li
+          key={appointment.id}
+          className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-md"
+        >
           <div>
             <span className="block font-medium">{appointment.name}</span>
             <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -128,24 +143,55 @@ const DashboardContent = () => {
             </span>
           </div>
           <div className="flex gap-3">
-            <a href={`https://wa.me/${appointment.phone}`} target="_blank" rel="noopener noreferrer"
-              className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md">
+            <a
+              href={`https://wa.me/${appointment.phone}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md"
+            >
               <FaWhatsapp size={20} />
             </a>
-            <a href="https://meet.google.com/new" target="_blank" rel="noopener noreferrer"
-              className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md">
+            <a
+              href="https://meet.google.com/new"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md"
+            >
               <FaVideo size={20} />
             </a>
           </div>
         </li>
       ));
-    }, [appointments, loadingAppointments, appointmentsError]
-  );
+
+    return (
+      <div className="space-y-6">
+        <div>
+          <h4 className="text-lg font-semibold mb-2 text-green-600">Turnos Pendientes</h4>
+          {futureAppointments.length > 0 ? (
+            <ul className="space-y-4">{renderAppointments(futureAppointments)}</ul>
+          ) : (
+            <p className="text-gray-500">No hay turnos futuros.</p>
+          )}
+        </div>
+
+        <div>
+          <h4 className="text-lg font-semibold mb-2 text-red-600">Turnos Realizados</h4>
+          {pastAppointments.length > 0 ? (
+            <ul className="space-y-4">{renderAppointments(pastAppointments)}</ul>
+          ) : (
+            <p className="text-gray-500">No hay turnos pasados.</p>
+          )}
+        </div>
+      </div>
+    );
+  }, [appointments, loadingAppointments, appointmentsError]);
 
   if (status === "loading") {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-        <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">Validando credenciales...</p>
+        <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">
+          Validando credenciales...
+        </p>
       </div>
     );
   }
@@ -153,7 +199,9 @@ const DashboardContent = () => {
   if (status !== "authenticated") {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-        <p className="text-gray-600 text-lg font-semibold">Acceso denegado. Por favor, inicia sesión para ver el contenido.</p>
+        <p className="text-gray-600 text-lg font-semibold">
+          Acceso denegado. Por favor, inicia sesión para ver el contenido.
+        </p>
       </div>
     );
   }
@@ -163,24 +211,28 @@ const DashboardContent = () => {
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-3xl text-center md:text-left flex flex-col md:flex-row items-center">
         <div className="w-24 h-24 rounded-full shadow-md overflow-hidden bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
           {session?.user?.image ? (
-            <img src={session.user.image} alt="Foto de perfil" className="w-full h-full object-cover" />
+            <img
+              src={session.user.image}
+              alt="Foto de perfil"
+              className="w-full h-full object-cover"
+            />
           ) : (
             <span className="text-xl font-semibold text-gray-500 dark:text-gray-400">◉</span>
           )}
         </div>
         <div className="ml-6">
-          <h2 className="text-2xl font-semibold">Especialista {userName}</h2>
-          <p className="text-gray-500 dark:text-gray-400">Especialista en Terapia Cognitiva</p>
-          <p className="text-gray-500 dark:text-gray-400">Fecha: {currentDate}</p>
-          <p className="text-gray-500 dark:text-gray-400">Horario: {currentTime}</p>
+          <h2 className="text-2xl font-bold">Consultorio de {userName}</h2>
+          <p className="text-gray-500 dark:text-gray-400 font-semibold">Especialista en Terapia Cognitiva</p>
+          <p className="text-gray-500 dark:text-gray-400 font-semibold">• <u>Fecha:</u> {currentDate}</p>
+          <p className="text-gray-500 dark:text-gray-400 font-semibold">• <u>Horario:</u> {currentTime}</p>
         </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mt-6 w-full max-w-3xl">
         <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-          <FaCalendarAlt className="text-indigo-600" /> Próximos Turnos
+          <FaCalendarAlt className="text-indigo-600" /> Agenda
         </h3>
-        <ul className="space-y-4">{appointmentList}</ul>
+        {appointmentList}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl mt-6">
@@ -188,22 +240,37 @@ const DashboardContent = () => {
           <h3 className="text-2xl font-semibold flex items-center">
             <FaDollarSign className="text-green-600 mr-2" /> Dólar Hoy
           </h3>
-          {dollarError ? <p className="text-red-500 font-medium">Error: {dollarError}</p> : dollarRates ? (
+          {dollarError ? (
+            <p className="text-red-500 font-medium">Error: {dollarError}</p>
+          ) : dollarRates ? (
             <div className="text-lg">
-              <p><span className="font-semibold">Compra:</span> ${dollarRates.compra}</p>
-              <p><span className="font-semibold">Venta:</span> ${dollarRates.venta}</p>
+              <p>
+                <span className="font-semibold">• <u>Compra:</u></span> ${dollarRates.compra}
+              </p>
+              <p>
+                <span className="font-semibold">• <u>Venta:</u></span> ${dollarRates.venta}
+              </p>
             </div>
-          ) : <p className="text-gray-500">Cargando...</p>}
+          ) : (
+            <p className="text-gray-500">Cargando...</p>
+          )}
         </div>
 
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 flex flex-col items-center justify-center min-h-[150px] text-center">
           <h3 className="text-2xl font-semibold flex items-center">
             <FaCloudSun className="text-blue-600 mr-2" /> Clima
           </h3>
-          {weatherError ? <p className="text-red-500 font-medium">Error: {weatherError}</p> : weather ? (
-            <p className="text-lg"><span className="font-semibold">Temperatura:</span> {weather.current.temp_c}°C</p>
-          ) : <p className="text-gray-500">Cargando...</p>}
-        </div> 
+          {weatherError ? (
+            <p className="text-red-500 font-medium">Error: {weatherError}</p>
+          ) : weather ? (
+            <p className="text-lg">
+              <span className="font-semibold">• <u>Temperatura:</u></span>{" "}
+              {weather.current.temp_c}°C
+            </p>
+          ) : (
+            <p className="text-gray-500">Cargando...</p>
+          )}
+        </div>
       </div>
     </div>
   );
