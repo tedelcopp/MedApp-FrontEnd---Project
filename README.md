@@ -22,7 +22,7 @@
 
 ---
 
-## **Estructura del proyecto**
+## **Arquitectura del proyecto**
 
 - **Carpetas organizadas** | Basadas en `src` para un desarrollo más limpio y escalable.
 - **Configuración personalizada** | Implementación de temas y estilos globales para una experiencia uniforme.
@@ -31,7 +31,7 @@
 
 ## **Objetivo del proyecto**
 
-Brindar una herramienta eficiente, moderna y fácil de usar para profesionales médicos, mejorando tanto la gestión interna como la experiencia del paciente.
+Brindar una herramienta eficiente, moderna y fácil de usar para profesionales médicos.
 
 ---
 
@@ -62,12 +62,12 @@ Brindar una herramienta eficiente, moderna y fácil de usar para profesionales m
 
 ## **Contribuciones**
 
-¡Toda colaboración es bienvenida! Si tienes ideas para mejorar la aplicación, no dudes en escribirme.
+Toda colaboración de mejora es bienvenida! Si tenes ideas para mejorar el código existente, no dudes en escribirme.
 
 ---
 
 ## **Contacto**
 
-Si tienes preguntas o deseas más información sobre el proyecto, puedes contactarme a través de mi [LinkedIn](https://www.linkedin.com/in/edelcopp/).
+Si tienes preguntas o deseas más información sobre el proyecto, podes contactarme a través de mi [LinkedIn](https://www.linkedin.com/in/edelcopp/).
 
 ---
