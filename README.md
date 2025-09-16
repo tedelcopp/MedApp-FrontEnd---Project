@@ -62,7 +62,7 @@ Brindar una herramienta eficiente, moderna y fácil de usar para profesionales m
 
 ## **Contribuciones**
 
-Toda colaboración de mejora es bienvenida! Si tienes ideas para mejorar el código existente, no dudes en escribirme.
+Toda colaboración de mejora es bienvenida! Si tenes ideas para mejorar el código existente, no dudes en escribirme.
 
 ---
 
