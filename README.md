@@ -22,7 +22,7 @@
 
 ---
 
-## **Estructura del proyecto**
+## **Arquitectura del proyecto**
 
 - **Carpetas organizadas** | Basadas en `src` para un desarrollo más limpio y escalable.
 - **Configuración personalizada** | Implementación de temas y estilos globales para una experiencia uniforme.
@@ -31,7 +31,7 @@
 
 ## **Objetivo del proyecto**
 
-Brindar una herramienta eficiente, moderna y fácil de usar para profesionales médicos, mejorando tanto la gestión interna como la experiencia del paciente.
+Brindar una herramienta eficiente, moderna y fácil de usar para profesionales médicos.
 
 ---
 
