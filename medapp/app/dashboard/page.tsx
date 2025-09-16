@@ -190,7 +190,7 @@ const DashboardContent = () => {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
         <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">
-          Validando credenciales...
+          Validando tu credencial..
         </p>
       </div>
     );

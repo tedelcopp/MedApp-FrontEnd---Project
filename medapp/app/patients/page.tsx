@@ -14,7 +14,6 @@ interface Patient {
   dni: number;
   age: number;
   phone: string;
-  comments?: string;
 }
 
 const Patients = () => {
@@ -30,10 +29,10 @@ const Patients = () => {
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          setPatients(data); 
+          setPatients(data);
         } else {
           console.error("❌ La API no devolvió un array:", data);
-          setPatients([]);  
+          setPatients([]);
         }
       })
       .catch((error) => console.error("Error fetching patients:", error));
@@ -64,7 +63,7 @@ const Patients = () => {
   const handleSave = async () => {
     if (selectedPatient && selectedPatient.age >= 5) {
       try {
-        const response = await fetch(`http://localhost:3003/api/patients${selectedPatient.id}`, {
+        const response = await fetch(`http://localhost:3003/api/patients/${selectedPatient.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(selectedPatient),
@@ -92,49 +91,49 @@ const Patients = () => {
     setNewPatient(true);
     setIsViewing(false);
     setSelectedPatient({
-      id: 0,  
+      id: 0,
       firstName: "",
       lastName: "",
       email: "",
-      dni: 0, 
-      age: 0,  
+      dni: 0,
+      age: 0,
       phone: "",
-      comments: "",
     });
   };
-  
-const handleSaveNewPatient = async () => {
-  if (
-    selectedPatient &&
-    selectedPatient.firstName.trim() !== "" &&
-    selectedPatient.lastName.trim() !== "" &&
-    selectedPatient.dni > 0 &&  
-    selectedPatient.phone.trim() !== ""
-  ) {
-    try {
-      const response = await fetch("http://localhost:3003/api/patients", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(selectedPatient),
-      });
 
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(`Error al agregar paciente: ${errorMessage}`);
+  const handleSaveNewPatient = async () => {
+    if (
+      selectedPatient &&
+      selectedPatient.firstName.trim() !== "" &&
+      selectedPatient.lastName.trim() !== "" &&
+      selectedPatient.dni > 0 &&
+      selectedPatient.phone.trim() !== "" &&
+      selectedPatient.email.trim() !== ""
+    ) {
+      try {
+        const response = await fetch("http://localhost:3003/api/patients", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(selectedPatient),
+        });
+
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(`Error al agregar paciente: ${errorMessage}`);
+        }
+
+        const newPatient = await response.json();
+        setPatients((prev) => [...prev, newPatient]);
+        toast.success("Paciente agregado con éxito");
+        closeModal();
+      } catch (error) {
+        console.error("Error al agregar paciente:", error);
+        toast.error("Error al agregar paciente");
       }
-
-      const newPatient = await response.json();
-      setPatients((prev) => [...prev, newPatient]); 
-      toast.success("Paciente agregado con éxito");
-      closeModal();
-    } catch (error) {
-      console.error("Error al agregar paciente:", error);
-      toast.error("Error al agregar paciente");
+    } else {
+      toast.error("Todos los campos son obligatorios.");
     }
-  } else {
-    toast.error("Todos los campos son obligatorios.");
-  }
-};
+  };
 
   const closeModal = () => {
     setModalOpen(false);
@@ -146,7 +145,7 @@ const handleSaveNewPatient = async () => {
   const filteredPatients = patients.filter((patient) =>
     `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
+
   return (
     <div className="p-6 bg-gray-100 dark:bg-gray-800 min-h-screen">
       <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8 text-black dark:text-white">
@@ -178,9 +177,10 @@ const handleSaveNewPatient = async () => {
           <tr className="bg-gray-100 dark:bg-gray-700 text-left">
             <th className="py-2 px-4 text-center">Nombre</th>
             <th className="py-2 px-4 text-center">Apellido</th>
+            <th className="py-2 px-4 text-center">Email</th>
+            <th className="py-2 px-4 text-center">DNI</th>
             <th className="py-2 px-4 text-center">Edad</th>
             <th className="py-2 px-4 text-center">Teléfono</th>
-            <th className="py-2 px-4 text-center">¿Comentarios?</th>
             <th className="py-2 px-4 text-center">Acciones</th>
           </tr>
         </thead>
@@ -189,18 +189,17 @@ const handleSaveNewPatient = async () => {
             <tr key={patient.id} className="border-b">
               <td className="py-2 px-4 text-center">{patient.firstName}</td>
               <td className="py-2 px-4 text-center">{patient.lastName}</td>
+              <td className="py-2 px-4 text-center">{patient.email}</td>
+              <td className="py-2 px-4 text-center">{patient.dni}</td>
               <td className="py-2 px-4 text-center">{patient.age}</td>
               <td className="py-2 px-4 text-center">{patient.phone}</td>
-              <td className="py-2 px-4 text-center">
-                {patient.comments ? "Sí" : "No"}
-              </td>
               <td className="py-2 px-4 flex justify-center items-center space-x-2">
                 <button
                   onClick={() => handleView(patient)}
                   className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-500"
                   title="Ver info+ de paciente"
                   aria-label="Ver info+ de paciente"
-               >
+                >
                   <ClipboardPlus size={18} />
                 </button>
                 <button
@@ -227,7 +226,7 @@ const handleSaveNewPatient = async () => {
 
       {modalOpen && selectedPatient && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-96 p-6 text-black dark:text-white">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 text-black dark:text-white">
             <h2 className="text-xl font-semibold mb-4 text-center">
               {newPatient
                 ? "Agregar Paciente"
@@ -235,100 +234,122 @@ const handleSaveNewPatient = async () => {
                 ? "Información del Paciente"
                 : "Editar Paciente"}
             </h2>
-            <div className="mb-4">
-              <label className="block mb-2">Nombre</label>
-              <input
-                type="text"
-                value={selectedPatient.firstName}
-                onChange={(e) =>
-                  !isViewing &&
-                  setSelectedPatient((prev) =>
-                    prev ? { ...prev, firstName: e.target.value } : null
-                  )
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-                readOnly={isViewing}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2">Apellido</label>
-              <input
-                type="text"
-                value={selectedPatient.lastName}
-                onChange={(e) =>
-                  !isViewing &&
-                  setSelectedPatient((prev) =>
-                    prev ? { ...prev, lastName: e.target.value } : null
-                  )
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-                readOnly={isViewing}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2">Edad</label>
-              <input
-                type="number"
-                value={selectedPatient?.age}
-                onChange={(e) => {
-                  const newAge = Math.max(parseInt(e.target.value, 10) || 5, 5);
-                  setSelectedPatient((prev) =>
-                    prev ? { ...prev, age: newAge } : null
-                  );
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-                readOnly={isViewing}
-              />
-            </div>
-            <div className="mb-4">
-  <label className="block mb-2">Teléfono</label>
-  <PhoneInput
-  country={"ar"}
-  value={selectedPatient?.phone || ""}
-  onChange={(phone) => {
-    if (!isViewing) {
-      setSelectedPatient((prev) => prev ? { ...prev, phone } : null);
-    }
-  }}
-  inputStyle={{
-    width: "100%",
-    padding: "10px 10px 10px 50px",
-    backgroundColor: "var(--tw-bg-opacity)",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-  }}
-  buttonStyle={{
-    position: "absolute",
-    left: "10px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    border: "none",
-    backgroundColor: "transparent",
-  }}
-  containerStyle={{
-    position: "relative",
-    width: "100%",
-  }}
-  disabled={isViewing}
-/>
+            <div className="flex flex-wrap -mx-2">
+              {/* Primera columna: Nombre y Apellido */}
+              <div className="w-full md:w-1/2 px-2 mb-4">
+                <label className="block mb-2">Nombre</label>
+                <input
+                  type="text"
+                  value={selectedPatient.firstName}
+                  onChange={(e) =>
+                    !isViewing &&
+                    setSelectedPatient((prev) =>
+                      prev ? { ...prev, firstName: e.target.value } : null
+                    )
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  readOnly={isViewing}
+                />
+              </div>
+              <div className="w-full md:w-1/2 px-2 mb-4">
+                <label className="block mb-2">Apellido</label>
+                <input
+                  type="text"
+                  value={selectedPatient.lastName}
+                  onChange={(e) =>
+                    !isViewing &&
+                    setSelectedPatient((prev) =>
+                      prev ? { ...prev, lastName: e.target.value } : null
+                    )
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  readOnly={isViewing}
+                />
+              </div>
+              
+              {/* Segunda columna: Email y DNI */}
+              <div className="w-full md:w-1/2 px-2 mb-4">
+                <label className="block mb-2">Email</label>
+                <input
+                  type="email"
+                  value={selectedPatient.email}
+                  onChange={(e) =>
+                    !isViewing &&
+                    setSelectedPatient((prev) =>
+                      prev ? { ...prev, email: e.target.value } : null
+                    )
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  readOnly={isViewing}
+                />
+              </div>
+              <div className="w-full md:w-1/2 px-2 mb-4">
+                <label className="block mb-2">DNI</label>
+                <input
+                  type="number"
+                  value={selectedPatient.dni}
+                  onChange={(e) =>
+                    !isViewing &&
+                    setSelectedPatient((prev) =>
+                      prev ? { ...prev, dni: Number(e.target.value) } : null
+                    )
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  readOnly={isViewing}
+                />
+              </div>
 
-</div>
-
-            <div className="mb-4">
-              <label className="block mb-2">Nota</label>
-              <textarea
-                value={selectedPatient.comments || ""}
-                onChange={(e) =>
-                  !isViewing &&
-                  setSelectedPatient((prev) =>
-                    prev ? { ...prev, comments: e.target.value } : null
-                  )
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-                readOnly={isViewing}
-              />
+              {/* Tercera columna: Edad y Teléfono */}
+              <div className="w-full md:w-1/2 px-2 mb-4">
+                <label className="block mb-2">Edad</label>
+                <input
+                  type="number"
+                  value={selectedPatient?.age}
+                  onChange={(e) => {
+                    const newAge = Math.max(parseInt(e.target.value, 10) || 5, 5);
+                    setSelectedPatient((prev) =>
+                      prev ? { ...prev, age: newAge } : null
+                    );
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  readOnly={isViewing}
+                />
+              </div>
+              <div className="w-full md:w-1/2 px-2 mb-4">
+                <label className="block mb-2">Teléfono</label>
+                <PhoneInput
+                  country={"ar"}
+                  value={selectedPatient?.phone || ""}
+                  onChange={(phone) => {
+                    if (!isViewing) {
+                      setSelectedPatient((prev) => prev ? { ...prev, phone } : null);
+                    }
+                  }}
+                  inputStyle={{
+                    width: "100%",
+                    padding: "10px 10px 10px 50px",
+                    backgroundColor: "var(--tw-bg-opacity)",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                  }}
+                  buttonStyle={{
+                    position: "absolute",
+                    left: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    border: "none",
+                    backgroundColor: "transparent",
+                  }}
+                  containerStyle={{
+                    position: "relative",
+                    width: "100%",
+                  }}
+                  disabled={isViewing}
+                />
+              </div>
             </div>
-            <div className="flex justify-end space-x-4">
+            
+            <div className="flex justify-end space-x-4 mt-6">
               {/* Cancel Button */}
               <button
                 onClick={closeModal}
@@ -353,7 +374,5 @@ const handleSaveNewPatient = async () => {
     </div>
   );
 };
-
-
 
 export default Patients;
