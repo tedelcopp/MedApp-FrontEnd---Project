@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 
-// Tipos de datos para el clima, el dólar y los turnos
 type Weather = {
   location: { name: string };
   current: { temp_c: number };

@@ -16,6 +16,9 @@ interface Patient {
   phone: string;
 }
 
+// Se define la URL del backend usando la variable de entorno
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 const Patients = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -25,7 +28,8 @@ const Patients = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3003/api/patients")
+    // Se usa la variable de entorno en lugar de la URL codificada
+    fetch(`${API_URL}/api/patients`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -52,7 +56,8 @@ const Patients = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await fetch(`http://localhost:3003/api/patients/${id}`, { method: "DELETE" });
+      // Se usa la variable de entorno para la URL de la API
+      await fetch(`${API_URL}/api/patients/${id}`, { method: "DELETE" });
       setPatients((prev) => prev.filter((patient) => patient.id !== id));
       toast("Paciente eliminado", { icon: "🗑️" });
     } catch (error) {
@@ -63,7 +68,8 @@ const Patients = () => {
   const handleSave = async () => {
     if (selectedPatient && selectedPatient.age >= 5) {
       try {
-        const response = await fetch(`http://localhost:3003/api/patients/${selectedPatient.id}`, {
+        // Se usa la variable de entorno para la URL de la API
+        const response = await fetch(`${API_URL}/api/patients/${selectedPatient.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(selectedPatient),
@@ -111,7 +117,8 @@ const Patients = () => {
       selectedPatient.email.trim() !== ""
     ) {
       try {
-        const response = await fetch("http://localhost:3003/api/patients", {
+        // Se usa la variable de entorno para la URL de la API
+        const response = await fetch(`${API_URL}/api/patients`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(selectedPatient),
@@ -235,7 +242,6 @@ const Patients = () => {
                 : "Editar Paciente"}
             </h2>
             <div className="flex flex-wrap -mx-2">
-              {/* Primera columna: Nombre y Apellido */}
               <div className="w-full md:w-1/2 px-2 mb-4">
                 <label className="block mb-2">Nombre</label>
                 <input
@@ -267,7 +273,6 @@ const Patients = () => {
                 />
               </div>
               
-              {/* Segunda columna: Email y DNI */}
               <div className="w-full md:w-1/2 px-2 mb-4">
                 <label className="block mb-2">Email</label>
                 <input
@@ -299,7 +304,6 @@ const Patients = () => {
                 />
               </div>
 
-              {/* Tercera columna: Edad y Teléfono */}
               <div className="w-full md:w-1/2 px-2 mb-4">
                 <label className="block mb-2">Edad</label>
                 <input
@@ -350,7 +354,6 @@ const Patients = () => {
             </div>
             
             <div className="flex justify-end space-x-4 mt-6">
-              {/* Cancel Button */}
               <button
                 onClick={closeModal}
                 className="bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400"
@@ -359,7 +362,6 @@ const Patients = () => {
                 Cancelar
               </button>
 
-              {/* Save Button */}
               <button
                 onClick={newPatient ? handleSaveNewPatient : handleSave}
                 className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
