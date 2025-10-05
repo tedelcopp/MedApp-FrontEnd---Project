@@ -16,7 +16,6 @@ interface Patient {
   phone: string;
 }
 
-// Se define la URL del backend usando la variable de entorno
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const Patients = () => {
@@ -28,7 +27,6 @@ const Patients = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // Se usa la variable de entorno en lugar de la URL codificada
     fetch(`${API_URL}/api/patients`)
       .then((res) => res.json())
       .then((data) => {
@@ -56,7 +54,6 @@ const Patients = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      // Se usa la variable de entorno para la URL de la API
       await fetch(`${API_URL}/api/patients/${id}`, { method: "DELETE" });
       setPatients((prev) => prev.filter((patient) => patient.id !== id));
       toast("Paciente eliminado", { icon: "🗑️" });
@@ -68,7 +65,6 @@ const Patients = () => {
   const handleSave = async () => {
     if (selectedPatient && selectedPatient.age >= 5) {
       try {
-        // Se usa la variable de entorno para la URL de la API
         const response = await fetch(`${API_URL}/api/patients/${selectedPatient.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -117,7 +113,6 @@ const Patients = () => {
       selectedPatient.email.trim() !== ""
     ) {
       try {
-        // Se usa la variable de entorno para la URL de la API
         const response = await fetch(`${API_URL}/api/patients`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

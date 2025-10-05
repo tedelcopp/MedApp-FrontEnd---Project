@@ -3,6 +3,10 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 
+// 🚨 NUEVA CONSTANTE: Usa la variable de entorno del backend de Render
+// Esto es un client-side fetch, por lo que usamos la variable PUBLIC.
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 interface Shift {
   id: number;
   patient: string;
@@ -18,7 +22,6 @@ interface Patient {
   lastName: string;
 }
 
-// Función auxiliar para formatear la fecha
 const formatDate = (dateString: string) => {
   if (!dateString) return "";
   const date = new Date(dateString);
@@ -39,9 +42,16 @@ const Shifts = () => {
   const isFormValid = newShift.patient && newShift.date && newShift.time;
 
   useEffect(() => {
+    // Si la URL del backend no está definida, no intentamos hacer fetch.
+    if (!API_BASE_URL) {
+        toast.error("Error: URL del Backend no definida. Revisa .env.");
+        return;
+    }
+
     const fetchShifts = async () => {
       try {
-        const res = await fetch("http://localhost:3003/api/shifts");
+        // 🚨 CORRECCIÓN 1: Usar la variable de entorno para fetchShifts
+        const res = await fetch(`${API_BASE_URL}/api/shifts`);
         if (!res.ok) throw new Error("Failed to fetch shifts");
         const data = await res.json();
         setShifts(data);
@@ -52,7 +62,8 @@ const Shifts = () => {
 
     const fetchPatients = async () => {
       try {
-        const res = await fetch("http://localhost:3003/api/patients");
+        // 🚨 CORRECCIÓN 2: Usar la variable de entorno para fetchPatients
+        const res = await fetch(`${API_BASE_URL}/api/patients`);
         if (!res.ok) throw new Error("Failed to fetch patients");
         const data = await res.json();
         setPatients(data);
@@ -66,14 +77,15 @@ const Shifts = () => {
   }, []);
 
   const handleAddOrUpdateShift = useCallback(async () => {
-    if (!isFormValid) {
-      toast.error("Por favor, completa todos los campos obligatorios.");
-      return;
+    if (!isFormValid || !API_BASE_URL) {
+        toast.error("Por favor, completa todos los campos obligatorios o falta la URL del backend.");
+        return;
     }
 
     if (isEditing) {
       try {
-        const res = await fetch(`http://localhost:3003/api/shifts/${editingShiftId}`, {
+        // 🚨 CORRECCIÓN 3: Usar la variable de entorno para PUT (Actualizar)
+        const res = await fetch(`${API_BASE_URL}/api/shifts/${editingShiftId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newShift),
@@ -87,7 +99,8 @@ const Shifts = () => {
       }
     } else {
       try {
-        const res = await fetch("http://localhost:3003/api/shifts", {
+        // 🚨 CORRECCIÓN 4: Usar la variable de entorno para POST (Crear)
+        const res = await fetch(`${API_BASE_URL}/api/shifts`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newShift),
@@ -117,8 +130,11 @@ const Shifts = () => {
 
   const handleDeleteShift = useCallback(
     async (id: number) => {
+        if (!API_BASE_URL) return; // Evitar la ejecución si la URL falta
+
       try {
-        const res = await fetch(`http://localhost:3003/api/shifts/${id}`, {
+        // 🚨 CORRECCIÓN 5: Usar la variable de entorno para DELETE (Eliminar)
+        const res = await fetch(`${API_BASE_URL}/api/shifts/${id}`, {
           method: "DELETE",
         });
         if (!res.ok) throw new Error("Failed to delete shift");
