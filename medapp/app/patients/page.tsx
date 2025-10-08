@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 // Se eliminaron las importaciones de "react-phone-input-2" y su CSS para evitar el error de compilación.
 // Ahora se utiliza un campo de entrada (input type="tel") estándar.
 
-import { ClipboardPlus, Trash2, FilePenLine } from "lucide-react";
+import { ClipboardPlus, Trash2, FilePenLine, X } from "lucide-react"; // Importamos 'X' para el botón de cerrar
 
 interface Patient {
   id: number;
@@ -235,6 +235,16 @@ const Patients = () => {
       {modalOpen && selectedPatient && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 text-black dark:text-white">
+            
+            {/* Botón de cerrar (X) en la esquina superior derecha */}
+            <button 
+              onClick={closeModal} 
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              title="Cerrar/Salir"
+            >
+              <X size={24} />
+            </button>
+
             <h2 className="text-xl font-semibold mb-4 text-center">
               {newPatient
                 ? "Agregar Paciente"
@@ -342,19 +352,21 @@ const Patients = () => {
               <button
                 onClick={closeModal}
                 className="bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400"
-                title="Cancelar"
+                title="Salir"
               >
-                Cancelar
+                Salir
               </button>
-{!isViewing && (
-              <button
-                onClick={newPatient ? handleSaveNewPatient : handleSave}
-                className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-                title={newPatient ? "Guardar nuevo paciente" : "Guardar cambios"}
-              >
-                {newPatient ? "Guardar" : "Guardar cambios"}
-              </button>
-)}
+
+              {/* El botón de 'Guardar' solo se muestra si NO estamos en modo de visualización */}
+              {!isViewing && (
+                <button
+                  onClick={newPatient ? handleSaveNewPatient : handleSave}
+                  className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+                  title={newPatient ? "Guardar nuevo paciente" : "Guardar cambios"}
+                >
+                  {newPatient ? "Guardar" : "Guardar cambios"}
+                </button>
+              )}
             </div>
           </div>
         </div>
