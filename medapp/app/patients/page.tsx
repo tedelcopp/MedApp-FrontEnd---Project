@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 
 import { ClipboardPlus, Trash2, FilePenLine } from "lucide-react";
 
@@ -16,7 +14,8 @@ interface Patient {
   phone: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+// NOTA: Se usa un valor por defecto seguro si la variable de entorno no está definida
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
 
 const Patients = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
@@ -53,12 +52,18 @@ const Patients = () => {
   };
 
   const handleDelete = async (id: number) => {
+    // Usaremos una confirmación de UI personalizada en un entorno real
+    if (!window.confirm(`¿Está seguro de que desea eliminar al paciente con ID ${id}?`)) {
+        return;
+    }
+    
     try {
       await fetch(`${API_URL}/api/patients/${id}`, { method: "DELETE" });
       setPatients((prev) => prev.filter((patient) => patient.id !== id));
       toast("Paciente eliminado", { icon: "🗑️" });
     } catch (error) {
       console.error("Error al eliminar paciente:", error);
+      toast.error("Error al eliminar paciente");
     }
   };
 
@@ -73,6 +78,7 @@ const Patients = () => {
 
         if (!response.ok) throw new Error("Error actualizando paciente");
 
+        // Actualizar el estado con el paciente modificado
         setPatients((prev) =>
           prev.map((patient) => (patient.id === selectedPatient.id ? selectedPatient : patient))
         );
@@ -92,8 +98,9 @@ const Patients = () => {
     setModalOpen(true);
     setNewPatient(true);
     setIsViewing(false);
+    // Inicializamos el ID en 0. Este ID NO debe enviarse en la solicitud POST.
     setSelectedPatient({
-      id: 0,
+      id: 0, 
       firstName: "",
       lastName: "",
       email: "",
@@ -113,10 +120,14 @@ const Patients = () => {
       selectedPatient.email.trim() !== ""
     ) {
       try {
+        // CORRECCIÓN CLAVE: Creamos un nuevo objeto SÓLO con las propiedades de datos,
+        // excluyendo el campo 'id' (que es 0) para que el backend asigne uno nuevo.
+        const { id, ...patientDataToSend } = selectedPatient;
+        
         const response = await fetch(`${API_URL}/api/patients`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(selectedPatient),
+          body: JSON.stringify(patientDataToSend), // Enviamos el objeto sin 'id'
         });
 
         if (!response.ok) {
@@ -125,6 +136,7 @@ const Patients = () => {
         }
 
         const newPatient = await response.json();
+        // El nuevo paciente (newPatient) ya debe contener el ID asignado por el backend
         setPatients((prev) => [...prev, newPatient]);
         toast.success("Paciente agregado con éxito");
         closeModal();
@@ -145,225 +157,209 @@ const Patients = () => {
   };
 
   const filteredPatients = patients.filter((patient) =>
-    `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+    `${patient.firstName} ${patient.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    String(patient.dni).includes(searchTerm)
   );
 
+  // Componente de Input Reutilizable para el Modal
+  const ModalInput = ({ label, type = "text", value, onChange, readOnly = false, placeholder = "" }) => (
+    <div className="mb-2">
+      <label className="block text-sm font-medium mb-1">{label}</label>
+      <input
+        type={type}
+        value={value}
+        onChange={onChange}
+        className={`w-full px-3 py-2 border ${readOnly ? 'bg-gray-100 dark:bg-gray-700/50' : 'bg-white dark:bg-gray-700'} border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 text-black dark:text-white`}
+        readOnly={readOnly}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+
+
   return (
-    <div className="p-6 bg-gray-100 dark:bg-gray-800 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8 text-black dark:text-white">
-        Lista de Pacientes
+    <div className="p-4 sm:p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <h1 className="text-4xl font-extrabold mb-8 text-center text-gray-900 dark:text-white">
+        Registro de Pacientes
       </h1>
 
-      <div className="my-4 flex items-center justify-between">
-        <div className="flex space-x-4">
-          <button
-            onClick={handleAddPatient}
-            className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
-            title="Nuevo paciente"
-            aria-label="Registrar un nuevo paciente"
-          >
-            Nuevo Paciente
-          </button>
-          <input
-            type="text"
-            placeholder="Buscar paciente.."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-          />
-        </div>
+      <div className="my-4 flex flex-col sm:flex-row items-center justify-between gap-4 max-w-6xl mx-auto">
+        <button
+          onClick={handleAddPatient}
+          className="w-full sm:w-auto bg-indigo-600 text-white font-semibold py-2 px-4 rounded-xl hover:bg-indigo-700 transition duration-300 shadow-md shadow-indigo-500/50"
+          title="Nuevo paciente"
+          aria-label="Registrar un nuevo paciente"
+        >
+          Registrar Nuevo Paciente
+        </button>
+        <input
+          type="text"
+          placeholder="Buscar por Nombre, Apellido o DNI..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full sm:w-80 px-4 py-2 border border-gray-300 rounded-xl dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 transition duration-300"
+        />
       </div>
 
-      <table className="min-w-full table-auto mt-4 border-collapse bg-white dark:bg-gray-900 text-black dark:text-white">
-        <thead>
-          <tr className="bg-gray-100 dark:bg-gray-700 text-left">
-            <th className="py-2 px-4 text-center">Nombre</th>
-            <th className="py-2 px-4 text-center">Apellido</th>
-            <th className="py-2 px-4 text-center">Email</th>
-            <th className="py-2 px-4 text-center">DNI</th>
-            <th className="py-2 px-4 text-center">Edad</th>
-            <th className="py-2 px-4 text-center">Teléfono</th>
-            <th className="py-2 px-4 text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredPatients.map((patient) => (
-            <tr key={patient.id} className="border-b">
-              <td className="py-2 px-4 text-center">{patient.firstName}</td>
-              <td className="py-2 px-4 text-center">{patient.lastName}</td>
-              <td className="py-2 px-4 text-center">{patient.email}</td>
-              <td className="py-2 px-4 text-center">{patient.dni}</td>
-              <td className="py-2 px-4 text-center">{patient.age}</td>
-              <td className="py-2 px-4 text-center">{patient.phone}</td>
-              <td className="py-2 px-4 flex justify-center items-center space-x-2">
-                <button
-                  onClick={() => handleView(patient)}
-                  className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-500"
-                  title="Ver info+ de paciente"
-                  aria-label="Ver info+ de paciente"
-                >
-                  <ClipboardPlus size={18} />
-                </button>
-                <button
-                  onClick={() => handleEdit(patient)}
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-500"
-                  title="Editar info+ de paciente"
-                  aria-label="Editar info+ de paciente"
-                >
-                  <FilePenLine size={18} />
-                </button>
-                <button
-                  onClick={() => handleDelete(patient.id)}
-                  className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-500"
-                  title="Eliminar ficha de paciente"
-                  aria-label="Eliminar ficha de paciente"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </td>
+      <div className="max-w-6xl mx-auto overflow-x-auto shadow-xl rounded-xl">
+        <table className="min-w-full table-auto border-collapse bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+          <thead>
+            <tr className="bg-gray-100 dark:bg-gray-700/80 text-left uppercase text-sm">
+              <th className="py-3 px-4 text-center font-bold">Nombre</th>
+              <th className="py-3 px-4 text-center font-bold">Apellido</th>
+              <th className="py-3 px-4 text-center font-bold hidden md:table-cell">Email</th>
+              <th className="py-3 px-4 text-center font-bold">DNI</th>
+              <th className="py-3 px-4 text-center font-bold hidden sm:table-cell">Edad</th>
+              <th className="py-3 px-4 text-center font-bold hidden lg:table-cell">Teléfono</th>
+              <th className="py-3 px-4 text-center font-bold">Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredPatients.map((patient) => (
+              // Usamos el ID asignado por la BD como key
+              <tr key={patient.id} 
+                  className="border-b border-gray-200 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-gray-700 transition duration-150">
+                <td className="py-3 px-4 text-center">{patient.firstName}</td>
+                <td className="py-3 px-4 text-center">{patient.lastName}</td>
+                <td className="py-3 px-4 text-center hidden md:table-cell truncate max-w-xs">{patient.email}</td>
+                <td className="py-3 px-4 text-center">{patient.dni}</td>
+                <td className="py-3 px-4 text-center hidden sm:table-cell">{patient.age}</td>
+                <td className="py-3 px-4 text-center hidden lg:table-cell">{patient.phone}</td>
+                <td className="py-3 px-4 flex justify-center items-center space-x-2">
+                  <button
+                    onClick={() => handleView(patient)}
+                    className="text-green-600 dark:text-green-400 p-1 rounded-full hover:bg-green-100 dark:hover:bg-gray-700 transition"
+                    title="Ver información"
+                  >
+                    <ClipboardPlus size={18} />
+                  </button>
+                  <button
+                    onClick={() => handleEdit(patient)}
+                    className="text-blue-600 dark:text-blue-400 p-1 rounded-full hover:bg-blue-100 dark:hover:bg-gray-700 transition"
+                    title="Editar información"
+                  >
+                    <FilePenLine size={18} />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(patient.id)}
+                    className="text-red-600 dark:text-red-400 p-1 rounded-full hover:bg-red-100 dark:hover:bg-gray-700 transition"
+                    title="Eliminar paciente"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
+      {/* Modal */}
       {modalOpen && selectedPatient && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 text-black dark:text-white">
-            <h2 className="text-xl font-semibold mb-4 text-center">
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl p-8 text-black dark:text-white transform transition-all scale-100">
+            <h2 className="text-2xl font-bold mb-6 text-center text-indigo-600 dark:text-indigo-400">
               {newPatient
-                ? "Agregar Paciente"
+                ? "Agregar Nuevo Paciente"
                 : isViewing
                 ? "Información del Paciente"
                 : "Editar Paciente"}
             </h2>
-            <div className="flex flex-wrap -mx-2">
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Nombre</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              
+              {/* Nombre */}
+              <ModalInput 
+                label="Nombre"
+                value={selectedPatient.firstName}
+                onChange={(e) =>
+                  !isViewing && setSelectedPatient((prev) => prev ? { ...prev, firstName: e.target.value } : null)
+                }
+                readOnly={isViewing}
+              />
+
+              {/* Apellido */}
+              <ModalInput 
+                label="Apellido"
+                value={selectedPatient.lastName}
+                onChange={(e) =>
+                  !isViewing && setSelectedPatient((prev) => prev ? { ...prev, lastName: e.target.value } : null)
+                }
+                readOnly={isViewing}
+              />
+              
+              {/* Email */}
+              <ModalInput 
+                label="Email"
+                type="email"
+                value={selectedPatient.email}
+                onChange={(e) =>
+                  !isViewing && setSelectedPatient((prev) => prev ? { ...prev, email: e.target.value } : null)
+                }
+                readOnly={isViewing}
+              />
+
+              {/* DNI */}
+              <ModalInput 
+                label="DNI"
+                type="number"
+                value={selectedPatient.dni || ''}
+                onChange={(e) =>
+                  !isViewing && setSelectedPatient((prev) => prev ? { ...prev, dni: Number(e.target.value) } : null)
+                }
+                readOnly={isViewing}
+              />
+
+              {/* Edad */}
+              <div className="mb-2">
+                <label className="block text-sm font-medium mb-1">Edad (Mínimo 5)</label>
                 <input
-                  type="text"
-                  value={selectedPatient.firstName}
-                  onChange={(e) =>
-                    !isViewing &&
-                    setSelectedPatient((prev) =>
-                      prev ? { ...prev, firstName: e.target.value } : null
-                    )
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-                  readOnly={isViewing}
-                />
-              </div>
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Apellido</label>
-                <input
-                  type="text"
-                  value={selectedPatient.lastName}
-                  onChange={(e) =>
-                    !isViewing &&
-                    setSelectedPatient((prev) =>
-                      prev ? { ...prev, lastName: e.target.value } : null
-                    )
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  type="number"
+                  value={selectedPatient?.age || ''}
+                  onChange={(e) => {
+                    // Solo actualizamos si no estamos viendo (readOnly)
+                    if (!isViewing) {
+                        const newAge = Math.max(parseInt(e.target.value, 10) || 0, 0);
+                        setSelectedPatient((prev) => prev ? { ...prev, age: newAge } : null);
+                    }
+                  }}
+                  className={`w-full px-3 py-2 border ${isViewing ? 'bg-gray-100 dark:bg-gray-700/50' : 'bg-white dark:bg-gray-700'} border-gray-300 dark:border-gray-600 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 text-black dark:text-white`}
                   readOnly={isViewing}
                 />
               </div>
               
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Email</label>
-                <input
-                  type="email"
-                  value={selectedPatient.email}
-                  onChange={(e) =>
-                    !isViewing &&
-                    setSelectedPatient((prev) =>
-                      prev ? { ...prev, email: e.target.value } : null
-                    )
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-                  readOnly={isViewing}
-                />
-              </div>
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">DNI</label>
-                <input
-                  type="number"
-                  value={selectedPatient.dni}
-                  onChange={(e) =>
-                    !isViewing &&
-                    setSelectedPatient((prev) =>
-                      prev ? { ...prev, dni: Number(e.target.value) } : null
-                    )
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-                  readOnly={isViewing}
-                />
-              </div>
+              {/* Teléfono (Reemplazo de PhoneInput) */}
+              <ModalInput 
+                label="Teléfono"
+                type="tel"
+                value={selectedPatient?.phone || ""}
+                onChange={(e) => 
+                  !isViewing && setSelectedPatient((prev) => prev ? { ...prev, phone: e.target.value } : null)
+                }
+                readOnly={isViewing}
+                placeholder="Ej: +54 9 11 1234 5678"
+              />
 
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Edad</label>
-                <input
-                  type="number"
-                  value={selectedPatient?.age}
-                  onChange={(e) => {
-                    const newAge = Math.max(parseInt(e.target.value, 10) || 5, 5);
-                    setSelectedPatient((prev) =>
-                      prev ? { ...prev, age: newAge } : null
-                    );
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-                  readOnly={isViewing}
-                />
-              </div>
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Teléfono</label>
-                <PhoneInput
-                  country={"ar"}
-                  value={selectedPatient?.phone || ""}
-                  onChange={(phone) => {
-                    if (!isViewing) {
-                      setSelectedPatient((prev) => prev ? { ...prev, phone } : null);
-                    }
-                  }}
-                  inputStyle={{
-                    width: "100%",
-                    padding: "10px 10px 10px 50px",
-                    backgroundColor: "var(--tw-bg-opacity)",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px",
-                  }}
-                  buttonStyle={{
-                    position: "absolute",
-                    left: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    border: "none",
-                    backgroundColor: "transparent",
-                  }}
-                  containerStyle={{
-                    position: "relative",
-                    width: "100%",
-                  }}
-                  disabled={isViewing}
-                />
-              </div>
             </div>
             
-            <div className="flex justify-end space-x-4 mt-6">
+            <div className="flex justify-end space-x-4 mt-8">
               <button
                 onClick={closeModal}
-                className="bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400"
-                title="Cancelar"
+                className="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition duration-150 shadow-md"
+                title="Cerrar modal"
               >
-                Cancelar
+                Cerrar
               </button>
 
-              <button
-                onClick={newPatient ? handleSaveNewPatient : handleSave}
-                className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-                title={newPatient ? "Guardar nuevo paciente" : "Guardar cambios"}
-              >
-                {newPatient ? "Guardar" : "Guardar cambios"}
-              </button>
+              {/* Botones de acción (Guardar/Editar) */}
+              {!isViewing && (
+                <button
+                  onClick={newPatient ? handleSaveNewPatient : handleSave}
+                  className="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-150 shadow-md shadow-indigo-500/50"
+                  title={newPatient ? "Guardar nuevo paciente" : "Guardar cambios"}
+                >
+                  {newPatient ? "Guardar" : "Guardar cambios"}
+                </button>
+              )}
             </div>
           </div>
         </div>
