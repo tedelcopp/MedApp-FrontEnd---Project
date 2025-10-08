@@ -346,7 +346,7 @@ const Patients = () => {
               >
                 Cancelar
               </button>
-
+{!isViewing && (
               <button
                 onClick={newPatient ? handleSaveNewPatient : handleSave}
                 className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
@@ -354,6 +354,7 @@ const Patients = () => {
               >
                 {newPatient ? "Guardar" : "Guardar cambios"}
               </button>
+)}
             </div>
           </div>
         </div>
