@@ -342,9 +342,9 @@ const Patients = () => {
               <button
                 onClick={closeModal}
                 className="bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400"
-                title="Cancelar"
+                title="Volver"
               >
-                Salir
+                Volver
               </button>
 {!isViewing && (
               <button
