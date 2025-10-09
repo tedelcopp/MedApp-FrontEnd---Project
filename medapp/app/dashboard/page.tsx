@@ -140,7 +140,7 @@ useEffect(() => {
           <div>
             <span className="block font-medium">{appointment.patient}</span>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              {new Date(appointment.date).toLocaleDateString("es-AR")} - {appointment.time}
+              {new Date(appointment.date).toLocaleDateString("es-AR")} - {appointment.time} hs
             </span>
           </div>
           <div className="flex gap-3">

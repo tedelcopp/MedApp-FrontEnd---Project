@@ -69,7 +69,7 @@ export default function Sidebar() {
             title="Cambiar tema"
             aria-label="Cambiar el tema de la App"
           >
-            {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"} 
+            {darkMode ? "🌙 Modo Claro" : "☀️ Modo Oscuro"} 
           </button>
           <div className="mt-auto flex flex-col items-center p-4 space-y-4">
           <UserButton /> 
