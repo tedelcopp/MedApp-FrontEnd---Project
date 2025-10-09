@@ -225,7 +225,7 @@ useEffect(() => {
           <h2 className="text-2xl font-bold">Consultorio de {userName}</h2>
           <p className="text-gray-500 dark:text-gray-400 font-semibold">Especialista en Terapia Cognitiva</p>
           <p className="text-gray-500 dark:text-gray-400 font-semibold">• <u>Fecha:</u> {currentDate}</p>
-          <p className="text-gray-500 dark:text-gray-400 font-semibold">• <u>Horario:</u> {currentTime}</p>
+          <p className="text-gray-500 dark:text-gray-400 font-semibold">• <u>Horario:</u> {currentTime} hs</p>
         </div>
       </div>
 
