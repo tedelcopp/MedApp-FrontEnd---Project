@@ -3,8 +3,6 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 
-// 🚨 NUEVA CONSTANTE: Usa la variable de entorno del backend de Render
-// Esto es un client-side fetch, por lo que usamos la variable PUBLIC.
 const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 interface Shift {
@@ -42,7 +40,6 @@ const Shifts = () => {
   const isFormValid = newShift.patient && newShift.date && newShift.time;
 
   useEffect(() => {
-    // Si la URL del backend no está definida, no intentamos hacer fetch.
     if (!API_BASE_URL) {
         toast.error("Error: URL del Backend no definida. Revisa .env.");
         return;
@@ -50,7 +47,6 @@ const Shifts = () => {
 
     const fetchShifts = async () => {
       try {
-        // 🚨 CORRECCIÓN 1: Usar la variable de entorno para fetchShifts
         const res = await fetch(`${API_BASE_URL}/api/shifts`);
         if (!res.ok) throw new Error("Failed to fetch shifts");
         const data = await res.json();
@@ -62,7 +58,6 @@ const Shifts = () => {
 
     const fetchPatients = async () => {
       try {
-        // 🚨 CORRECCIÓN 2: Usar la variable de entorno para fetchPatients
         const res = await fetch(`${API_BASE_URL}/api/patients`);
         if (!res.ok) throw new Error("Failed to fetch patients");
         const data = await res.json();
@@ -84,7 +79,6 @@ const Shifts = () => {
 
     if (isEditing) {
       try {
-        // 🚨 CORRECCIÓN 3: Usar la variable de entorno para PUT (Actualizar)
         const res = await fetch(`${API_BASE_URL}/api/shifts/${editingShiftId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -99,7 +93,6 @@ const Shifts = () => {
       }
     } else {
       try {
-        // 🚨 CORRECCIÓN 4: Usar la variable de entorno para POST (Crear)
         const res = await fetch(`${API_BASE_URL}/api/shifts`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -130,10 +123,9 @@ const Shifts = () => {
 
   const handleDeleteShift = useCallback(
     async (id: number) => {
-        if (!API_BASE_URL) return; // Evitar la ejecución si la URL falta
+        if (!API_BASE_URL) return; 
 
       try {
-        // 🚨 CORRECCIÓN 5: Usar la variable de entorno para DELETE (Eliminar)
         const res = await fetch(`${API_BASE_URL}/api/shifts/${id}`, {
           method: "DELETE",
         });
@@ -196,9 +188,7 @@ const Shifts = () => {
       <div ref={editSectionRef} className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6 w-full max-w-lg lg:max-w-2xl">
         <h2 className="text-lg md:text-2xl font-semibold mb-4">{isEditing ? "Editar Turno" : "Nuevo Turno"}</h2>
         
-        {/* Contenedor Flex para los campos de turno */}
         <div className="flex flex-wrap -mx-2">
-          {/* Columna para "Selecciona un paciente" y "Selecciona un horario" */}
           <div className="w-full md:w-1/2 px-2 mb-4">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Paciente</label>
             <select

@@ -38,7 +38,9 @@ const DashboardContent = () => {
   const [loadingAppointments, setLoadingAppointments] = useState(true);
   const [appointmentsError, setAppointmentsError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  
+useEffect(() => {
     const updateTime = () => {
       const date = new Date();
       setCurrentDate(date.toLocaleDateString("es-AR"));
@@ -79,7 +81,7 @@ const DashboardContent = () => {
 
     const fetchAppointments = async () => {
       try {
-        const res = await fetch("/api/shifts");
+        const res = await fetch(`${API_BASE_URL}/api/shifts`);
         if (!res.ok) {
           throw new Error("Error al obtener los turnos.");
         }
