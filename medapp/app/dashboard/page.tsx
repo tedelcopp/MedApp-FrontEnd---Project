@@ -16,7 +16,7 @@ type DollarRate = {
 
 type Appointment = {
   id: number;
-  name: string;
+  patient: string;
   time: string;
   phone: string;
   date: string;
@@ -138,7 +138,7 @@ useEffect(() => {
           className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-md"
         >
           <div>
-            <span className="block font-medium">{appointment.name}</span>
+            <span className="block font-medium">{appointment.patient}</span>
             <span className="text-sm text-gray-500 dark:text-gray-400">
               {new Date(appointment.date).toLocaleDateString("es-AR")} - {appointment.time}
             </span>
