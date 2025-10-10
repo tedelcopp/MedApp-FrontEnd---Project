@@ -4,8 +4,8 @@ import UserButton from "../app/components/UserButton";
 import { ShieldPlus, CheckCircle, X } from "lucide-react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { Toaster } from "react-hot-toast"; // Agregado: Componente para mostrar las notificaciones
-import { useRouter } from "next/navigation"; // Agregado: Para una navegación más fluida en Next.js
+import { Toaster } from "react-hot-toast"; 
+import { useRouter } from "next/navigation"; 
 
 export default function HomePage() {
   const [isLoginVisible, setIsLoginVisible] = useState(false);
@@ -14,7 +14,6 @@ export default function HomePage() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    // Importamos toast dinámicamente para que solo se cargue cuando se necesite
     const { toast } = await import('react-hot-toast');
 
     if (!username || !password) {
@@ -32,13 +31,13 @@ export default function HomePage() {
       toast.error("Credencial incorrecta.");
     } else {
       toast.success("Credencial correcta.");
-      router.push("/dashboard"); // Usamos router.push para la navegación
+      router.push("/dashboard"); 
     }
   };
 
   return (
     <>
-      <Toaster position="bottom-center" /> {/* Agregado: El componente Toaster */}
+      <Toaster position="bottom-center" /> 
       <div className="flex items-center justify-center w-screen h-screen bg-gray-200 overflow-hidden fixed top-0 left-0">
         <div className="flex max-w-5xl w-full h-full bg-white shadow-lg rounded-lg overflow-hidden">
           <div className="w-1/2 h-full flex flex-col justify-center items-center bg-white p-8">
