@@ -14,7 +14,6 @@ interface Patient {
   phone: string;
 }
 
-// NOTA: Se usa un valor por defecto seguro si la variable de entorno no está definida
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
 
 const Patients = () => {
@@ -97,7 +96,7 @@ const Patients = () => {
       lastName: "",
       email: "",
       dni: 0,
-      age: 5, // Valor por defecto sensato
+      age: 5, 
       phone: "",
     });
   };
@@ -113,13 +112,12 @@ const Patients = () => {
       selectedPatient.age >= 5
     ) {
       try {
-        // Separamos el ID para no enviarlo al backend durante la creación (POST).
         const { id, ...patientDataToSend } = selectedPatient;
         
         const response = await fetch(`${API_URL}/api/patients`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(patientDataToSend), // Enviamos SOLO los datos sin 'id'
+          body: JSON.stringify(patientDataToSend), 
         });
 
         if (!response.ok) {
@@ -128,7 +126,6 @@ const Patients = () => {
         }
 
         const newPatient = await response.json();
-        // El nuevo paciente (newPatient) ya debe contener el ID asignado por el backend
         setPatients((prev) => [...prev, newPatient]);
         toast.success("Paciente agregado con éxito");
         closeModal();
@@ -153,7 +150,6 @@ const Patients = () => {
   );
 
   return (
-    // Componente principal: responsive y flexible
     <div className="p-4 sm:p-6 bg-gray-100 dark:bg-gray-800 flex-1 w-full"> 
       <h1 className="text-2xl sm:text-4xl font-bold mb-6 text-center underline underline-offset-8 text-black dark:text-white">
         Lista de Pacientes
@@ -177,11 +173,9 @@ const Patients = () => {
         />
       </div>
 
-      {/* Tabla Responsiva: Agregamos overflow-x-auto */}
       <div className="overflow-x-auto shadow-md rounded-lg">
         <table className="min-w-full table-auto border-collapse bg-white dark:bg-gray-900 text-black dark:text-white">
           <thead>
-            {/* CORRECCIÓN: Eliminamos saltos de línea/espacios entre <tr> y <th> */}
             <tr className="bg-gray-100 dark:bg-gray-700 text-left text-xs sm:text-sm">
               <th className="py-2 px-3 sm:px-4 text-center">Nombre</th>
               <th className="py-2 px-3 sm:px-4 text-center">Apellido</th>
@@ -194,7 +188,6 @@ const Patients = () => {
           </thead>
           <tbody>
             {filteredPatients.map((patient) => (
-              // CORRECCIÓN: Eliminamos saltos de línea/espacios entre <tr> y <td>
               <tr key={patient.id} className="border-b">
                 <td className="py-2 px-3 sm:px-4 text-center">{patient.firstName}</td>
                 <td className="py-2 px-3 sm:px-4 text-center">{patient.lastName}</td>
@@ -311,7 +304,6 @@ const Patients = () => {
                 <label className="block mb-2 text-sm font-medium">Edad</label>
                 <input
                   type="number"
-                  // Valor mínimo en 5
                   min="5" 
                   value={selectedPatient?.age}
                   onChange={(e) => {
