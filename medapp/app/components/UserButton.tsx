@@ -9,11 +9,11 @@ export default function UserButton() {
   return session ? (
     <button
       onClick={() => signOut({ callbackUrl: "/logout" })}
-      className="flex items-center gap-2 px-6 py-3 rounded-full font-medium text-white bg-red-600 hover:bg-red-500 transition-all duration-200 ease-in-out"
+      className="flex items-center gap-4 px-6 py-3 font-medium text-gray-700 hover:text-red-600 hover:bg-gray-100 transition-all duration-200 ease-in-out w-full justify-start rounded-md"
       title="Cerrar sesión en MedApp"
     >
-      <Power size={24} />
-      Cerrar sesiónss
+      <LogOut size={20} className="text-gray-500 hover:text-red-600" />
+      Cerrar sesión
     </button>
   ) : (
     <button
