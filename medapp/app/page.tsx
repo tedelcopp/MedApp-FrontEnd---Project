@@ -38,9 +38,10 @@ export default function HomePage() {
   return (
     <>
       <Toaster position="bottom-center" /> 
-      <div className="flex items-center justify-center w-screen h-screen bg-gray-200 overflow-hidden fixed top-0 left-0">
-        <div className="flex max-w-5xl w-full h-full bg-white shadow-lg rounded-lg overflow-hidden">
-          <div className="w-1/2 h-full flex flex-col justify-center items-center bg-white p-8">
+      <div className="flex items-center justify-center w-screen h-screen bg-gray-200 overflow-auto fixed top-0 left-0">
+        <div className="flex max-w-5xl w-full h-auto min-h-full md:h-full bg-white shadow-lg rounded-lg overflow-hidden my-4 md:my-0">
+          
+          <div className="w-full md:w-1/2 h-auto flex flex-col justify-center items-center bg-white p-6 sm:p-8">
             <h1 className="text-5xl font-extrabold text-black mb-4 flex items-center gap-3 relative">
               <ShieldPlus className="w-10 h-10 text-violet-600" />
               <span className="relative inline-block pb-2">
@@ -51,14 +52,16 @@ export default function HomePage() {
             <p className="text-lg text-gray-600 mb-6 text-center max-w-md">
               La plataforma más confiable para gestionar pacientes y turnos de manera <span className="font-semibold">rápida</span> y <span className="font-semibold">segura</span>.
             </p>
-            <ul className="text-gray-700 text-left mb-6 text-base">
-              <li className="flex items-center gap-2 text-lg"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Seguridad garantizada</span> en cada consulta.</li>
-              <li className="flex items-center gap-2 text-lg"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Protección de datos</span> de pacientes.</li>
-              <li className="flex items-center gap-2 text-lg"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Facilidad y rapidez</span> en la gestión de turnos.</li>
+            <ul className="text-gray-700 text-center mb-6 text-base w-full max-w-sm">
+              <li className="flex items-center justify-center gap-2 text-lg mb-2"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Seguridad garantizada</span> en cada consulta.</li>
+              <li className="flex items-center justify-center gap-2 text-lg mb-2"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Protección de datos</span> de pacientes.</li>
+              <li className="flex items-center justify-center gap-2 text-lg"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Facilidad y rapidez</span> en la gestión de turnos.</li>
             </ul>
+            
             <UserButton />
+            
             {isLoginVisible ? (
-              <div className="w-full mt-4 transition-all duration-300">
+              <div className="w-full mt-4 transition-all duration-300 max-w-sm"> {/* Añadido max-w-sm */}
                 <input
                   type="text"
                   placeholder="Usuario"
@@ -78,21 +81,22 @@ export default function HomePage() {
                   className="w-full px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition">
                   Ingresar
                 </button>
-                <button
-                  onClick={() => setIsLoginVisible(false)}
-                  className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center justify-center mt-4">
-                  <X className="w-5 h-5" /> Cerrar
-                </button>
               </div>
             ) : (
-              <button
-                onClick={() => setIsLoginVisible(true)}
-                className="w-full px-6 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition flex items-center justify-center mt-4">
-                ¿Ya tienes usuario? <span className="ml-2 font-semibold">Iniciar Sesión</span>
-              </button>
+              <div className="flex flex-col items-center justify-center mt-4">
+                <span className="text-gray-700 mb-2">¿Ya tienes usuario?</span> 
+                
+                <button
+                  onClick={() => setIsLoginVisible(true)}
+                  className="px-6 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition"
+                >
+                  <span className="font-semibold">Iniciar Sesión</span>
+                </button>
+              </div>
             )}
           </div>
-          <div className="w-1/2 h-full relative">
+          
+          <div className="hidden md:block w-1/2 h-full relative">
             <Image
               src="/images/imagen1.webp"
               alt="Imagen de bienvenida"

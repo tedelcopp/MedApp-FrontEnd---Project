@@ -18,8 +18,16 @@ type Appointment = {
   id: number;
   patient: string;
   time: string;
-  phone: string;
+  phone: string; // Sabemos que es un string (puede ser vacío, o "null")
   date: string;
+};
+
+// Función para limpiar el número de teléfono (solo deja dígitos)
+const formatWhatsAppNumber = (phoneNumber: string) => {
+  if (!phoneNumber) return "";
+  
+  // Limpieza simple y directa: solo números.
+  return phoneNumber.replace(/\D/g, "");
 };
 
 const DashboardContent = () => {
@@ -40,7 +48,7 @@ const DashboardContent = () => {
 
   const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   
-useEffect(() => {
+  useEffect(() => {
     const updateTime = () => {
       const date = new Date();
       setCurrentDate(date.toLocaleDateString("es-AR"));
@@ -106,7 +114,7 @@ useEffect(() => {
       fetchAppointments();
     }, 60000);
     return () => clearInterval(interval);
-  }, []);
+  }, [API_BASE_URL]);
 
   const appointmentList = useMemo(() => {
     if (loadingAppointments) {
@@ -132,37 +140,54 @@ useEffect(() => {
     });
 
     const renderAppointments = (list: Appointment[]) =>
-      list.map((appointment) => (
-        <li
-          key={appointment.id}
-          className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-md"
-        >
-          <div>
-            <span className="block font-medium">{appointment.patient}</span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              {new Date(appointment.date).toLocaleDateString("es-AR")} - {appointment.time} hs
-            </span>
-          </div>
-          <div className="flex gap-3">
-            <a
-              href={`https://wa.me/${appointment.phone}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md"
-            >
-              <FaWhatsapp size={20} />
-            </a>
-            <a
-              href="https://meet.google.com/new"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md"
-            >
-              <FaVideo size={20} />
-            </a>
-          </div>
-        </li>
-      ));
+      list.map((appointment) => {
+        
+        // 1. Construir el mensaje solicitado.
+        const message = `Hola ${appointment.patient}, te escribimos desde MedApp para informarte sobre tu turno.`;
+        
+        // 2. Codificar el mensaje
+        const encodedMessage = encodeURIComponent(message);
+        
+        // 3. Obtener el número limpio (solo dígitos) para la URL.
+        const cleanedPhone = formatWhatsAppNumber(appointment.phone);
+        
+        // 4. Construir el enlace completo (ej: https://wa.me/54911...?text=Hola...)
+        const whatsappLink = `https://wa.me/${cleanedPhone}?text=${encodedMessage}`;
+        
+        return (
+          <li
+            key={appointment.id}
+            className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-md"
+          >
+            <div>
+              <span className="block font-medium">{appointment.patient}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                {new Date(appointment.date).toLocaleDateString("es-AR")} - {appointment.time} hs
+              </span>
+            </div>
+            <div className="flex gap-3">
+              <a
+                // Enlace FINAL
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md"
+                title={`Enviar WhatsApp a ${appointment.patient}`}
+              >
+                <FaWhatsapp size={20} />
+              </a>
+              <a
+                href="https://meet.google.com/new"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md"
+              >
+                <FaVideo size={20} />
+              </a>
+            </div>
+          </li>
+        );
+      });
 
     return (
       <div className="space-y-6">
