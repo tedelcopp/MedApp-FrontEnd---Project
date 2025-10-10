@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo } from "react-icons/fa";
+// Importamos FaCircleNotch para usarlo como spinner
+import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo, FaCircleNotch } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 
 type Weather = {
@@ -28,6 +29,43 @@ const formatWhatsAppNumber = (phoneNumber: string) => {
   
   // Limpieza simple y directa: solo números.
   return phoneNumber.replace(/\D/g, "");
+};
+
+// Componente para los botones de acción, para simplificar la lógica del mapeo
+const ActionButtons = ({ appointment }: { appointment: Appointment }) => {
+    // 1. Construir el mensaje solicitado.
+    const message = `Hola ${appointment.patient}, te escribimos desde MedApp para informarte sobre tu turno.`;
+    
+    // 2. Codificar el mensaje
+    const encodedMessage = encodeURIComponent(message);
+    
+    // 3. Obtener el número limpio (solo dígitos) para la URL.
+    const cleanedPhone = formatWhatsAppNumber(appointment.phone);
+    
+    // 4. Construir el enlace completo (ej: https://wa.me/54911...?text=Hola...)
+    const whatsappLink = `https://wa.me/${cleanedPhone}?text=${encodedMessage}`;
+
+    return (
+        <div className="flex gap-3">
+            <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md"
+                title={`Enviar WhatsApp a ${appointment.patient}`}
+            >
+                <FaWhatsapp size={20} />
+            </a>
+            <a
+                href="https://meet.google.com/new"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md"
+            >
+                <FaVideo size={20} />
+            </a>
+        </div>
+    );
 };
 
 const DashboardContent = () => {
@@ -130,6 +168,7 @@ const DashboardContent = () => {
     const now = new Date();
 
     const pastAppointments = appointments.filter((appointment) => {
+      // Combina fecha y hora para una comparación precisa
       const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
       return appointmentDate < now;
     });
@@ -139,20 +178,9 @@ const DashboardContent = () => {
       return appointmentDate >= now;
     });
 
-    const renderAppointments = (list: Appointment[]) =>
+    // Esta función renderiza la lista. El parámetro showButtons controla si se incluyen los botones de acción.
+    const renderAppointments = (list: Appointment[], showButtons: boolean) =>
       list.map((appointment) => {
-        
-        // 1. Construir el mensaje solicitado.
-        const message = `Hola ${appointment.patient}, te escribimos desde MedApp para informarte sobre tu turno.`;
-        
-        // 2. Codificar el mensaje
-        const encodedMessage = encodeURIComponent(message);
-        
-        // 3. Obtener el número limpio (solo dígitos) para la URL.
-        const cleanedPhone = formatWhatsAppNumber(appointment.phone);
-        
-        // 4. Construir el enlace completo (ej: https://wa.me/54911...?text=Hola...)
-        const whatsappLink = `https://wa.me/${cleanedPhone}?text=${encodedMessage}`;
         
         return (
           <li
@@ -162,29 +190,13 @@ const DashboardContent = () => {
             <div>
               <span className="block font-medium">{appointment.patient}</span>
               <span className="text-sm text-gray-500 dark:text-gray-400">
+                {/* Asegura el formato de fecha local y la hora */}
                 {new Date(appointment.date).toLocaleDateString("es-AR")} - {appointment.time} hs
               </span>
             </div>
-            <div className="flex gap-3">
-              <a
-                // Enlace FINAL
-                href={whatsappLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md"
-                title={`Enviar WhatsApp a ${appointment.patient}`}
-              >
-                <FaWhatsapp size={20} />
-              </a>
-              <a
-                href="https://meet.google.com/new"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-md"
-              >
-                <FaVideo size={20} />
-              </a>
-            </div>
+            
+            {/* Solo muestra los botones si showButtons es true (para Turnos Pendientes) */}
+            {showButtons && <ActionButtons appointment={appointment} />}
           </li>
         );
       });
@@ -194,7 +206,8 @@ const DashboardContent = () => {
         <div>
           <h4 className="text-lg font-semibold mb-2 text-green-600">Turnos Pendientes</h4>
           {futureAppointments.length > 0 ? (
-            <ul className="space-y-4">{renderAppointments(futureAppointments)}</ul>
+            // Llamada para futuros turnos: showButtons = true
+            <ul className="space-y-4">{renderAppointments(futureAppointments, true)}</ul>
           ) : (
             <p className="text-gray-500">No hay turnos futuros.</p>
           )}
@@ -203,7 +216,8 @@ const DashboardContent = () => {
         <div>
           <h4 className="text-lg font-semibold mb-2 text-red-600">Turnos Realizados</h4>
           {pastAppointments.length > 0 ? (
-            <ul className="space-y-4">{renderAppointments(pastAppointments)}</ul>
+            // Llamada para turnos pasados: showButtons = false
+            <ul className="space-y-4">{renderAppointments(pastAppointments, false)}</ul>
           ) : (
             <p className="text-gray-500">No hay turnos pasados.</p>
           )}
@@ -214,9 +228,14 @@ const DashboardContent = () => {
 
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+        {/* Ícono de carga con animación 'animate-spin' */}
+        <FaCircleNotch 
+          className="animate-spin text-indigo-600 dark:text-indigo-400 mb-4" 
+          size={36} 
+        />
         <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">
-          Validando tu credencial..
+          Validando tu credencial...
         </p>
       </div>
     );
