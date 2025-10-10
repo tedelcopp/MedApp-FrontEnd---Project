@@ -52,12 +52,29 @@ export default function HomePage() {
             <p className="text-lg text-gray-600 mb-6 text-center max-w-md">
               La plataforma más confiable para gestionar pacientes y turnos de manera <span className="font-semibold">rápida</span> y <span className="font-semibold">segura</span>.
             </p>
-            <ul className="text-gray-700 text-center mb-6 text-base w-full max-w-sm">
-              <li className="flex items-center justify-center gap-2 text-lg mb-2"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Seguridad garantizada</span> en cada consulta.</li>
-              <li className="flex items-center justify-center gap-2 text-lg mb-2"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Protección de datos</span> de pacientes.</li>
-              <li className="flex items-center justify-center gap-2 text-lg"><CheckCircle className="text-violet-600" /> <span className="font-semibold">Facilidad y rapidez</span> en la gestión de turnos.</li>
-            </ul>
-            
+        <ul className="text-gray-700 text-center mb-6 w-full max-w-md mx-auto">
+  <li className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-base sm:text-lg mb-3">
+    <div className="flex items-center">
+      <CheckCircle className="w-5 h-5 text-violet-600 mr-2" />
+      <span className="font-semibold text-center">Seguridad garantizada</span>
+    </div> 
+    <span className="text-center sm:text-left">en cada consulta.</span>
+  </li>
+  <li className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-base sm:text-lg mb-3">
+    <div className="flex items-center">
+      <CheckCircle className="w-5 h-5 text-violet-600 mr-2" />
+      <span className="font-semibold text-center">Protección de datos</span>
+    </div>
+    <span className="text-center sm:text-left">de pacientes.</span>
+  </li>
+  <li className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-base sm:text-lg">
+    <div className="flex items-center">
+      <CheckCircle className="w-5 h-5 text-violet-600 mr-2" />
+      <span className="font-semibold text-center">Facilidad y rapidez</span>
+    </div>
+    <span className="text-center sm:text-left">en la gestión de turnos.</span>
+  </li>
+</ul>
             <UserButton />
             
             {isLoginVisible ? (
