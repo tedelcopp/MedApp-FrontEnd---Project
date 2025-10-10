@@ -2,9 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
-// Se eliminaron las importaciones de "react-phone-input-2" y su CSS para evitar el error de compilación.
-// Ahora se utiliza un campo de entrada (input type="tel") estándar.
-
 import { ClipboardPlus, Trash2, FilePenLine } from "lucide-react";
 
 interface Patient {
@@ -100,7 +97,7 @@ const Patients = () => {
       lastName: "",
       email: "",
       dni: 0,
-      age: 0,
+      age: 5, // Valor por defecto sensato
       phone: "",
     });
   };
@@ -112,10 +109,11 @@ const Patients = () => {
       selectedPatient.lastName.trim() !== "" &&
       selectedPatient.dni > 0 &&
       selectedPatient.phone.trim() !== "" &&
-      selectedPatient.email.trim() !== ""
+      selectedPatient.email.trim() !== "" &&
+      selectedPatient.age >= 5
     ) {
       try {
-        // CORRECCIÓN: Separamos el ID para no enviarlo al backend durante la creación (POST).
+        // Separamos el ID para no enviarlo al backend durante la creación (POST).
         const { id, ...patientDataToSend } = selectedPatient;
         
         const response = await fetch(`${API_URL}/api/patients`, {
@@ -139,7 +137,7 @@ const Patients = () => {
         toast.error("Error al agregar paciente");
       }
     } else {
-      toast.error("Todos los campos son obligatorios.");
+      toast.error("Todos los campos son obligatorios y la edad debe ser al menos 5.");
     }
   };
 
@@ -155,96 +153,100 @@ const Patients = () => {
   );
 
   return (
-    <div className="p-6 bg-gray-100 dark:bg-gray-800 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center underline underline-offset-8 text-black dark:text-white">
+    // Componente principal: responsive y flexible
+    <div className="p-4 sm:p-6 bg-gray-100 dark:bg-gray-800 flex-1 w-full"> 
+      <h1 className="text-2xl sm:text-4xl font-bold mb-6 text-center underline underline-offset-8 text-black dark:text-white">
         Lista de Pacientes
       </h1>
 
-      <div className="my-4 flex items-center justify-between">
-        <div className="flex space-x-4">
-          <button
-            onClick={handleAddPatient}
-            className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
-            title="Nuevo paciente"
-            aria-label="Registrar un nuevo paciente"
-          >
-            Nuevo Paciente
-          </button>
-          <input
-            type="text"
-            placeholder="Buscar paciente.."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
-          />
-        </div>
+      <div className="my-4 flex flex-col sm:flex-row items-center justify-start space-y-3 sm:space-y-0 sm:space-x-4">
+        <button
+          onClick={handleAddPatient}
+          className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 w-full sm:w-auto"
+          title="Nuevo paciente"
+          aria-label="Registrar un nuevo paciente"
+        >
+          Nuevo Paciente
+        </button>
+        <input
+          type="text"
+          placeholder="Buscar paciente.."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 w-full sm:w-auto"
+        />
       </div>
 
-      <table className="min-w-full table-auto mt-4 border-collapse bg-white dark:bg-gray-900 text-black dark:text-white">
-        <thead>
-          <tr className="bg-gray-100 dark:bg-gray-700 text-left">
-            <th className="py-2 px-4 text-center">Nombre</th>
-            <th className="py-2 px-4 text-center">Apellido</th>
-            <th className="py-2 px-4 text-center">Email</th>
-            <th className="py-2 px-4 text-center">DNI</th>
-            <th className="py-2 px-4 text-center">Edad</th>
-            <th className="py-2 px-4 text-center">Teléfono</th>
-            <th className="py-2 px-4 text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredPatients.map((patient) => (
-            <tr key={patient.id} className="border-b">
-              <td className="py-2 px-4 text-center">{patient.firstName}</td>
-              <td className="py-2 px-4 text-center">{patient.lastName}</td>
-              <td className="py-2 px-4 text-center">{patient.email}</td>
-              <td className="py-2 px-4 text-center">{patient.dni}</td>
-              <td className="py-2 px-4 text-center">{patient.age}</td>
-              <td className="py-2 px-4 text-center">{patient.phone}</td>
-              <td className="py-2 px-4 flex justify-center items-center space-x-2">
-                <button
-                  onClick={() => handleView(patient)}
-                  className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-500"
-                  title="Ver info+ de paciente"
-                  aria-label="Ver info+ de paciente"
-                >
-                  <ClipboardPlus size={18} />
-                </button>
-                <button
-                  onClick={() => handleEdit(patient)}
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-500"
-                  title="Editar info+ de paciente"
-                  aria-label="Editar info+ de paciente"
-                >
-                  <FilePenLine size={18} />
-                </button>
-                <button
-                  onClick={() => handleDelete(patient.id)}
-                  className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-500"
-                  title="Eliminar ficha de paciente"
-                  aria-label="Eliminar ficha de paciente"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </td>
+      {/* Tabla Responsiva: Agregamos overflow-x-auto */}
+      <div className="overflow-x-auto shadow-md rounded-lg">
+        <table className="min-w-full table-auto border-collapse bg-white dark:bg-gray-900 text-black dark:text-white">
+          <thead>
+            {/* CORRECCIÓN: Eliminamos saltos de línea/espacios entre <tr> y <th> */}
+            <tr className="bg-gray-100 dark:bg-gray-700 text-left text-xs sm:text-sm">
+              <th className="py-2 px-3 sm:px-4 text-center">Nombre</th>
+              <th className="py-2 px-3 sm:px-4 text-center">Apellido</th>
+              <th className="py-2 px-3 sm:px-4 text-center hidden sm:table-cell">Email</th> 
+              <th className="py-2 px-3 sm:px-4 text-center hidden sm:table-cell">DNI</th>   
+              <th className="py-2 px-3 sm:px-4 text-center">Edad</th>
+              <th className="py-2 px-3 sm:px-4 text-center hidden md:table-cell">Teléfono</th> 
+              <th className="py-2 px-3 sm:px-4 text-center">Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredPatients.map((patient) => (
+              // CORRECCIÓN: Eliminamos saltos de línea/espacios entre <tr> y <td>
+              <tr key={patient.id} className="border-b">
+                <td className="py-2 px-3 sm:px-4 text-center">{patient.firstName}</td>
+                <td className="py-2 px-3 sm:px-4 text-center">{patient.lastName}</td>
+                <td className="py-2 px-3 sm:px-4 text-center hidden sm:table-cell">{patient.email}</td>
+                <td className="py-2 px-3 sm:px-4 text-center hidden sm:table-cell">{patient.dni}</td>
+                <td className="py-2 px-3 sm:px-4 text-center">{patient.age}</td>
+                <td className="py-2 px-3 sm:px-4 text-center hidden md:table-cell">{patient.phone}</td>
+                <td className="py-2 px-3 sm:px-4 flex justify-center items-center space-x-2">
+                  <button
+                    onClick={() => handleView(patient)}
+                    className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-500 p-1"
+                    title="Ver info+ de paciente"
+                    aria-label="Ver info+ de paciente"
+                  >
+                    <ClipboardPlus size={18} />
+                  </button>
+                  <button
+                    onClick={() => handleEdit(patient)}
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-500 p-1"
+                    title="Editar info+ de paciente"
+                    aria-label="Editar info+ de paciente"
+                  >
+                    <FilePenLine size={18} />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(patient.id)}
+                    className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-500 p-1"
+                    title="Eliminar ficha de paciente"
+                    aria-label="Eliminar ficha de paciente"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {modalOpen && selectedPatient && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 text-black dark:text-white">
-            <h2 className="text-xl font-semibold mb-4 text-center">
+        <div className="fixed inset-0 z-50 bg-gray-900 bg-opacity-75 flex justify-center items-center p-4 sm:p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl w-full max-w-lg p-6 text-black dark:text-white transform transition-all overflow-y-auto max-h-full"> 
+            <h2 className="text-xl font-semibold mb-4 text-center border-b pb-2">
               {newPatient
-                ? "Agregar Paciente"
+                ? "Agregar Nuevo Paciente"
                 : isViewing
                 ? "Información del Paciente"
                 : "Editar Paciente"}
             </h2>
             <div className="flex flex-wrap -mx-2">
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Nombre</label>
+              <div className="w-full sm:w-1/2 px-2 mb-4">
+                <label className="block mb-2 text-sm font-medium">Nombre</label>
                 <input
                   type="text"
                   value={selectedPatient.firstName}
@@ -254,12 +256,12 @@ const Patients = () => {
                       prev ? { ...prev, firstName: e.target.value } : null
                     )
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500"
                   readOnly={isViewing}
                 />
               </div>
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Apellido</label>
+              <div className="w-full sm:w-1/2 px-2 mb-4">
+                <label className="block mb-2 text-sm font-medium">Apellido</label>
                 <input
                   type="text"
                   value={selectedPatient.lastName}
@@ -269,13 +271,13 @@ const Patients = () => {
                       prev ? { ...prev, lastName: e.target.value } : null
                     )
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500"
                   readOnly={isViewing}
                 />
               </div>
               
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Email</label>
+              <div className="w-full sm:w-1/2 px-2 mb-4">
+                <label className="block mb-2 text-sm font-medium">Email</label>
                 <input
                   type="email"
                   value={selectedPatient.email}
@@ -285,12 +287,12 @@ const Patients = () => {
                       prev ? { ...prev, email: e.target.value } : null
                     )
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500"
                   readOnly={isViewing}
                 />
               </div>
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">DNI</label>
+              <div className="w-full sm:w-1/2 px-2 mb-4">
+                <label className="block mb-2 text-sm font-medium">DNI</label>
                 <input
                   type="number"
                   value={selectedPatient.dni}
@@ -300,29 +302,32 @@ const Patients = () => {
                       prev ? { ...prev, dni: Number(e.target.value) } : null
                     )
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500"
                   readOnly={isViewing}
                 />
               </div>
 
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Edad</label>
+              <div className="w-full sm:w-1/2 px-2 mb-4">
+                <label className="block mb-2 text-sm font-medium">Edad</label>
                 <input
                   type="number"
+                  // Valor mínimo en 5
+                  min="5" 
                   value={selectedPatient?.age}
                   onChange={(e) => {
-                    const newAge = Math.max(parseInt(e.target.value, 10) || 5, 5);
-                    setSelectedPatient((prev) =>
-                      prev ? { ...prev, age: newAge } : null
-                    );
+                    if (!isViewing) {
+                      const newAge = Math.max(parseInt(e.target.value, 10) || 5, 5);
+                      setSelectedPatient((prev) =>
+                        prev ? { ...prev, age: newAge } : null
+                      );
+                    }
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500"
                   readOnly={isViewing}
                 />
               </div>
-              <div className="w-full md:w-1/2 px-2 mb-4">
-                <label className="block mb-2">Teléfono</label>
-                {/* REEMPLAZO: Usando input HTML estándar en lugar de PhoneInput */}
+              <div className="w-full sm:w-1/2 px-2 mb-4">
+                <label className="block mb-2 text-sm font-medium">Teléfono</label>
                 <input
                   type="tel"
                   placeholder="Ej: +54 9 11 1234-5678"
@@ -332,29 +337,29 @@ const Patients = () => {
                       setSelectedPatient((prev) => prev ? { ...prev, phone: e.target.value } : null);
                     }
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500"
                   readOnly={isViewing}
                 />
               </div>
             </div>
             
-            <div className="flex justify-end space-x-4 mt-6">
+            <div className="flex justify-end space-x-3 mt-6 border-t pt-4">
               <button
                 onClick={closeModal}
-                className="bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400"
+                className="bg-gray-300 text-black py-2 px-4 rounded-md hover:bg-gray-400 transition duration-150"
                 title="Volver"
               >
                 Volver
               </button>
-{!isViewing && (
-              <button
-                onClick={newPatient ? handleSaveNewPatient : handleSave}
-                className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-                title={newPatient ? "Guardar nuevo paciente" : "Guardar cambios"}
-              >
-                {newPatient ? "Guardar" : "Guardar cambios"}
-              </button>
-)}
+              {!isViewing && (
+                <button
+                  onClick={newPatient ? handleSaveNewPatient : handleSave}
+                  className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-150"
+                  title={newPatient ? "Guardar nuevo paciente" : "Guardar cambios"}
+                >
+                  {newPatient ? "Guardar" : "Guardar cambios"}
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -235,7 +235,7 @@ const DashboardContent = () => {
           size={36} 
         />
         <p className="text-gray-500 dark:text-gray-300 text-lg font-semibold">
-          Validando tu credencial...
+          Validando tu credencial
         </p>
       </div>
     );
