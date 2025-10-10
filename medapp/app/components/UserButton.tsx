@@ -13,7 +13,7 @@ export default function UserButton() {
       title="Cerrar sesión en MedApp"
     >
       <Power size={24} />
-      Cerrar sesión
+      Cerrar sesiónss
     </button>
   ) : (
     <button
