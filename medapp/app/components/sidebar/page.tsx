@@ -16,7 +16,8 @@ const navigation = [
 
 export default function Sidebar() {
   const { darkMode, toggleTheme } = useTheme(); 
-  const [sidebarOpen, setSidebarOpen] = useState(true); 
+  // ESTO ES LO QUE CAMBIÓ: El sidebar ahora inicia en false (cerrado)
+  const [sidebarOpen, setSidebarOpen] = useState(false); 
 
   const navigationLinks = useMemo(
     () => navigation.map((item) => (
