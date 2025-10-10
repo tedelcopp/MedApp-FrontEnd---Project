@@ -154,7 +154,7 @@ const Shifts = () => {
               <strong><u>Fecha:</u></strong> {formatDate(shift.date)}
             </p>
             <p>
-              <strong><u>Horario:</u></strong> {shift.time}
+              <strong><u>Horario:</u></strong> {shift.time} hs
             </p>
             {shift.note && (
               <p>
