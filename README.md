@@ -21,7 +21,7 @@
 - **Base de datos:** [PostgreSQL](https://www.postgresql.org/) ➤ Hospedada en [Neon](https://neon.tech/).
 - **ORM:** [Prisma](https://www.prisma.io/).
 - **Autenticación:** [Auth0](https://auth0.com/) + [NextAuth.js](https://next-auth.js.org/).
-- **Estilos:** [Tailwind CSS](https://tailwindcss.com/) + [Headless UI](https://headlessui.dev/) + [Styled Components](https://styled-components.com/).
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/).
 - **Despliegue:** [Vercel](https://vercel.com/).
 - **BackEnd:** [tedelcopp/MedApp-BackEnd---Project](https://github.com/tedelcopp/MedApp-BackEnd---Project) ➤ Hospedado en [Render](https://render.com/).
 
