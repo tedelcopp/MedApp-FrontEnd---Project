@@ -55,11 +55,11 @@
     AUTH0_ISSUER_BASE_URL="[https://your-domain.auth0.com](https://your-domain.auth0.com)"
     AUTH0_CLIENT_ID="your_client_id"
     AUTH0_CLIENT_SECRET="your_client_secret"
-**Configura las variables de entorno:** Crea un archivo llamado **
-
-- MASTER_USER=medapp@gmail.com
-- MASTER_PASS=admin1234
-    
+    NEXT_PUBLIC_API_URL=https:"your_public_backend_api_url"
+    NEXT_PUBLIC_BACKEND_URL="your_public_backend_url"
+    WEATHER_API_KEY="your_weather_api_key"
+    GOOGLE_CLIENT_ID="your_google_client_id"
+    GOOGLE_CLIENT_SECRET="your_google_client_secret"
     ```
 5. Inicia el servidor de desarrollo
    ```bash
@@ -70,6 +70,11 @@
 
 Podés ver la aplicación desplegada en: https://themedapp.vercel.app
 
+## 🚀 | **Credenciales de acceso de usuario maestro**
+  ```bash
+-MASTER_USER=medapp@gmail.com
+-MASTER_PASS=admin1234
+ ```
 ---
 
 ## 🤝 **Contribuciones**
