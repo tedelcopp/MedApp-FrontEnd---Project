@@ -50,7 +50,6 @@
 4. **Configura las variables de entorno:** Crea un archivo llamado **`.env.local`** en la raíz del proyecto.
 
     ```bash
-    # Contenido del archivo .env.local
     DATABASE_URL="postgresql://user:password@host:port/database"
     AUTH0_SECRET="your_auth0_secret"
     AUTH0_BASE_URL="http://localhost:3000"
