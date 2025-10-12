@@ -1,6 +1,6 @@
 # **🏥 | MedApp: Plataforma de Gestión Médica**
 
-**MedApp** es una aplicación para facilitar la gestión de historiales médicos y citas en clínicas y consultorios. Su objetivo es optimizar la organización y la experiencia de los profesionales de la salud mediante una interfaz intuitiva y funcionalidades personalizables.
+**MedApp** es una aplicación diseñada para asistir en la gestión de registros de pacientes y la organización de turnos en clínicas y consultorios. La plataforma se centra en proporcionar una herramienta que facilite los procesos administrativos cotidianos del profesional de la salud. Para ello, incorpora una interfaz clara y estructurada, orientada a las necesidades operativas de la consulta profesional.
 
 ---
 
@@ -10,8 +10,8 @@
 - **📅 Organización de turnos médicos:** Programa, visualiza y gestiona todos los turnos médicos con facilidad.
 - **🌗 Modo oscuro/claro:** Alterna entre el Modo Oscuro y el Modo Claro para una visualización cómoda y personalizable, ajustándose a cualquier condición de luz y preferencia visual.
 - **📊 Panel de administración:** Navega con fluidez a través de las secciones clave: Inicio, Pacientes, Turnos y Configuración.
-- **💾 Persistencia de datos:** Toda la información queda registrada en la base de datos, garantizando integridad y disponibilidad.
-- **📱 Diseño responsive:** La aplicación se adapta a dispositivos móviles, tablets y pantallas de escritorio para una experiencia óptima en cualquier tamaño de pantalla.
+- **💾 Persistencia de datos:** Toda la información queda permanentemente registrada en la base de datos, asegurando la integridad, disponibilidad y trazabilidad de los datos.
+- **📱 Diseño responsive:** Accede y utiliza la aplicación desde cualquier dispositivo (móvil, tablet o escritorio), garantizando una experiencia visual y funcional en cualquier tamaño de pantalla.
 ---
 
 ## 🚀 Tecnologías:
