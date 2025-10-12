@@ -68,4 +68,7 @@ Toda colaboración de mejora es bienvenida! Si tenes ideas para mejorar el códi
 
 ## **Contacto**
 
-Si tienes preguntas o deseas más información sobre el proyecto, podes contactarme a través de mi [LinkedIn](https://www.linkedin.com/in/edelcopp/).
+## **Contacto**
+
+Podés contactarme a través de mi [LinkedIn](https://www.linkedin.com/in/edelcopp/) o mi mail: [tomas.edelcopp@gmail.com](mailto:tomas.edelcopp@gmail.com)
+
