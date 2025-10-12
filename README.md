@@ -4,12 +4,6 @@
 
 ---
 
-## **Objetivo del proyecto**
-
-Brindar una herramienta eficiente, moderna y fácil de usar para profesionales médicos.
-
----
-
 ## **✨ Características:**
 
 - **📋 Gestión de pacientes:** Crear, modificar y eliminar pacientes.
