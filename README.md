@@ -9,7 +9,7 @@
 - **📋 Gestión de pacientes:** Crear, modificar y eliminar pacientes.
 - **📅 Organización de turnos médicos:** Programación y visualización de citas.
 - **🌗 Modo oscuro/claro:** Interfaz adaptable que mejora la usabilidad en diferentes entornos y preferencias del usuario.
-- **📊 Panel de administración:** Dashboard profesional con navegación intuitiva y secciones clave como Inicio, Pacientes, Turnos y Configuración.
+- **📊 Panel de administración:** Navegación intuitiva con secciones clave como Inicio, Pacientes, Turnos y Configuración.
 - **💾 Persistencia de datos:** Toda la información queda registrada en la base de datos, garantizando integridad y disponibilidad.
 - **📱 Diseño responsive:** La aplicación se adapta a dispositivos móviles, tablets y pantallas de escritorio para una experiencia óptima en cualquier tamaño de pantalla.
 ---
