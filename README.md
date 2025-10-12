@@ -12,6 +12,7 @@
 - **📊 Panel de administración:** Navega con fluidez a través de las secciones clave: Inicio, Pacientes, Turnos y Configuración.
 - **💾 Persistencia de datos:** Toda la información queda permanentemente registrada en la base de datos, asegurando la integridad, disponibilidad y trazabilidad de los datos.
 - **📱 Diseño responsive:** Accede y utiliza la aplicación desde cualquier dispositivo (móvil, tablet o escritorio), garantizando una experiencia visual y funcional en cualquier tamaño de pantalla.
+  
 ---
 
 ## 🚀 Tecnologías:
@@ -60,7 +61,7 @@
    npm run dev
    ```
 ---
-## **Acceso**
+## 🚀 **Acceso**
 
 Podés ver la aplicación desplegada en: https://themedapp.vercel.app
 
