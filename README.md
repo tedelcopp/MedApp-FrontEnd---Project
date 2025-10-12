@@ -50,13 +50,13 @@
    ```
 4. Configurar variables de entorno:
    ```
-- DATABASE_URL="postgresql://user:password@host:port/database"
+-   ``` DATABASE_URL="postgresql://user:password@host:port/database"
 - AUTH0_SECRET="your_auth0_secret"
 - AUTH0_BASE_URL="http://localhost:3000"
 - AUTH0_ISSUER_BASE_URL="https://your-domain.auth0.com"
 - AUTH0_CLIENT_ID="your_client_id"
-- AUTH0_CLIENT_SECRET="your_client_secret"
-  ```
+- AUTH0_CLIENT_SECRET="your_client_secret"  ```
+  
 5. Inicia el servidor de desarrollo.
    ```bash
    npm run dev
