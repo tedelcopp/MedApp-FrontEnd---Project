@@ -22,7 +22,7 @@
 - **Autenticación:** [Auth0](https://auth0.com/) + [NextAuth.js](https://next-auth.js.org/).
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/).
 - **Despliegue** ➤ Hospedado en [Vercel](https://vercel.com/).
-- **BackEnd:** [tedelcopp/MedApp-BackEnd---Project](https://github.com/tedelcopp/MedApp-BackEnd---Project) ➤ Hospedado en [Render](https://render.com/).
+- **BackEnd:** [tedelcopp/MedApp-BackEnd---Project](https://github.com/tedelcopp/MedApp-BackEnd---Project) ➤ Hospedado en [Render](https://medapp-backend-project.onrender.com).
 
 ---
 
