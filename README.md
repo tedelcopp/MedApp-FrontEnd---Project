@@ -6,11 +6,12 @@
 
 ## **Características:**
 
-- **📋 | Gestión de pacientes:** Creación, edición y almacenamiento de historiales médicos.
-- **📅 | Organización de citas:** Visualización de citas programadas.
-- **🌗 | Modo oscuro/claro:** Interfaz adaptable para mejorar la usabilidad en diferentes entornos.
-- **📊 | Panel de administración:** Dashboard profesional con estadísticas y secciones clave como Inicio, Pacientes, Citas, Recetas y Configuración.
-  
+- **📋 Gestión de pacientes:** Crear, modificar y eliminar pacientes, con almacenamiento seguro de historiales médicos en la base de datos.
+- **📅 Organización de turnos médicos:** Programación y visualización de citas, con seguimiento de los mismos.
+- **🌗 Modo oscuro/claro:** Interfaz adaptable que mejora la usabilidad en diferentes entornos y preferencias del usuario.
+- **📊 Panel de administración:** Dashboard profesional con navegación intuitiva y secciones clave como Inicio, Pacientes, Citas, Recetas y Configuración.
+- **💾 Persistencia de datos:** Toda la información queda registrada en la base de datos, garantizando integridad y disponibilidad.
+
 ---
 
 ## 🚀 Tecnologías:
