@@ -4,10 +4,7 @@
 
 ---
 
-🔗 Deploy: https://themedapp.vercel.app/
----
-
-## **Características principales**
+## **Características:**
 
 - **📋 | Gestión de pacientes:** Creación, edición y almacenamiento de historiales médicos.
 - **📅 | Organización de citas:** Visualización de citas programadas.
@@ -16,7 +13,7 @@
   
 ---
 
-## 🚀 Tecnologías principales
+## 🚀 Tecnologías:
 
 - **Frontend:** [Next.js 15](https://nextjs.org/) + [React 19](https://react.dev/)
 - **Backend:** [Express](https://expressjs.com/) + [Next API Routes](https://nextjs.org/docs/api-routes/introduction)
