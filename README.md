@@ -60,6 +60,9 @@
    npm run dev
    ```
 ---
+## **Acceso**
+
+Podés ver la aplicación desplegada en: https://themedapp.vercel.app
 
 ## **Contribuciones**
 
