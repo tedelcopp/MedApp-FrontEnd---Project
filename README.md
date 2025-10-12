@@ -6,12 +6,12 @@
 
 ## **✨ | Características**
 
- **📋 Gestión de pacientes:** Crea, actualiza y elimina perfiles de pacientes de forma eficiente, manteniendo un registro médico organizado y accesible.
- **📅 Organización de turnos médicos:** Programa, visualiza y gestiona todos los turnos médicos con facilidad.
- **🌗 Modo oscuro/claro:** Alterna entre el Modo Oscuro y el Modo Claro para una visualización cómoda y personalizable, ajustándose a cualquier condición de luz y preferencia visual.
- **📊 Panel de administración:** Navega con fluidez a través de las secciones clave: Inicio, Pacientes, Turnos y Configuración.
- **💾 Persistencia de datos:** Toda la información queda permanentemente registrada en la base de datos, asegurando la integridad, disponibilidad y trazabilidad de los datos.
- **📱 Diseño responsive:** Accede y utiliza la aplicación desde cualquier dispositivo (móvil, tablet o escritorio), garantizando una experiencia visual y funcional en cualquier tamaño de pantalla.
+ - **📋 Gestión de pacientes:** Crea, actualiza y elimina perfiles de pacientes de forma eficiente, manteniendo un registro médico organizado y accesible.
+ - **📅 Organización de turnos médicos:** Programa, visualiza y gestiona todos los turnos médicos con facilidad.
+ - **🌗 Modo oscuro/claro:** Alterna entre el Modo Oscuro y el Modo Claro para una visualización cómoda y personalizable, ajustándose a cualquier condición de luz y preferencia visual.
+ - **📊 Panel de administración:** Navega con fluidez a través de las secciones clave: Inicio, Pacientes, Turnos y Configuración.
+ - **💾 Persistencia de datos:** Toda la información queda permanentemente registrada en la base de datos, asegurando la integridad, disponibilidad y trazabilidad de los datos.
+ - **📱 Diseño responsive:** Accede y utiliza la aplicación desde cualquier dispositivo (móvil, tablet o escritorio), garantizando una experiencia visual y funcional en cualquier tamaño de pantalla.
   
 ---
 
