@@ -64,6 +64,8 @@
 
 Podés ver la aplicación desplegada en: https://themedapp.vercel.app
 
+---
+
 ## **Contribuciones**
 
 Toda colaboración de mejora es bienvenida. Si tenes ideas para mejorar el código actual, no dudes en escribirme.
