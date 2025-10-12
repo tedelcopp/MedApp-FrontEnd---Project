@@ -4,7 +4,7 @@
 
 ---
 
-## **✨ Características:**
+## **✨ | Características:**
 
 - **📋 Gestión de pacientes:** Crea, actualiza y elimina perfiles de pacientes de forma eficiente, manteniendo un registro médico organizado y accesible.
 - **📅 Organización de turnos médicos:** Programa, visualiza y gestiona todos los turnos médicos con facilidad.
@@ -15,7 +15,7 @@
   
 ---
 
-## 🚀 Tecnologías:
+## 🚀 | Tecnologías:
 
 - **FrontEnd:** [Next.js 15](https://nextjs.org/) + [React 19](https://react.dev/).
 - **Base de datos:** [PostgreSQL](https://www.postgresql.org/) ➤ Hospedada en [Neon](https://neon.tech/).
@@ -26,13 +26,13 @@
 
 ---
 
-## 🏗️ **Arquitectura del proyecto**
+## 🏗️ | **Arquitectura del proyecto**
 
 - **Estructura Modular** | Carpetas organizadas bajo el directorio raíz **(app/)** que facilita un desarrollo más limpio, modular y escalable, siguiendo las convenciones modernas.
 - **Configuración Centralizada** | Implementación de temas y estilos globales visibles en **global.css** y la configuración de **tailwind.config** para asegurar una experiencia visual uniforme y coherente.
 ---
 
-## ⚙️ **Instalación y Uso**
+## ⚙️ | **Instalación y Uso**
 
 1. Clona este repositorio.
    ```bash
@@ -61,7 +61,7 @@
    npm run dev
    ```
 ---
-## 🚀 **Acceso**
+## 🚀 | **Acceso**
 
 Podés ver la aplicación desplegada en: https://themedapp.vercel.app
 
