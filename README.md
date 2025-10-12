@@ -30,8 +30,8 @@
 
 ## **Arquitectura del proyecto**
 
-- **Carpetas organizadas** | Basadas en `src` para un desarrollo más limpio y escalable.
-- **Configuración personalizada** | Implementación de temas y estilos globales para una experiencia uniforme.
+- **Estructura Modular (app/)** | Carpetas organizadas bajo el directorio raíz (app/), lo que facilita un desarrollo más limpio, modular y escalable, siguiendo las convenciones modernas.
+- **Configuración Centralizada** | Implementación de temas y estilos globales (visibles en global.css y la configuración de tailwind.config) para asegurar una experiencia visual uniforme y coherente.
 - 
 ---
 
