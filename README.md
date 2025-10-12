@@ -55,6 +55,11 @@
     AUTH0_ISSUER_BASE_URL="[https://your-domain.auth0.com](https://your-domain.auth0.com)"
     AUTH0_CLIENT_ID="your_client_id"
     AUTH0_CLIENT_SECRET="your_client_secret"
+**Configura las variables de entorno:** Crea un archivo llamado **
+
+- MASTER_USER=medapp@gmail.com
+- MASTER_PASS=admin1234
+    
     ```
 5. Inicia el servidor de desarrollo
    ```bash
