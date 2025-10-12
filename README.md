@@ -22,9 +22,8 @@
 - **ORM:** [Prisma](https://www.prisma.io/).
 - **Autenticación:** [Auth0](https://auth0.com/) + [NextAuth.js](https://next-auth.js.org/).
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/) + [Headless UI](https://headlessui.dev/) + [Styled Components](https://styled-components.com/).
-- **Gráficos:** [Recharts](https://recharts.org/).
 - **Despliegue:** [Vercel](https://vercel.com/).
-- **BackEnd:** Hospedado en [Render](https://render.com/).
+- **BackEnd:** [tedelcopp/MedApp-BackEnd---Project](https://github.com/tedelcopp/MedApp-BackEnd---Project) | Hospedado en [Render](https://render.com/).
 
 ---
 
