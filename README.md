@@ -16,7 +16,7 @@
 
 ## 🚀 Tecnologías:
 
-- **Frontend:** [Next.js 15](https://nextjs.org/) + [React 19](https://react.dev/).
+- **FrontEnd:** [Next.js 15](https://nextjs.org/) + [React 19](https://react.dev/).
 - **Base de datos:** [PostgreSQL](https://www.postgresql.org/) ➤ Hospedada en [Neon](https://neon.tech/).
 - **Autenticación:** [Auth0](https://auth0.com/) + [NextAuth.js](https://next-auth.js.org/).
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/).
