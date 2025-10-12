@@ -18,12 +18,12 @@
 
 - **Frontend:** [Next.js 15](https://nextjs.org/) + [React 19](https://react.dev/).
 - **Backend:** [Express](https://expressjs.com/) + [Next API Routes](https://nextjs.org/docs/api-routes/introduction).
-- **Base de datos:** [PostgreSQL](https://www.postgresql.org/) - hospedada en [Neon](https://neon.tech/).
+- **Base de datos:** [PostgreSQL](https://www.postgresql.org/) ➤ Hospedada en [Neon](https://neon.tech/).
 - **ORM:** [Prisma](https://www.prisma.io/).
 - **Autenticación:** [Auth0](https://auth0.com/) + [NextAuth.js](https://next-auth.js.org/).
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/) + [Headless UI](https://headlessui.dev/) + [Styled Components](https://styled-components.com/).
 - **Despliegue:** [Vercel](https://vercel.com/).
-- **BackEnd:** [tedelcopp/MedApp-BackEnd---Project](https://github.com/tedelcopp/MedApp-BackEnd---Project) | Hospedado en [Render](https://render.com/).
+- **BackEnd:** [tedelcopp/MedApp-BackEnd---Project](https://github.com/tedelcopp/MedApp-BackEnd---Project) ➤ Hospedado en [Render](https://render.com/).
 
 ---
 
