@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-// Importamos FaCircleNotch para usarlo como spinner
 import { FaCalendarAlt, FaDollarSign, FaCloudSun, FaWhatsapp, FaVideo, FaCircleNotch } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 
@@ -19,30 +18,20 @@ type Appointment = {
   id: number;
   patient: string;
   time: string;
-  phone: string; // Sabemos que es un string (puede ser vacío, o "null")
+  phone: string; 
   date: string;
 };
 
-// Función para limpiar el número de teléfono (solo deja dígitos)
 const formatWhatsAppNumber = (phoneNumber: string) => {
   if (!phoneNumber) return "";
   
-  // Limpieza simple y directa: solo números.
   return phoneNumber.replace(/\D/g, "");
 };
 
-// Componente para los botones de acción, para simplificar la lógica del mapeo
 const ActionButtons = ({ appointment }: { appointment: Appointment }) => {
-    // 1. Construir el mensaje solicitado.
     const message = `Hola ${appointment.patient}, te escribimos desde MedApp para informarte sobre tu turno.`;
-    
-    // 2. Codificar el mensaje
     const encodedMessage = encodeURIComponent(message);
-    
-    // 3. Obtener el número limpio (solo dígitos) para la URL.
     const cleanedPhone = formatWhatsAppNumber(appointment.phone);
-    
-    // 4. Construir el enlace completo (ej: https://wa.me/54911...?text=Hola...)
     const whatsappLink = `https://wa.me/${cleanedPhone}?text=${encodedMessage}`;
 
     return (
@@ -156,19 +145,22 @@ const DashboardContent = () => {
 
   const appointmentList = useMemo(() => {
     if (loadingAppointments) {
-      return <p className="text-center text-gray-500">Cargando turnos...</p>;
-    }
+          return (
+      <div className="flex justify-center items-center p-4">
+        <FaCircleNotch className="w-8 h-8 mr-2 text-blue-500 animate-spin" />
+        <p className="text-lg text-gray-500">Cargando turnos...</p>
+      </div>
+  );}
     if (appointmentsError) {
       return <p className="text-center text-red-500">{appointmentsError}</p>;
     }
     if (appointments.length === 0) {
-      return <p className="text-center text-gray-500">No hay turnos registrados.</p>;
+      return <p className="text-center text-gray-500">No hay turnos registrados al momento.</p>;
     }
 
     const now = new Date();
 
     const pastAppointments = appointments.filter((appointment) => {
-      // Combina fecha y hora para una comparación precisa
       const appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
       return appointmentDate < now;
     });
@@ -178,7 +170,6 @@ const DashboardContent = () => {
       return appointmentDate >= now;
     });
 
-    // Esta función renderiza la lista. El parámetro showButtons controla si se incluyen los botones de acción.
     const renderAppointments = (list: Appointment[], showButtons: boolean) =>
       list.map((appointment) => {
         
@@ -190,12 +181,10 @@ const DashboardContent = () => {
             <div>
               <span className="block font-medium">{appointment.patient}</span>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                {/* Asegura el formato de fecha local y la hora */}
                 {new Date(appointment.date).toLocaleDateString("es-AR")} - {appointment.time} hs
               </span>
             </div>
             
-            {/* Solo muestra los botones si showButtons es true (para Turnos Pendientes) */}
             {showButtons && <ActionButtons appointment={appointment} />}
           </li>
         );
@@ -206,7 +195,6 @@ const DashboardContent = () => {
         <div>
           <h4 className="text-lg font-semibold mb-2 text-green-600">Turnos Pendientes</h4>
           {futureAppointments.length > 0 ? (
-            // Llamada para futuros turnos: showButtons = true
             <ul className="space-y-4">{renderAppointments(futureAppointments, true)}</ul>
           ) : (
             <p className="text-gray-500">No hay turnos futuros.</p>
@@ -216,7 +204,6 @@ const DashboardContent = () => {
         <div>
           <h4 className="text-lg font-semibold mb-2 text-red-600">Turnos Realizados</h4>
           {pastAppointments.length > 0 ? (
-            // Llamada para turnos pasados: showButtons = false
             <ul className="space-y-4">{renderAppointments(pastAppointments, false)}</ul>
           ) : (
             <p className="text-gray-500">No hay turnos pasados.</p>
@@ -229,7 +216,6 @@ const DashboardContent = () => {
   if (status === "loading") {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-        {/* Ícono de carga con animación 'animate-spin' */}
         <FaCircleNotch 
           className="animate-spin text-indigo-600 dark:text-indigo-400 mb-4" 
           size={36} 
@@ -297,7 +283,10 @@ const DashboardContent = () => {
               </p>
             </div>
           ) : (
-            <p className="text-gray-500">Cargando...</p>
+               <div className="flex items-center text-gray-500">
+        <FaCircleNotch className="w-5 h-5 mr-2 animate-spin" />
+        <p>Cargando...</p>
+      </div>
           )}
         </div>
 
@@ -313,7 +302,10 @@ const DashboardContent = () => {
               {weather.current.temp_c}°C
             </p>
           ) : (
-            <p className="text-gray-500">Cargando...</p>
+              <div className="flex items-center text-gray-500">
+        <FaCircleNotch className="w-5 h-5 mr-2 animate-spin" />
+        <p>Cargando...</p>
+      </div>
           )}
         </div>
       </div>
