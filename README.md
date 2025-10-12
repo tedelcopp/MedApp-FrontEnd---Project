@@ -36,7 +36,7 @@
 
 1. Clona este repositorio.
    ```bash
-   git clone [https://github.com/tedelcopp/MedApp-FrontEnd---Project.git](https://github.com/tedelcopp/MedApp-FrontEnd---Project.git)
+   git clone https://github.com/tedelcopp/MedApp-FrontEnd---Project.git
    ```
 2. Navega al directorio del proyecto.
    ```bash
