@@ -51,6 +51,7 @@
 4. Configurar variables de entorno:
    ```bash
 - DATABASE_URL="postgresql://user:password@host:port/database"
+   ```
 - AUTH0_SECRET="your_auth0_secret"
 - AUTH0_BASE_URL="http://localhost:3000"
 - AUTH0_ISSUER_BASE_URL="https://your-domain.auth0.com"
