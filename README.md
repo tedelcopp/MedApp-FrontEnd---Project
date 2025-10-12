@@ -7,7 +7,7 @@
 ## **Características principales**
 
 - **📋 | Gestión de pacientes:** Creación, edición y almacenamiento de historiales médicos.
-- **📅 | Organización de citas:** Visualización clara y filtrada de citas programadas.
+- **📅 | Organización de citas:** Visualización de citas programadas.
 - **🌗 | Modo oscuro/claro:** Interfaz adaptable para mejorar la usabilidad en diferentes entornos.
 - **📊 | Panel de administración:** Dashboard profesional con estadísticas y secciones clave como Inicio, Pacientes, Citas, Recetas y Configuración.
 
@@ -71,3 +71,34 @@ Toda colaboración de mejora es bienvenida! Si tenes ideas para mejorar el códi
 Si tienes preguntas o deseas más información sobre el proyecto, podes contactarme a través de mi [LinkedIn](https://www.linkedin.com/in/edelcopp/).
 
 ---
+
+
+# 🩺 MedApp
+
+**MedApp** es una aplicación web desarrollada con **Next.js** que permite gestionar información médica y administrativa de manera eficiente.  
+El proyecto combina un entorno moderno de desarrollo con autenticación segura, base de datos escalable y despliegue automatizado.
+
+🔗 **Deploy:** [https://themedapp.vercel.app/](https://themedapp.vercel.app/)
+
+---
+
+## 🚀 Tecnologías principales
+
+- **Frontend:** [Next.js 15](https://nextjs.org/) + [React 19](https://react.dev/)
+- **Backend:** [Express](https://expressjs.com/) + [Next API Routes](https://nextjs.org/docs/api-routes/introduction)
+- **Base de datos:** [PostgreSQL](https://www.postgresql.org/) (hospedada en [Neon](https://neon.tech/))
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Autenticación:** [Auth0](https://auth0.com/) + [NextAuth.js](https://next-auth.js.org/)
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/) + [Headless UI](https://headlessui.dev/) + [Styled Components](https://styled-components.com/)
+- **Gráficos:** [Recharts](https://recharts.org/)
+- **Despliegue:** [Vercel](https://vercel.com/)
+- **Servidor y servicios auxiliares:** [Render](https://render.com/)
+
+---
+
+## ⚙️ Instalación y ejecución local
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/tuusuario/medapp.git
+cd medapp
