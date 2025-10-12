@@ -67,9 +67,9 @@
    ```
 ---
 ## 🚀 | **Acceso**
-  ```bash
+
 Podés ver la aplicación desplegada en: https://themedapp.vercel.app
-  ```
+
 ---
 
 ## 🔑 | **Credencial de acceso: usuario maestro**
